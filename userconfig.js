@@ -1,10 +1,10 @@
 // latte / frappe / macchiato / mocha
-const palette = macchiato;
+const palette = latte;
 
 const default_config = {
   overrideStorage: true,
   temperature: {
-    location: "London",
+    location: "Changqing",
     scale: "C",
   },
   clock: {
