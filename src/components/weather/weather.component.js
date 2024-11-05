@@ -34,16 +34,19 @@ class Weather extends Component {
     super();
 
     this.setDependencies();
-    this.setEvents();
+    // 移除事件绑定
+    // this.setEvents();
   }
 
-  setEvents() {
-    this.onclick = this.swapScale;
-  }
+  // 移除事件绑定方法
+  // setEvents() {
+  //   this.onclick = this.swapScale;
+  // }
 
   setDependencies() {
     this.location = CONFIG.temperature.location;
-    this.temperatureScale = CONFIG.temperature.scale;
+    // 确保温度单位始终为摄氏度
+    this.temperatureScale = "C";
     this.weatherForecast = new WeatherForecastClient(this.location);
   }
 
@@ -113,30 +116,33 @@ class Weather extends Component {
         </p>`;
   }
 
-  toC(f) {
-    return Math.round(((f - 32) * 5) / 9);
-  }
+  // 移除温度转换方法
+  // toC(f) {
+  //   return Math.round(((f - 32) * 5) / 9);
+  // }
 
-  toF(c) {
-    return Math.round((c * 9) / 5 + 32);
-  }
+  // toF(c) {
+  //   return Math.round((c * 9) / 5 + 32);
+  // }
 
-  swapScale() {
-    this.temperatureScale = this.temperatureScale === "C" ? "F" : "C";
+  // 移除温度单位切换方法
+  // swapScale() {
+  //   this.temperatureScale = this.temperatureScale === "C" ? "F" : "C";
 
-    CONFIG.temperature = {
-      ...CONFIG.temperature,
-      scale: this.temperatureScale,
-    };
+  //   CONFIG.temperature = {
+  //     ...CONFIG.temperature,
+  //     scale: this.temperatureScale,
+  //   };
 
-    this.setTemperature();
-  }
+  //   this.setTemperature();
+  // }
 
-  convertScale(temperature) {
-    if (this.temperatureScale === "F") return this.toF(temperature);
+  // 移除温度转换方法
+  // convertScale(temperature) {
+  //   if (this.temperatureScale === "F") return this.toF(temperature);
 
-    return temperature;
-  }
+  //   return temperature;
+  // }
 
   async setWeather() {
     this.weather = await this.weatherForecast.getWeather();
@@ -147,7 +153,7 @@ class Weather extends Component {
     const { temperature, condition } = this.weather;
     const { icon, color } = this.getForecast(condition);
 
-    this.refs.temperature = this.convertScale(temperature);
+    this.refs.temperature = temperature; // 直接使用摄氏度
     this.refs.condition = icon;
     this.refs.scale = this.temperatureScale;
     this.refs.condition.classList.add(color);
