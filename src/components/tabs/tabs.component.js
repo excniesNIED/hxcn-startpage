@@ -217,20 +217,20 @@ class Tabs extends Component {
           height: 250px;
           padding: 1em;
           margin: auto;
-          border-radius: 5px;
-          box-shadow: inset 0 0 0 2px var(--flavour);
+          border-radius: 20px;
+          box-shadow: inset 0 0 0 3px rgb(255 255 255 / 50%);
           left: calc(15% - 42.5px);
           bottom: 0;
           top: 0;
-          background: linear-gradient(to top, rgb(50 48 47 / 90%), transparent);
-          color: var(--flavour);
-          letter-spacing: 1px;
-          font: 500 30px 'Nunito', sans-serif;
+          background: linear-gradient(to top, rgb(255 255 255 / 0%), rgb(255 255 255 / 40%));
+          color: white;
+          letter-spacing: 2px;
+          font: 100 30px 'Nunito', sans-serif;
           text-align: center;
           flex-wrap: wrap;
           word-break: break-all;
           align-items: center;
-          backdrop-filter: blur(3px);
+          backdrop-filter: blur(4px);
       }
 
       .categories .links li:not(:last-child) {
