@@ -41,9 +41,9 @@ const default_config = {
               icon_color: frappe.flamingo,
             },
             {
-              name: "HAM",
-              url: "https://bg4klr.cnies.org",
-              icon: "radio",
+              name: "BrushUp",
+              url: "https://bu.cnies.org",
+              icon: "pencil-star",
               icon_color: frappe.maroon,
             },
             {
@@ -62,6 +62,13 @@ const default_config = {
               url: "https://github.com/excniesNIED",
               icon: "brand-github",
               icon_color: palette.lavender,
+            },
+
+            {
+                name: "Codeberg",
+                url: "https://codeberg.org/excnies",
+                icon: "mountain",
+                icon_color: palette.green,
             },
             {
               name: "Huggingface",
@@ -90,25 +97,188 @@ const default_config = {
           ],
         },
         {
-          name: "CHAWORLD",
+            name: "Mates",
+            links: [
+              {
+                name: "ChaWorld",
+                url: "https://home.qcea.top",
+                icon: "home",
+                icon_color: palette.green,
+              },
+              {
+                name: "Cysnies",
+                url: "https://tcea.top",
+                icon: "home",
+                icon_color: palette.peach,
+              },
+              {
+                name: "FOSScope",
+                url: "https://fosscope.com",
+                icon: "archive",
+                icon_color: palette.flamingo,
+              },
+            ],
+        }
+      ],
+    },
+    {
+      name: "Specu",
+      background_url: "src/img/banners/cbg-08.gif",
+      categories: [
+        {
+          name: "development",
           links: [
+            {
+              name: "github",
+              url: "https://github.com",
+              icon: "brand-github",
+              icon_color: palette.green,
+            },
+            {
+              name: "neptune",
+              url: "https://ui.neptune.ai",
+              icon: "circle-triangle",
+              icon_color: palette.peach,
+            },
+            {
+              name: "stackoverflow",
+              url: "https://stackoverflow.com",
+              icon: "brand-stackoverflow",
+              icon_color: palette.red,
+            },
+          ],
+        },
+        {
+          name: "challenges",
+          links: [
+            {
+              name: "kaggle",
+              url: "https://www.kaggle.com",
+              icon: "brain",
+              icon_color: palette.green,
+            },
+            {
+              name: "leetcode",
+              url: "https://leetcode.com",
+              icon: "code-plus",
+              icon_color: palette.peach,
+            },
+            {
+              name: "exercism",
+              url: "https://exercism.org",
+              icon: "code-minus",
+              icon_color: palette.red,
+            },
+            {
+              name: "aoc",
+              url: "https://adventofcode.com",
+              icon: "brand-linktree",
+              icon_color: palette.blue,
+            },
+          ],
+        },
+        {
+          name: "resources",
+          links: [
+            {
+              name: "dou",
+              url: "https://dou.ua",
+              icon: "brand-prisma",
+              icon_color: palette.green,
+            },
+            {
+              name: "hackernews",
+              url: "https://news.ycombinator.com",
+              icon: "brand-redhat",
+              icon_color: palette.peach,
+            },
+            {
+              name: "uber engineering",
+              url: "https://www.uber.com/en-GB/blog/london/engineering",
+              icon: "brand-uber",
+              icon_color: palette.red,
+            },
+            {
+              name: "netflix tech blog",
+              url: "https://netflixtechblog.com",
+              icon: "brand-netflix",
+              icon_color: palette.blue,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: "CHA",
+      background_url: "src/img/banners/cbg-08.gif",
+      categories: [
+        {
+          name: "Home Page",
+          links: [
+            {
+              name: "主页",
+              url: "https://web.telegram.org",
+              icon: "home",
+              icon_color: palette.green,
+            },
+          ],
+        },
+        {
+          name: "Core Services",
+          links: [
+
+            {
+              name: "猹馆",
+              url: "https://home.qcea.top",
+              icon: "users",
+              icon_color: palette.peach,
+            },
+            {
+                name: "龙井猹馆",
+                url: "https://qm.qq.com/cgi-bin/qm/qr?k=L_5nTaWr9hCupgFlntG9dJvVOYryFvv_&jump_from=webapi&authKey=dMK7Hy64j/qHufvU/SiTkzq1BCI2rAFXvNqNV57WFiQ/9nQUF5OP/ZSNQlSQuura",
+                icon: "mug",
+                icon_color: palette.peach,
+            },
+            {
+              name: "猹聊",
+              url: "https://matrix.qcea.top",
+              icon: "message",
+              icon_color: palette.red,
+            },
+            {
+              name: "猹问",
+              url: "https://ask.qcea.top",
+              icon: "question-mark",
+              icon_color: palette.red,
+            },
             {
               name: "猹盘",
               url: "https://ed.qcea.top",
               icon: "brand-onedrive",
-              icon_color: palette.mauve,
+              icon_color: palette.red,
             },
             {
-              name: "猹馆",
-              url: "https://qm.qq.com/cgi-bin/qm/qr?k=L_5nTaWr9hCupgFlntG9dJvVOYryFvv_&jump_from=webapi&authKey=dMK7Hy64j/qHufvU/SiTkzq1BCI2rAFXvNqNV57WFiQ/9nQUF5OP/ZSNQlSQuura",
-              icon: "mug",
-              icon_color: palette.sapphire,
+              name: "服务监测",
+              url: "https://status.qcea.top",
+              icon: "heart-rate-monitor",
+              icon_color: palette.red,
+            },
+          ],
+        },
+        {
+          name: "Tools",
+          links: [
+            {
+              name: "Stirling PDF",
+              url: "https://pdf.qcea.top",
+              icon: "file-type-pdf",
+              icon_color: palette.green,
             },
             {
-              name: "猹界",
-              url: "https://qcea.top/",
-              icon: "brand-minecraft",
-              icon_color: macchiato.lavender,
+              name: "IT Tools",
+              url: "https://tools.qcea.top",
+              icon: "tool",
+              icon_color: palette.peach,
             },
           ],
         },
