@@ -217,7 +217,7 @@ const default_config = {
           links: [
             {
               name: "主页",
-              url: "https://web.telegram.org",
+              url: "https://home.qcea.top",
               icon: "home",
               icon_color: palette.green,
             },
