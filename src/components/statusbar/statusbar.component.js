@@ -3,7 +3,7 @@ class Statusbar extends Component {
 
   refs = {
     categories: ".categories ul",
-    tabs: "#tabs ul li",
+    tabs: "#tabs ul li:not(:last-child)", // 排除indicator元素
     indicator: ".indicator",
     fastlink: ".fastlink",
   };
@@ -12,7 +12,6 @@ class Statusbar extends Component {
 
   constructor() {
     super();
-
     this.setDependencies();
   }
 
@@ -42,35 +41,25 @@ class Statusbar extends Component {
       }
 
       #tabs ul {
-          counter-reset: tabs;
           height: 100%;
           position: relative;
           list-style: none;
           margin-left: 1em;
-      }
-
-      #tabs ul li:not(:last-child)::after {
-          content: counter(tabs, cjk-ideographic);
-          counter-increment: tabs;
           display: flex;
-          width: 100%;
-          height: 100%;
-          position: relative;
-          align-items: center;
-          text-align: center;
-          justify-content: center;
       }
 
       #tabs ul li:not(:last-child) {
-          width: 35px;
+          width: 80px;
           text-align: center;
-          font: 700 13px 'Yu Gothic', serif;
+          font: 700 13px 'Roboto', sans-serif;
           color: ${CONFIG.palette.text};
           padding: 6px 0;
           transition: all .1s;
           cursor: pointer;
-          line-height: 0;
           height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
       }
 
       #tabs ul li:not(:last-child):hover {
@@ -79,7 +68,7 @@ class Statusbar extends Component {
 
       #tabs ul li:last-child {
           --flavour: var(--accent);
-          width: 35px;
+          width: 80px;
           height: 3px;
           background: var(--flavour);
           bottom: 0;
@@ -92,10 +81,11 @@ class Statusbar extends Component {
           padding: 6px 0;
       }
 
-      #tabs ul li[active]:nth-child(2) ~ li:last-child { margin: 0 0 0 35px; }
-      #tabs ul li[active]:nth-child(3) ~ li:last-child { margin: 0 0 0 70px; }
-      #tabs ul li[active]:nth-child(4) ~ li:last-child { margin: 0 0 0 105px; }
-      #tabs ul li[active]:nth-child(5) ~ li:last-child { margin: 0 0 0 140px; }
+      #tabs ul li[active]:nth-child(1) ~ li:last-child { margin: 0 0 0 0; }
+      #tabs ul li[active]:nth-child(2) ~ li:last-child { margin: 0 0 0 80px; }
+      #tabs ul li[active]:nth-child(3) ~ li:last-child { margin: 0 0 0 160px; }
+      #tabs ul li[active]:nth-child(4) ~ li:last-child { margin: 0 0 0 240px; }
+      #tabs ul li[active]:nth-child(5) ~ li:last-child { margin: 0 0 0 320px; }
 
       #tabs ul li[active]:nth-child(1) ~ li:last-child {
           --flavour: ${CONFIG.palette.green};
@@ -207,11 +197,10 @@ class Statusbar extends Component {
 
   setEvents() {
     this.refs.tabs.forEach((tab) => (tab.onclick = ({ target }) => this.handleTabChange(target)));
-
     document.onkeydown = (e) => this.handleKeyPress(e);
     document.onwheel = (e) => this.handleWheelScroll(e);
+
     this.refs.fastlink.onclick = () => {
-      console.log(CONFIG.fastlink);
       if (CONFIG.config.fastlink) {
         window.location.href = CONFIG.config.fastlink;
       }
@@ -238,38 +227,33 @@ class Statusbar extends Component {
   handleWheelScroll(event) {
     if (!event) return;
 
-    let { target, wheelDelta } = event;
+    const { wheelDelta } = event;
+    const tabsCount = CONFIG.config.tabs.length;
 
-    if (target.shadow && target.shadow.activeElement) return;
-
-    let activeTab = -1;
-    this.refs.tabs.forEach((tab, index) => {
-      if (tab.getAttribute("active") === "") {
-        activeTab = index;
-      }
-    });
+    let activeTab = Array.from(this.refs.tabs).findIndex(tab =>
+      tab.hasAttribute("active")
+    );
 
     if (wheelDelta > 0) {
-      this.activateByKey((activeTab + 1) % (this.refs.tabs.length - 1));
+      this.activateByKey((activeTab + 1) % tabsCount);
     } else {
-      this.activateByKey(activeTab - 1 < 0 ? this.refs.tabs.length - 2 : activeTab - 1);
+      this.activateByKey(activeTab - 1 < 0 ? tabsCount - 1 : activeTab - 1);
     }
   }
 
   handleKeyPress(event) {
     if (!event) return;
 
-    let { target, key } = event;
+    const { key } = event;
+    const tabsCount = CONFIG.config.tabs.length;
 
-    if (target.shadow && target.shadow.activeElement) return;
-
-    if (Number.isInteger(parseInt(key)) && key <= this.externalRefs.categories.length) {
+    if (Number.isInteger(parseInt(key)) && key <= tabsCount) {
       this.activateByKey(key - 1);
     }
   }
 
   activateByKey(key) {
-    if (key < 0) return;
+    if (key < 0 || key >= CONFIG.config.tabs.length) return;
     this.currentTabIndex = key;
 
     this.activate(this.refs.tabs, this.refs.tabs[key]);
@@ -277,11 +261,17 @@ class Statusbar extends Component {
   }
 
   createTabs() {
-    const categoriesCount = this.externalRefs.categories.length;
+    const tabs = CONFIG.config.tabs;
 
-    for (let i = 0; i <= categoriesCount; i++) {
-      this.refs.indicator.innerHTML += `<li tab-index=${i} ${i == 0 ? "active" : ""}></li>`;
-    }
+    tabs.forEach((tab, index) => {
+      const active = index === 0 ? "active" : "";
+      this.refs.indicator.innerHTML += `
+        <li tab-index="${index}" ${active}>${tab.name}</li>
+      `;
+    });
+
+    // 添加indicator元素
+    this.refs.indicator.innerHTML += "<li></li>";
   }
 
   activate(target, item) {
