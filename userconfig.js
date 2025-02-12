@@ -17,7 +17,7 @@ const default_config = {
   tabs: [
     {
       name: "HXCN",
-      background_url: "src/img/banners/cbg-14.gif",
+      background_url: "src/img/banners/cbg-03.gif",
       categories: [
         {
           name: "Websites",
@@ -210,7 +210,7 @@ const default_config = {
     },
     {
       name: "CHA",
-      background_url: "src/img/banners/cbg-02.gif",
+      background_url: "src/img/banners/cbg-14.gif",
       categories: [
         {
           name: "Home Page",
