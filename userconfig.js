@@ -123,7 +123,7 @@ const default_config = {
     },
     {
       name: "Specu",
-      background_url: "src/img/banners/cbg-08.gif",
+      background_url: "src/img/banners/cbg-01.gif",
       categories: [
         {
           name: "development",
@@ -210,7 +210,7 @@ const default_config = {
     },
     {
       name: "CHA",
-      background_url: "src/img/banners/cbg-08.gif",
+      background_url: "src/img/banners/cbg-02.gif",
       categories: [
         {
           name: "Home Page",
