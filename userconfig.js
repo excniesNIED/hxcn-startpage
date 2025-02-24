@@ -78,7 +78,7 @@ const default_config = {
             },
             {
               name: "Bilibili",
-              url: "https://space.bilibili.com/520945083",
+              url: "https://space.bilibili.com/3494377156511978",
               icon: "brand-bilibili",
               icon_color: palette.sky,
             },
