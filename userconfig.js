@@ -17,7 +17,7 @@ const default_config = {
   tabs: [
     {
       name: "HXCN",
-      background_url: "src/img/banners/cbg-03.gif",
+      background_url: "https://gastigado.cnies.org/d/cover/cbg_03.gif?sign=YRgqhrySvzTiuxODna3xFnFFwhQkQqHm7DG1Z24yPfM=:0",
       categories: [
         {
           name: "Websites",
@@ -123,7 +123,7 @@ const default_config = {
     },
     {
       name: "Specu",
-      background_url: "src/img/banners/cbg-01.gif",
+      background_url: "https://gastigado.cnies.org/d/cover/cbg_01.gif?sign=bYCruoxeLvP5YVHbuiQV_7tzxj7MDLv20Kn5a7QXltQ=:0",
       categories: [
         {
           name: "development",
@@ -210,7 +210,7 @@ const default_config = {
     },
     {
       name: "CHA",
-      background_url: "src/img/banners/cbg-14.gif",
+      background_url: "https://gastigado.cnies.org/d/cover/cbg_14.gif?sign=mGFMPEgJhzYJnJHCam0wzMSHU1-9Zd7jfuk0RZ0kf6A=:0",
       categories: [
         {
           name: "Home Page",
