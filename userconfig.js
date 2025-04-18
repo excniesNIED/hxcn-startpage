@@ -89,6 +89,12 @@ const default_config = {
               icon_color: palette.blue,
             },
             {
+              name: "Afdian",
+              url: "https://afdian.com/a/excnies",
+              icon: "coffee",
+              icon_color: palette.blue,
+            },
+            {
               name: "Mail",
               url: "mailto:hxcn@cnies.org",
               icon: "mail",
