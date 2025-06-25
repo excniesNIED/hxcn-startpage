@@ -863,7 +863,6 @@ class Tabs extends Component {
             </div>
           `).join('')}
         </div>
-        <div class="scroll-hint">滚动鼠标滚轮切换标签</div>
       </div>
     `;
   }
