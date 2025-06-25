@@ -626,24 +626,22 @@ class Tabs extends Component {
         background: rgba(255, 255, 255, 0.18);
         transform: translateY(-2px);
         box-shadow: 0 16px 64px rgba(0, 0, 0, 0.4);
-      }
-
-      .nav-item {
+      }      .nav-item {
         padding: 12px 24px;
         /* 保持胶囊形状，边角不变 */
         border-radius: 25px;
-        background: rgba(255, 255, 255, 0.18);
-        backdrop-filter: blur(20px);
-        border: 0.5px solid rgba(255, 255, 255, 0.25);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-        /* 恢复原始动画速率 */
+        /* 未选中时透明背景 */
+        background: transparent;
+        backdrop-filter: none;
+        border: none;
+        box-shadow: none;
+        /* 添加平滑过渡效果 */
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         cursor: pointer;
         min-width: 80px;
         text-align: center;
         position: relative;
         overflow: hidden;
-        filter: url(#glass-distortion-light);
       }
 
       .nav-item::before {
@@ -653,40 +651,47 @@ class Tabs extends Component {
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        /* 未选中时透明 */
+        background: transparent;
         border-radius: 25px;
         pointer-events: none;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        opacity: 0;
+        transform: scale(0.9);
       }
 
       .nav-item:not(.active):hover {
-        /* 悬停时稍微亮一点 */
-        background: rgba(255, 255, 255, 0.22);
+        /* 悬停时轻微的背景 */
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 0.5px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       }
 
       .nav-item:hover {
         transform: scale(1.05) translateY(-2px);
-        background: rgba(255, 255, 255, 0.22);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-        /* 保持原有 border-radius 和 padding */
       }
 
+      /* 激活状态的胶囊背景 */
       .nav-item.active {
         background: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(20px);
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 2px 8px rgba(255, 255, 255, 0.2);
         transform: scale(1.02);
         border: 0.5px solid rgba(255, 255, 255, 0.4);
+        filter: url(#glass-distortion-light);
       }
 
       .nav-item.active::before {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
-      }
-
-      .nav-item .liquidGlass-text {
+        opacity: 1;
+        transform: scale(1);
+      }      .nav-item .liquidGlass-text {
         font-size: 14px;
         font-weight: 600;
-        color: rgba(0, 0, 0, 0.9);
-        text-shadow: 0 1px 3px rgba(255, 255, 255, 0.5);
+        /* 未选中时使用浅色字体 */
+        color: rgba(255, 255, 255, 0.7);
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         padding: 0;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         pointer-events: none;
@@ -695,11 +700,11 @@ class Tabs extends Component {
 
       .nav-item:hover .liquidGlass-text {
         transform: scale(0.95);
-        color: rgba(0, 0, 0, 1);
-        text-shadow: 0 2px 4px rgba(255, 255, 255, 0.7);
-      }
-
-      .nav-item.active .liquidGlass-text {
+        /* 悬停时稍微亮一些 */
+        color: rgba(255, 255, 255, 0.9);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+      }      .nav-item.active .liquidGlass-text {
+        /* 激活时使用深色字体，与背景形成对比 */
         color: rgba(0, 0, 0, 1);
         font-weight: 700;
         text-shadow: 0 2px 6px rgba(255, 255, 255, 0.8);
