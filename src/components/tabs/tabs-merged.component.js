@@ -68,12 +68,13 @@ class Category extends Component {
 
 class Tabs extends Component {
   refs = {};
-
   constructor() {
     super();
     this.tabs = CONFIG.tabs;
     this.currentTab = 0;
     this.isTransitioning = false; // 添加过渡状态标记
+    this.pendingSwitch = null; // 添加待处理的切换请求
+    this.transitionTimeouts = []; // 存储过渡定时器，用于清理
   }
 
   imports() {
@@ -949,14 +950,49 @@ class Tabs extends Component {
       }
     }, 50);
   }
-
   switchTab(direction) {
     const newTab = (this.currentTab + direction + this.tabs.length) % this.tabs.length;
+    
+    // 如果正在过渡中，存储待处理的请求
+    if (this.isTransitioning) {
+      this.pendingSwitch = newTab;
+      console.log(`🔄 Queued switch to tab ${newTab} (currently transitioning)`);
+      return;
+    }
+    
     this.showCategory(newTab);
+  }
+
+  // 新增：处理待处理的切换请求
+  processPendingSwitch() {
+    if (this.pendingSwitch !== null && !this.isTransitioning) {
+      const targetTab = this.pendingSwitch;
+      this.pendingSwitch = null;
+      console.log(`🎯 Processing queued switch to tab ${targetTab}`);
+      this.showCategory(targetTab);
+    }
+  }
+
+  // 新增：清理所有过渡定时器
+  clearTransitionTimeouts() {
+    this.transitionTimeouts.forEach(timeoutId => clearTimeout(timeoutId));
+    this.transitionTimeouts = [];
   }  showCategory(newIndex) {
     const oldIndex = this.currentTab;
-    if (newIndex === oldIndex || newIndex < 0 || newIndex >= this.tabs.length || this.isTransitioning) {
+    if (newIndex === oldIndex || newIndex < 0 || newIndex >= this.tabs.length) {
       return;
+    }
+
+    // 如果正在过渡，但新请求与当前目标不同，允许中断
+    if (this.isTransitioning) {
+      console.log(`🔄 Interrupting current transition to switch to ${newIndex}`);
+      this.clearTransitionTimeouts();
+      
+      // 快速清理当前状态
+      const categories = this.shadowRoot.querySelectorAll(".categories ul");
+      categories.forEach(cat => {
+        cat.classList.remove('transitioning', 'blur-out', 'blur-in', 'blur-clear');
+      });
     }
 
     this.isTransitioning = true; // 设置过渡状态
@@ -1001,24 +1037,38 @@ class Tabs extends Component {
     nextSlide.setAttribute('active', '');
 
     // 阶段3: 渐进式清除模糊效果
-    setTimeout(() => {
-      nextSlide.classList.remove('blur-in');
-      nextSlide.classList.add('blur-clear');
+    const timeout1 = setTimeout(() => {
+      if (this.isTransitioning) { // 检查是否仍在当前过渡中
+        nextSlide.classList.remove('blur-in');
+        nextSlide.classList.add('blur-clear');
+      }
     }, 300);
+    this.transitionTimeouts.push(timeout1);
 
-    setTimeout(() => {
-      nextSlide.classList.remove('blur-clear');
+    const timeout2 = setTimeout(() => {
+      if (this.isTransitioning) { // 检查是否仍在当前过渡中
+        nextSlide.classList.remove('blur-clear');
+      }
     }, 600);
+    this.transitionTimeouts.push(timeout2);
 
-    // 清理过渡类并重置状态
-    setTimeout(() => {
+    // 提前重置过渡状态（在50%完成时）
+    const timeout3 = setTimeout(() => {
+      this.isTransitioning = false; // 提前重置过渡状态
+      this.processPendingSwitch(); // 处理待处理的切换
+    }, 400);
+    this.transitionTimeouts.push(timeout3);
+
+    // 清理过渡类
+    const timeout4 = setTimeout(() => {
       currentSlide.classList.remove('blur-out', 'transitioning');
       nextSlide.classList.remove('transitioning');
-      this.isTransitioning = false; // 重置过渡状态
+      this.clearTransitionTimeouts(); // 清理定时器数组
     }, 800);
+    this.transitionTimeouts.push(timeout4);
 
     // 元素动画 - 延迟启动以配合模糊效果
-    setTimeout(() => {
+    const timeout5 = setTimeout(() => {
       const icons = nextSlide.querySelectorAll('.ti');
       icons.forEach(icon => {
         icon.classList.remove('animate-in');
@@ -1033,6 +1083,7 @@ class Tabs extends Component {
         item.classList.add('animate-in');
       });
     }, 250);
+    this.transitionTimeouts.push(timeout5);
 
     this.currentTab = newIndex;
 
@@ -1041,13 +1092,20 @@ class Tabs extends Component {
     panelsEl.classList.remove('bounce');
     void panelsEl.offsetWidth;
     panelsEl.classList.add('bounce');
-    setTimeout(() => panelsEl.classList.remove('bounce'), 800);
+    const timeout6 = setTimeout(() => panelsEl.classList.remove('bounce'), 800);
+    this.transitionTimeouts.push(timeout6);
 
     console.log(`🎯 Category switch completed: ${this.tabs[newIndex].name} is now active`);
   }
-
   connectedCallback() {
     this.render().then(() => this.setEvents());
+  }
+
+  disconnectedCallback() {
+    // 清理所有定时器，防止内存泄漏
+    this.clearTransitionTimeouts();
+    this.isTransitioning = false;
+    this.pendingSwitch = null;
   }
 }
 
