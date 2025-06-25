@@ -262,43 +262,23 @@ class Tabs extends Component {
         /* 将背景色调从白色改为黑色 */
         background: rgba(0, 0, 0, 0.05);
         backdrop-filter: blur(3px);
-        /* 修改动画属性以支持左右轮播和Q弹效果，添加filter过渡 */
-        transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1), 
-                    opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1),
-                    scale 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2),
-                    filter 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+        /* 简化过渡效果，确保过渡平滑 */
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                    opacity 0.3s ease-out;
         border-radius: 24px;
         border: 1px solid rgba(255, 255, 255, 0.03);
         position: absolute;
         top: 0;
-        left: 0; /* 使用 left 和 transform 代替 right */
+        left: 0;
         z-index: 0;
         opacity: 0;
-        filter: url(#glass-distortion-medium);
         overflow: hidden;
         isolation: isolate;
         /* 默认将所有标签页移到右侧 */
         transform: translateX(100%);
-      }      /* 动态模糊效果类 */
-      .categories ul.blur-out {
-        filter: url(#glass-distortion-medium) blur(12px) brightness(0.7) saturate(0.8);
-        opacity: 0.5;
-        transform: scale(0.92);
-      }      .categories ul.blur-in {
-        filter: url(#glass-distortion-medium) blur(6px) brightness(0.85) saturate(0.9);
-        opacity: 0.75;
-        transform: scale(0.96);
-      }
-
-      /* 增强的过渡效果 */
-      .categories ul.transitioning {
-        transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), 
-                    opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1),
-                    filter 0.8s cubic-bezier(0.23, 1, 0.32, 1),
-                    scale 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-      }
-
-      /* 为分类大卡片添加Q弹悬停效果 */
+        /* 确保内容始终可见 */
+        display: none;
+      }/* 为分类大卡片添加Q弹悬停效果 */
       .categories ul:hover {
         scale: 1.02;
         backdrop-filter: blur(5px);
@@ -314,13 +294,12 @@ class Tabs extends Component {
       .categories ul:nth-child(2) { --flavour: ${CONFIG.palette.peach}; }
       .categories ul:nth-child(3) { --flavour: ${CONFIG.palette.red}; }
       .categories ul:nth-child(4) { --flavour: ${CONFIG.palette.blue}; }
-      .categories ul:nth-child(5) { --flavour: ${CONFIG.palette.mauve}; }
-
-      .categories ul[active] {
+      .categories ul:nth-child(5) { --flavour: ${CONFIG.palette.mauve}; }      .categories ul[active] {
         transform: translateX(0); /* 激活时移到视图中 */
         z-index: 1;
         opacity: 1;
         background: rgba(0, 0, 0, 0.08); /* 调整激活时的背景色 */
+        display: block; /* 确保激活的分类页面显示 */
       }
 
       .categories ul::before {
@@ -367,24 +346,17 @@ class Tabs extends Component {
         scrollbar-width: none;  /* Firefox */
         z-index: 2;
         mix-blend-mode: overlay;
-        filter: url(#glass-distortion-light) contrast(1.2) saturate(1.1);
-        /* 添加丝滑的悬停过渡动画和模糊过渡 */
-        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                    transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                    box-shadow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                    filter 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+        filter: url(#glass-distortion-light) contrast(1.2) saturate(1.1);        /* 简化过渡动画，移除可能导致冲突的filter过渡 */
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                    box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         animation: linksBreathing 8s ease-in-out infinite;
       }
 
-      /* links区域的模糊效果 */
-      .categories ul.blur-out .links {
-        filter: url(#glass-distortion-light) contrast(1.2) saturate(1.1) blur(6px);
-        opacity: 0.7;
+      /* links区域的简化效果 */
+      .categories ul:not([active]) .links {
+        opacity: 0.8;
         transform: scale(0.98);
-      }      .categories ul.blur-in .links {
-        filter: url(#glass-distortion-light) contrast(1.2) saturate(1.1) blur(3px);
-        opacity: 0.85;
-        transform: scale(0.99);
       }@keyframes linksBreathing {
         0%, 100% { 
           background: rgba(0, 0, 0, 0.03);
@@ -878,14 +850,19 @@ class Tabs extends Component {
         console.error('DOM elements not found, retrying...');
         setTimeout(() => this.setEvents(), 100);
         return;
-      }
-
-      // 初始化所有标签页的位置和动画
+      }      // 初始化所有标签页的位置和动画
       const categories = this.shadowRoot.querySelectorAll('.categories ul');
       categories.forEach((cat, i) => {
+        // 清理任何残留的状态
+        cat.classList.remove('transitioning', 'blur-out', 'blur-in');
+        cat.style.transition = '';
+        cat.style.filter = '';
+        
         if (i === 0) {
           cat.setAttribute('active', '');
           cat.style.transform = 'translateX(0)';
+          cat.style.opacity = '1';
+          cat.style.display = 'block';
           const icons = cat.querySelectorAll('.ti');
           icons.forEach(icon => icon.classList.add('animate-in'));
           const linkItems = cat.querySelectorAll('.link-info');
@@ -894,9 +871,12 @@ class Tabs extends Component {
             item.classList.add('animate-in');
           });
         } else {
+          cat.removeAttribute('active');
           cat.style.transform = 'translateX(100%)';
+          cat.style.opacity = '0';
+          cat.style.display = 'none';
         }
-      });      this.currentTab = 0;
+      });this.currentTab = 0;
 
       navItems.forEach(item => {
         const index = Number(item.dataset.tab);
@@ -975,17 +955,24 @@ class Tabs extends Component {
     const oldIndex = this.currentTab;
     if (newIndex === oldIndex || newIndex < 0 || newIndex >= this.tabs.length) {
       return;
-    }    // 如果正在过渡，但新请求与当前目标不同，允许中断
+    }
+
+    // 如果正在过渡，但新请求与当前目标不同，允许中断
     if (this.isTransitioning) {
       this.clearTransitionTimeouts();
       
-      // 快速清理当前状态
+      // 彻底清理当前状态，恢复默认过渡
       const categories = this.shadowRoot.querySelectorAll(".categories ul");
       categories.forEach(cat => {
         cat.classList.remove('transitioning', 'blur-out', 'blur-in');
-      });    }
+        cat.style.transition = '';
+        cat.style.transform = '';
+        cat.style.filter = '';
+        cat.style.opacity = '';
+      });
+    }
 
-    this.isTransitioning = true; // 设置过渡状态
+    this.isTransitioning = true;
     const categories = this.shadowRoot.querySelectorAll(".categories ul");
     const navItems = this.shadowRoot.querySelectorAll('.nav-item');
     const direction = newIndex > oldIndex ? 'right' : 'left';
@@ -993,9 +980,18 @@ class Tabs extends Component {
     const currentSlide = categories[oldIndex];
     const nextSlide = categories[newIndex];
 
-    // 阶段1: 立即开始当前卡片的模糊退出
-    currentSlide.classList.add('transitioning', 'blur-out');
-    
+    // 确保清理状态
+    categories.forEach(cat => {
+      cat.classList.remove('transitioning', 'blur-out', 'blur-in');
+      cat.style.transition = '';
+      cat.style.filter = '';
+    });
+
+    // 立即显示下一个分类以避免空白
+    nextSlide.style.opacity = '1';
+    nextSlide.style.display = 'block';
+    nextSlide.setAttribute('active', '');
+
     // 准备下一个卡片的初始位置
     nextSlide.style.transition = 'none';
     if (direction === 'right') {
@@ -1003,65 +999,100 @@ class Tabs extends Component {
     } else {
       nextSlide.style.transform = 'translateX(-100%)';
     }
-    nextSlide.classList.add('transitioning', 'blur-in');
-    nextSlide.offsetHeight; // 强制重排
-
-    // 阶段2: 开始位置过渡
-    const transitionStyle = 'transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
-    currentSlide.style.transition = transitionStyle;
-    nextSlide.style.transition = transitionStyle;
-
-    // 移动卡片到目标位置
-    if (direction === 'right') {
-      currentSlide.style.transform = 'translateX(-100%)';
-    } else {
-      currentSlide.style.transform = 'translateX(100%)';
-    }
-    nextSlide.style.transform = 'translateX(0)';
-
-    // 更新导航状态
-    navItems[oldIndex].classList.remove('active');
-    navItems[newIndex].classList.add('active');
-    currentSlide.removeAttribute('active');
-    nextSlide.setAttribute('active', '');    // 立即清除模糊效果，使用CSS过渡
-    nextSlide.classList.remove('blur-in');
     
-    // 启动元素动画
-    const icons = nextSlide.querySelectorAll('.ti');
-    icons.forEach(icon => {
-      icon.classList.remove('animate-in');
-      void icon.offsetWidth;
-      icon.classList.add('animate-in');
-    });
-    const linkItems = nextSlide.querySelectorAll('.link-info');
-    linkItems.forEach((item, idx) => {
-      item.classList.remove('animate-in');
-      void item.offsetWidth;
-      item.style.animationDelay = `${idx * 30}ms`;
-      item.classList.add('animate-in');
+    // 强制重排
+    requestAnimationFrame(() => {
+      // 开始过渡动画 - 使用更平滑的缓动函数
+      const transitionStyle = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-out';
+      currentSlide.style.transition = transitionStyle;
+      nextSlide.style.transition = transitionStyle;
+
+      // 移动卡片到目标位置
+      if (direction === 'right') {
+        currentSlide.style.transform = 'translateX(-100%)';
+        currentSlide.style.opacity = '0';
+      } else {
+        currentSlide.style.transform = 'translateX(100%)';
+        currentSlide.style.opacity = '0';
+      }
+      nextSlide.style.transform = 'translateX(0)';
+      nextSlide.style.opacity = '1';
+
+      // 更新导航状态
+      navItems[oldIndex].classList.remove('active');
+      navItems[newIndex].classList.add('active');
+      currentSlide.removeAttribute('active');
+      
+      // 启动元素动画
+      const icons = nextSlide.querySelectorAll('.ti');
+      icons.forEach(icon => {
+        icon.classList.remove('animate-in');
+        void icon.offsetWidth;
+        icon.classList.add('animate-in');
+      });
+      
+      const linkItems = nextSlide.querySelectorAll('.link-info');
+      linkItems.forEach((item, idx) => {
+        item.classList.remove('animate-in');
+        void item.offsetWidth;
+        item.style.animationDelay = `${idx * 30}ms`;
+        item.classList.add('animate-in');
+      });
     });
 
     this.currentTab = newIndex;
 
-    // 统一的过渡完成处理
+    // 过渡完成处理 - 缩短时间以匹配动画
     const transitionTimeout = setTimeout(() => {
+      // 彻底清理所有状态，恢复默认CSS
+      categories.forEach(cat => {
+        cat.classList.remove('transitioning', 'blur-out', 'blur-in');
+        cat.style.transition = '';
+        cat.style.filter = '';
+      });
+      
+      // 确保正确的激活状态
+      categories.forEach((cat, index) => {
+        if (index === newIndex) {
+          cat.setAttribute('active', '');
+          cat.style.transform = 'translateX(0)';
+          cat.style.opacity = '1';
+          cat.style.display = 'block';
+        } else {
+          cat.removeAttribute('active');
+          cat.style.transform = 'translateX(100%)';
+          cat.style.opacity = '0';
+          cat.style.display = 'none';
+        }
+      });
+      
       this.isTransitioning = false;
-      currentSlide.classList.remove('blur-out', 'transitioning');
-      nextSlide.classList.remove('transitioning');
       this.processPendingSwitch();
       this.clearTransitionTimeouts();
-    }, 800);
+    }, 450); // 稍微比动画长一点确保完成
+    
     this.transitionTimeouts.push(transitionTimeout);
   }
   connectedCallback() {
     this.render().then(() => this.setEvents());
   }
-
   disconnectedCallback() {
     // 清理所有定时器，防止内存泄漏
     this.clearTransitionTimeouts();
     this.isTransitioning = false;
     this.pendingSwitch = null;
+    
+    // 清理所有CSS状态
+    if (this.shadowRoot) {
+      const categories = this.shadowRoot.querySelectorAll('.categories ul');
+      categories.forEach(cat => {
+        cat.classList.remove('transitioning', 'blur-out', 'blur-in');
+        cat.style.transition = '';
+        cat.style.transform = '';
+        cat.style.filter = '';
+        cat.style.opacity = '';
+      });
+    }
   }
 }
 
