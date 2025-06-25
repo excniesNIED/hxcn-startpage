@@ -172,13 +172,11 @@ class Tabs extends Component {
         height: 500px;
         position: relative;
         overflow: hidden;
-        /* 恢复玻璃模糊背景以增强扭曲可见性 */
         backdrop-filter: blur(3px);
-        background: rgba(255, 255, 255, 0.01);
+        /* 将背景色调从白色改为黑色 */
+        background: rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.05);
         box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
-        /* 减慢动画速率，增强弹性 */
-        transition: all 0.75s cubic-bezier(0.175, 0.885, 0.32, 1.5);
         filter: url(#glass-distortion) contrast(1.2) saturate(1.1) brightness(1.05) !important;
         isolation: isolate;
         transform-style: preserve-3d;
@@ -192,7 +190,8 @@ class Tabs extends Component {
         left: -2px;
         right: -2px;
         bottom: -2px;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.1) 100%);
+        /* 将渐变背景从白色系改为黑色系 */
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.1) 100%);
         border-radius: 26px;
         z-index: -1;
         pointer-events: none;
@@ -204,12 +203,13 @@ class Tabs extends Component {
         transform: scale(1.02);
         box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25), 0 0 25px rgba(0, 0, 0, 0.15);
         backdrop-filter: blur(5px);
-        background: rgba(255, 255, 255, 0.02);
+        background: rgba(0, 0, 0, 0.12);
         filter: url(#glass-distortion) contrast(1.2) saturate(1.1) brightness(1.05) !important;
       }
 
       #panels:hover::before {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.15) 100%);
+        /* 将渐变背景从白色系改为黑色系 */
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.08) 50%, rgba(0, 0, 0, 0.15) 100%);
         opacity: 0.8;
       }
 
@@ -227,6 +227,26 @@ class Tabs extends Component {
         pointer-events: none;
       }
 
+      /* 恢复主卡片回弹动画，并改为从左到右的效果 */
+      @keyframes panelBounce {
+        0%, 100% {
+          transform: translateX(0);
+        }
+        40% {
+          transform: translateX(-15px); /* 被内容向左推动 */
+        }
+        70% {
+          transform: translateX(8px);  /* 向右回弹 */
+        }
+        90% {
+          transform: translateX(-4px); /* 稳定下来 */
+        }
+      }
+
+      #panels.bounce {
+        animation: panelBounce 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
       .categories {
         width: 100%;
         height: 100%;
@@ -240,22 +260,23 @@ class Tabs extends Component {
         --flavour: var(--accent);
         width: 100%;
         height: 100%;
-        right: 100%;
-        background: rgba(255, 255, 255, 0.005);
+        /* 将背景色调从白色改为黑色 */
+        background: rgba(0, 0, 0, 0.05);
         backdrop-filter: blur(3px);
-        /* 减慢动画速率，增强弹性 */
-        transition: right 0.9s cubic-bezier(0.25, 1, 0.5, 1), 
-                    opacity 0.9s cubic-bezier(0.25, 1, 0.5, 1),
-                    transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+        /* 修改动画属性以支持左右轮播 */
+        transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1);
         border-radius: 24px;
         border: 1px solid rgba(255, 255, 255, 0.03);
         position: absolute;
         top: 0;
+        left: 0; /* 使用 left 和 transform 代替 right */
         z-index: 0;
         opacity: 0;
         filter: url(#glass-distortion-medium);
         overflow: hidden;
         isolation: isolate;
+        /* 默认将所有标签页移到右侧 */
+        transform: translateX(100%);
       }
 
       .categories ul:nth-child(1) { --flavour: ${CONFIG.palette.green}; }
@@ -265,17 +286,10 @@ class Tabs extends Component {
       .categories ul:nth-child(5) { --flavour: ${CONFIG.palette.mauve}; }
 
       .categories ul[active] {
-        right: 0;
+        transform: translateX(0); /* 激活时移到视图中 */
         z-index: 1;
         opacity: 1;
-        background: rgba(255, 255, 255, 0.015);
-        transform: scale(1.001);
-      }
-
-      .categories ul:first-child {
-        right: 0;
-        z-index: 1;
-        opacity: 1;
+        background: rgba(0, 0, 0, 0.08); /* 调整激活时的背景色 */
       }
 
       .categories ul::before {
@@ -285,10 +299,11 @@ class Tabs extends Component {
         left: 0;
         right: 0;
         bottom: 0;
+        /* 将渐变背景从白色系改为黑色系 */
         background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.03) 0%, 
-          rgba(255, 255, 255, 0.01) 50%,
-          rgba(255, 255, 255, 0.02) 100%);
+          rgba(0, 0, 0, 0.03) 0%, 
+          rgba(0, 0, 0, 0.01) 50%,
+          rgba(0, 0, 0, 0.02) 100%);
         border-radius: 24px;
         pointer-events: none;
         z-index: 1;
@@ -619,6 +634,9 @@ class Tabs extends Component {
         content: '';
         position: absolute;
         top: 0;
+        content: '';
+        position: absolute;
+        top: 0;
         left: 0;
         right: 0;
         bottom: 0;
@@ -710,18 +728,6 @@ class Tabs extends Component {
         50% { opacity: 1; }
       }
 
-      /* 添加 Q 弹动画 */
-      @keyframes panelBounce {
-        /* 恢复为更微妙的回弹效果 */
-        0%, 100% { transform: scale(1); }
-        60% { transform: scale(0.98) translateY(5px); }
-        80% { transform: scale(1.02) translateY(-3px); }
-      }
-      #panels.bounce {
-        /* 恢复原始动画时长和曲线 */
-        animation: panelBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      }
-
       /* 为 link-info 创建新的入场动画 */
       @keyframes linkItemEnter {
         from {
@@ -794,9 +800,6 @@ class Tabs extends Component {
         item.addEventListener('click', e => {
           e.preventDefault();
           console.log(`🎯 Nav click: ${index}`);
-          // 主卡片 Q 弹
-          this.shadowRoot.querySelector('#panels').classList.add('bounce');
-          setTimeout(() => this.shadowRoot.querySelector('#panels').classList.remove('bounce'), 600);
           // 按钮 Q 弹
           item.classList.add('click-bounce');
           setTimeout(() => item.classList.remove('click-bounce'), 300);
@@ -939,9 +942,12 @@ class Tabs extends Component {
       }
     });
 
+    // 恢复主卡片切换时的回弹动画
     const panelsEl = this.shadowRoot.querySelector('#panels');
+    panelsEl.classList.remove('bounce');
+    void panelsEl.offsetWidth; // 强制重绘以确保动画可以重新触发
     panelsEl.classList.add('bounce');
-    setTimeout(() => panelsEl.classList.remove('bounce'), 600);
+    setTimeout(() => panelsEl.classList.remove('bounce'), 700); // 动画结束后移除类
 
     console.log(`🎯 Category switch completed: ${this.tabs[index].name} is now active`);
   }
