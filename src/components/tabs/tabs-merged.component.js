@@ -284,18 +284,10 @@ class Tabs extends Component {
         filter: url(#glass-distortion-medium) blur(12px) brightness(0.7) saturate(0.8);
         opacity: 0.5;
         transform: scale(0.92);
-      }
-
-      .categories ul.blur-in {
+      }      .categories ul.blur-in {
         filter: url(#glass-distortion-medium) blur(6px) brightness(0.85) saturate(0.9);
         opacity: 0.75;
         transform: scale(0.96);
-      }
-
-      .categories ul.blur-clear {
-        filter: url(#glass-distortion-medium) blur(0px) brightness(1) saturate(1);
-        opacity: 1;
-        transform: scale(1);
       }
 
       /* 增强的过渡效果 */
@@ -389,18 +381,10 @@ class Tabs extends Component {
         filter: url(#glass-distortion-light) contrast(1.2) saturate(1.1) blur(6px);
         opacity: 0.7;
         transform: scale(0.98);
-      }
-
-      .categories ul.blur-in .links {
+      }      .categories ul.blur-in .links {
         filter: url(#glass-distortion-light) contrast(1.2) saturate(1.1) blur(3px);
         opacity: 0.85;
         transform: scale(0.99);
-      }
-
-      .categories ul.blur-clear .links {
-        filter: url(#glass-distortion-light) contrast(1.2) saturate(1.1) blur(0px);
-        opacity: 1;
-        transform: scale(1);
       }@keyframes linksBreathing {
         0%, 100% { 
           background: rgba(0, 0, 0, 0.03);
@@ -845,6 +829,24 @@ class Tabs extends Component {
     `;
   }
 
+  // 通用点击效果处理，使用CSS动画替代定时器
+  addClickEffect(element) {
+    element.addEventListener('click', () => {
+      element.classList.add('click-bounce');
+      // 使用animationend事件替代setTimeout
+      element.addEventListener('animationend', () => {
+        element.classList.remove('click-bounce');
+      }, { once: true });
+    });
+    element.addEventListener('mousedown', () => {
+      element.style.transform = 'scale(0.95)';
+      // 使用transitionend事件替代setTimeout
+      element.addEventListener('transitionend', () => {
+        element.style.transform = '';
+      }, { once: true });
+    });
+  }
+
   template() {
     return `
       <div id="links">
@@ -897,29 +899,17 @@ class Tabs extends Component {
       });      this.currentTab = 0;
 
       navItems.forEach(item => {
-        const index = Number(item.dataset.tab);        item.addEventListener('click', e => {
+        const index = Number(item.dataset.tab);
+        this.addClickEffect(item);
+        item.addEventListener('click', e => {
           e.preventDefault();
-          item.classList.add('click-bounce');
-          setTimeout(() => item.classList.remove('click-bounce'), 300);
           this.showCategory(index);
-        });
-        item.addEventListener('mousedown', e => {
-          e.preventDefault();
-          item.style.transform = 'scale(0.95)';
-          setTimeout(() => item.style.transform = '', 150);
         });
       });
 
       const linkInfos = this.shadowRoot.querySelectorAll('.link-info');
       linkInfos.forEach(info => {
-        info.addEventListener('click', () => {
-          info.classList.add('click-bounce');
-          setTimeout(() => info.classList.remove('click-bounce'), 300);
-        });
-        info.addEventListener('mousedown', () => {
-          info.style.transform = 'scale(0.95)';
-          setTimeout(() => info.style.transform = '', 150);
-        });
+        this.addClickEffect(info);
       });
 
       document.addEventListener("keydown", (e) => {
@@ -992,7 +982,7 @@ class Tabs extends Component {
       // 快速清理当前状态
       const categories = this.shadowRoot.querySelectorAll(".categories ul");
       categories.forEach(cat => {
-        cat.classList.remove('transitioning', 'blur-out', 'blur-in', 'blur-clear');
+        cat.classList.remove('transitioning', 'blur-out', 'blur-in');
       });    }
 
     this.isTransitioning = true; // 设置过渡状态
@@ -1033,65 +1023,35 @@ class Tabs extends Component {
     navItems[oldIndex].classList.remove('active');
     navItems[newIndex].classList.add('active');
     currentSlide.removeAttribute('active');
-    nextSlide.setAttribute('active', '');
-
-    // 阶段3: 渐进式清除模糊效果
-    const timeout1 = setTimeout(() => {
-      if (this.isTransitioning) { // 检查是否仍在当前过渡中
-        nextSlide.classList.remove('blur-in');
-        nextSlide.classList.add('blur-clear');
-      }
-    }, 300);
-    this.transitionTimeouts.push(timeout1);
-
-    const timeout2 = setTimeout(() => {
-      if (this.isTransitioning) { // 检查是否仍在当前过渡中
-        nextSlide.classList.remove('blur-clear');
-      }
-    }, 600);
-    this.transitionTimeouts.push(timeout2);
-
-    // 提前重置过渡状态（在50%完成时）
-    const timeout3 = setTimeout(() => {
-      this.isTransitioning = false; // 提前重置过渡状态
-      this.processPendingSwitch(); // 处理待处理的切换
-    }, 400);
-    this.transitionTimeouts.push(timeout3);
-
-    // 清理过渡类
-    const timeout4 = setTimeout(() => {
-      currentSlide.classList.remove('blur-out', 'transitioning');
-      nextSlide.classList.remove('transitioning');
-      this.clearTransitionTimeouts(); // 清理定时器数组
-    }, 800);
-    this.transitionTimeouts.push(timeout4);
-
-    // 元素动画 - 延迟启动以配合模糊效果
-    const timeout5 = setTimeout(() => {
-      const icons = nextSlide.querySelectorAll('.ti');
-      icons.forEach(icon => {
-        icon.classList.remove('animate-in');
-        void icon.offsetWidth;
-        icon.classList.add('animate-in');
-      });
-      const linkItems = nextSlide.querySelectorAll('.link-info');
-      linkItems.forEach((item, idx) => {
-        item.classList.remove('animate-in');
-        void item.offsetWidth;
-        item.style.animationDelay = `${idx * 30}ms`;
-        item.classList.add('animate-in');
-      });
-    }, 250);
-    this.transitionTimeouts.push(timeout5);
+    nextSlide.setAttribute('active', '');    // 立即清除模糊效果，使用CSS过渡
+    nextSlide.classList.remove('blur-in');
+    
+    // 启动元素动画
+    const icons = nextSlide.querySelectorAll('.ti');
+    icons.forEach(icon => {
+      icon.classList.remove('animate-in');
+      void icon.offsetWidth;
+      icon.classList.add('animate-in');
+    });
+    const linkItems = nextSlide.querySelectorAll('.link-info');
+    linkItems.forEach((item, idx) => {
+      item.classList.remove('animate-in');
+      void item.offsetWidth;
+      item.style.animationDelay = `${idx * 30}ms`;
+      item.classList.add('animate-in');
+    });
 
     this.currentTab = newIndex;
 
-    // 面板弹跳效果
-    const panelsEl = this.shadowRoot.querySelector('#panels');
-    panelsEl.classList.remove('bounce');
-    void panelsEl.offsetWidth;    panelsEl.classList.add('bounce');
-    const timeout6 = setTimeout(() => panelsEl.classList.remove('bounce'), 800);
-    this.transitionTimeouts.push(timeout6);
+    // 统一的过渡完成处理
+    const transitionTimeout = setTimeout(() => {
+      this.isTransitioning = false;
+      currentSlide.classList.remove('blur-out', 'transitioning');
+      nextSlide.classList.remove('transitioning');
+      this.processPendingSwitch();
+      this.clearTransitionTimeouts();
+    }, 800);
+    this.transitionTimeouts.push(transitionTimeout);
   }
   connectedCallback() {
     this.render().then(() => this.setEvents());
