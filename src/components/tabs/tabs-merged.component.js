@@ -328,8 +328,12 @@ class Tabs extends Component {
         z-index: 2;
         mix-blend-mode: overlay;
         filter: url(#glass-distortion-light) contrast(1.2) saturate(1.1);
-        /* 减慢动画速率，增强弹性 */
-        transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.5);
+        /* 分离过渡效果，为背景和滤镜使用更平滑的曲线 */
+        transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.5),
+                    box-shadow 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.5),
+                    border-radius 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.5),
+                    background 0.4s ease-out,
+                    backdrop-filter 0.4s ease-out;
         animation: linksBreathing 8s ease-in-out infinite;
       }
 
@@ -470,7 +474,8 @@ class Tabs extends Component {
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 100%);
+        /* 将渐变背景从深色系改为浅色系 */
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
         border-radius: 25px;
         pointer-events: none;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
@@ -492,7 +497,8 @@ class Tabs extends Component {
 
       .categories .link-info:hover::before {
         border-radius: 30px;
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.06) 100%);
+        /* 同样将悬停状态的渐变背景改为浅色系 */
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
       }
 
       /* 简化的磁性效果 */
