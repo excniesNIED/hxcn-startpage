@@ -262,9 +262,10 @@ class Tabs extends Component {
         /* 将背景色调从白色改为黑色 */
         background: rgba(0, 0, 0, 0.05);
         backdrop-filter: blur(3px);
-        /* 简化过渡效果，确保过渡平滑 */
-        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                    opacity 0.3s ease-out;
+        /* 优化过渡效果，包含模糊过渡 */
+        transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                    opacity 0.3s ease-out,
+                    filter 0.4s ease-in-out;
         border-radius: 24px;
         border: 1px solid rgba(255, 255, 255, 0.03);
         position: absolute;
@@ -278,6 +279,8 @@ class Tabs extends Component {
         transform: translateX(100%);
         /* 确保内容始终可见 */
         display: none;
+        /* 添加硬件加速 */
+        will-change: transform, opacity, filter;
       }/* 为分类大卡片添加Q弹悬停效果 */
       .categories ul:hover {
         scale: 1.02;
@@ -765,13 +768,47 @@ class Tabs extends Component {
       .link-info.animate-in {
         opacity: 0; /* 动画开始前设为透明 */
         animation: linkItemEnter 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-      }
-
-      /* 按钮点击弹跳 */
+      }      /* 按钮点击弹跳 */
       @keyframes clickBounce {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(0.88); } /* 增大幅度 */
-      }      .links-wrapper .link-info.click-bounce,
+      }
+
+      /* 模糊过渡动画 */
+      @keyframes blurOut {
+        0% { 
+          filter: blur(0px);
+          opacity: 1;
+        }
+        100% { 
+          filter: blur(20px);
+          opacity: 0;
+        }
+      }
+
+      @keyframes blurIn {
+        0% { 
+          filter: blur(20px);
+          opacity: 0;
+        }
+        50% {
+          filter: blur(10px);
+          opacity: 0.5;
+        }
+        100% { 
+          filter: blur(0px);
+          opacity: 1;
+        }
+      }
+
+      /* 平滑的页面切换动画 */
+      .categories ul.blur-out {
+        animation: blurOut 0.3s ease-out forwards;
+      }
+
+      .categories ul.blur-in {
+        animation: blurIn 0.4s ease-in-out forwards;
+      }.links-wrapper .link-info.click-bounce,
       .navigation-container .nav-item.click-bounce {
         /* 减慢动画速率 */
         animation: clickBounce 0.4s cubic-bezier(0.34, 1.6, 0.64, 1);
@@ -994,6 +1031,7 @@ class Tabs extends Component {
 
     // 准备下一个卡片的初始位置
     nextSlide.style.transition = 'none';
+    nextSlide.style.filter = 'blur(20px)'; // 初始模糊
     if (direction === 'right') {
       nextSlide.style.transform = 'translateX(100%)';
     } else {
@@ -1002,11 +1040,14 @@ class Tabs extends Component {
     
     // 强制重排
     requestAnimationFrame(() => {
-      // 开始过渡动画 - 使用更平滑的缓动函数
-      const transitionStyle = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-out';
+      // 开始过渡动画 - 包含模糊效果
+      const transitionStyle = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-out, filter 0.4s ease-in-out';
       currentSlide.style.transition = transitionStyle;
       nextSlide.style.transition = transitionStyle;
 
+      // 添加模糊过渡效果
+      currentSlide.style.filter = 'blur(20px)';
+      
       // 移动卡片到目标位置
       if (direction === 'right') {
         currentSlide.style.transform = 'translateX(-100%)';
@@ -1015,8 +1056,14 @@ class Tabs extends Component {
         currentSlide.style.transform = 'translateX(100%)';
         currentSlide.style.opacity = '0';
       }
+      
       nextSlide.style.transform = 'translateX(0)';
       nextSlide.style.opacity = '1';
+
+      // 延迟清除模糊效果，让新页面清晰显示
+      setTimeout(() => {
+        nextSlide.style.filter = 'blur(0px)';
+      }, 150);
 
       // 更新导航状态
       navItems[oldIndex].classList.remove('active');
@@ -1042,7 +1089,7 @@ class Tabs extends Component {
 
     this.currentTab = newIndex;
 
-    // 过渡完成处理 - 缩短时间以匹配动画
+    // 过渡完成处理 - 稍微延长时间以配合模糊效果
     const transitionTimeout = setTimeout(() => {
       // 彻底清理所有状态，恢复默认CSS
       categories.forEach(cat => {
@@ -1058,18 +1105,20 @@ class Tabs extends Component {
           cat.style.transform = 'translateX(0)';
           cat.style.opacity = '1';
           cat.style.display = 'block';
+          cat.style.filter = 'blur(0px)'; // 确保清晰
         } else {
           cat.removeAttribute('active');
           cat.style.transform = 'translateX(100%)';
           cat.style.opacity = '0';
           cat.style.display = 'none';
+          cat.style.filter = '';
         }
       });
       
       this.isTransitioning = false;
       this.processPendingSwitch();
       this.clearTransitionTimeouts();
-    }, 450); // 稍微比动画长一点确保完成
+    }, 550); // 延长时间以配合模糊效果
     
     this.transitionTimeouts.push(transitionTimeout);
   }
