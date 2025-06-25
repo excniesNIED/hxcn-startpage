@@ -675,16 +675,23 @@ class Tabs extends Component {
       }
 
       .ti {
-        animation: fadeInAnimation ease .5s;
-        animation-iteration-count: 1;
-        animation-fill-mode: forwards;
         height: 20px;
         width: 20px;
       }
 
+      .ti.animate-in {
+        animation: fadeInAnimation ease .5s 1 forwards;
+      }
+
       @keyframes fadeInAnimation {
-        0% { opacity: 0; transform: translateY(10px); }
-        100% { opacity: 1; transform: translateY(0); }
+        0% { 
+          opacity: 0; 
+          transform: translateY(15px) scale(1.4); 
+        }
+        100% { 
+          opacity: 1; 
+          transform: translateY(0) scale(1); 
+        }
       }
 
       .scroll-hint {
@@ -705,38 +712,31 @@ class Tabs extends Component {
 
       /* 添加 Q 弹动画 */
       @keyframes panelBounce {
-        0% { transform: scale(1); }
-        50% { transform: scale(0.96) translateY(8px); } /* 增大幅度 */
-        80% { transform: scale(1.03) translateY(-5px); } /* 增大幅度 */
-        100% { transform: scale(1) translateY(0); }
+        /* 恢复为更微妙的回弹效果 */
+        0%, 100% { transform: scale(1); }
+        60% { transform: scale(0.98) translateY(5px); }
+        80% { transform: scale(1.02) translateY(-3px); }
       }
       #panels.bounce {
-        /* 减慢动画速率 */
-        animation: panelBounce 0.8s cubic-bezier(0.68, -0.6, 0.265, 1.6);
+        /* 恢复原始动画时长和曲线 */
+        animation: panelBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       }
 
-      @keyframes linksBounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-8px); }
-      }
-      .links-wrapper.links-bounce {
-        animation: linksBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      /* 为 link-info 创建新的入场动画 */
+      @keyframes linkItemEnter {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
-      /* 去除方向动画，改为统一linksExpand */
-      @keyframes linksExpand {
-        0% { transform: scale(0.8) translateX(-20px); opacity: 0.8; }
-        60% { transform: scale(1.05) translateX(5px); opacity: 1; }
-        100% { transform: scale(1) translateX(0); opacity: 1; }
-      }
-      @keyframes linksBounce2 {
-        0% { transform: translateX(-40px) scale(0.75); opacity: 0; } /* 增大幅度 */
-        60% { transform: translateX(5px) scale(1.15); opacity: 1; } /* 增大幅度 */
-        100% { transform: translateX(0px) scale(1); opacity: 1; }
-      }
-      .links-wrapper.links-bounce .link-info {
-        /* 减慢动画速率 */
-        animation: linksBounce2 1.2s cubic-bezier(0.68, -0.6, 0.265, 1.6);
+      .link-info.animate-in {
+        opacity: 0; /* 动画开始前设为透明 */
+        animation: linkItemEnter 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
       }
 
       /* 按钮点击弹跳 */
@@ -890,16 +890,16 @@ class Tabs extends Component {
     navItems.forEach((item, i) => {
       if (i === index) {
         item.classList.add("active");
-        console.log(`✅ Nav item ${i} activated`);
       } else {
         item.classList.remove("active");
       }
     });
 
     const categories = this.shadowRoot.querySelectorAll(".categories ul");
-    console.log(`Found ${categories.length} categories`);
     
     categories.forEach((cat, i) => {
+      const linkItems = cat.querySelectorAll('.link-info');
+
       if (i === index) {
         cat.setAttribute("active", "");
         cat.style.setProperty('right', '0', 'important');
@@ -907,7 +907,22 @@ class Tabs extends Component {
         cat.style.setProperty('opacity', '1', 'important');
         cat.style.setProperty('visibility', 'visible', 'important');
         cat.style.setProperty('pointer-events', 'auto', 'important');
-        console.log(`✅ Category ${i} shown`);
+        
+        const icons = cat.querySelectorAll('.ti');
+        icons.forEach(icon => {
+          icon.classList.remove('animate-in');
+          void icon.offsetWidth; // Force reflow
+          icon.classList.add('animate-in');
+        });
+
+        // 为 link-info 触发交错动画
+        linkItems.forEach((item, idx) => {
+          item.classList.remove('animate-in');
+          void item.offsetWidth; // 强制重绘以确保动画重新播放
+          item.style.animationDelay = `${idx * 50}ms`; // 设置交错延迟
+          item.classList.add('animate-in');
+        });
+
       } else {
         cat.removeAttribute("active");
         cat.style.setProperty('right', '100%', 'important');
@@ -915,6 +930,12 @@ class Tabs extends Component {
         cat.style.setProperty('opacity', '0', 'important');
         cat.style.setProperty('visibility', 'hidden', 'important');
         cat.style.setProperty('pointer-events', 'none', 'important');
+
+        // 重置非活动标签页的动画
+        linkItems.forEach(item => {
+          item.classList.remove('animate-in');
+          item.style.animationDelay = '';
+        });
       }
     });
 
@@ -922,21 +943,6 @@ class Tabs extends Component {
     panelsEl.classList.add('bounce');
     setTimeout(() => panelsEl.classList.remove('bounce'), 600);
 
-    const activeCategory = categories[index];
-    if (activeCategory) {
-      activeCategory.style.transform = 'scale(1.01)';
-      setTimeout(() => {
-        if (activeCategory) {
-          activeCategory.style.transform = '';
-        }
-      }, 200);
-    }
-
-    // links Q 弹
-    const wrapper = this.shadowRoot.querySelector('.links-wrapper');
-    wrapper.classList.add('links-bounce');
-    setTimeout(() => wrapper.classList.remove('links-bounce'), 800);
-    
     console.log(`🎯 Category switch completed: ${this.tabs[index].name} is now active`);
   }
 
