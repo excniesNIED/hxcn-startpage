@@ -196,9 +196,7 @@ class Statusbar extends Component {
   }
 
   setEvents() {
-    this.refs.tabs.forEach((tab) => (tab.onclick = ({ target }) => this.handleTabChange(target)));
-    document.onkeydown = (e) => this.handleKeyPress(e);
-    document.onwheel = (e) => this.handleWheelScroll(e);
+    this.refs.tabs.forEach((tab) => (tab.onclick = ({ target }) => this.handleTabChange(target)));    document.onkeydown = (e) => this.handleKeyPress(e);
 
     this.refs.fastlink.onclick = () => {
       if (CONFIG.config.fastlink) {

@@ -684,11 +684,16 @@ class Tabs extends Component {
         font-size: 12px;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         animation: pulse 2s infinite;
-      }
-
-      @keyframes pulse {
+      }      @keyframes pulse {
         0%, 100% { opacity: 0.7; }
         50% { opacity: 1; }
+      }
+
+      /* 响应式设计：在小屏幕上隐藏分类名字 */
+      @media screen and (max-width: 768px) {
+        .categories ul::after {
+          display: none !important;
+        }
       }
     `;
   }
@@ -746,14 +751,6 @@ class Tabs extends Component {
           }, 150);
         });
       });
-
-      if (this.refs.links) {
-        this.refs.links.addEventListener("wheel", (e) => {
-          e.preventDefault();
-          const delta = e.deltaY > 0 ? 1 : -1;
-          this.switchTab(delta);
-        });
-      }
 
       document.addEventListener("keydown", (e) => {
         if (e.key === "ArrowLeft" || e.key === "ArrowUp") {

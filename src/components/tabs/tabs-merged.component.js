@@ -815,11 +815,17 @@ class Tabs extends Component {
       @keyframes clickBounce {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(0.88); } /* 增大幅度 */
-      }
-      .links-wrapper .link-info.click-bounce,
+      }      .links-wrapper .link-info.click-bounce,
       .navigation-container .nav-item.click-bounce {
         /* 减慢动画速率 */
         animation: clickBounce 0.4s cubic-bezier(0.34, 1.6, 0.64, 1);
+      }
+
+      /* 响应式设计：在小屏幕上隐藏分类名字 */
+      @media screen and (max-width: 768px) {
+        .categories ul::after {
+          display: none !important;
+        }
       }
     `;
   }
@@ -905,14 +911,6 @@ class Tabs extends Component {
           setTimeout(() => info.style.transform = '', 150);
         });
       });
-
-      if (linksEl) {
-        linksEl.addEventListener("wheel", (e) => {
-          e.preventDefault();
-          const delta = e.deltaY > 0 ? 1 : -1;
-          this.switchTab(delta);
-        });
-      }
 
       document.addEventListener("keydown", (e) => {
         if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
