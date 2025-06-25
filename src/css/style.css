@@ -38,19 +38,32 @@
 /* 添加背景动画 */
 body {
   height: 100vh;
-  background: url("https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg") center center;
-  background-size: 400px;
+  /* background: url("https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg") center center; */
+  /* background-size: 400px; */
   font-family: 'Nunito', 'Roboto', sans-serif;
   font-weight: 300;
-  animation: moveBackground 60s linear infinite;
+  /* animation: moveBackground 60s linear infinite; */
   overflow: hidden;
 }
 
-@keyframes moveBackground {
+#background-video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  object-fit: cover; /* 填充模式 */
+  background-size: cover;
+}
+
+/* @keyframes moveBackground {
   0% {
     background-position: 0% 0%;
   }
   100% {
     background-position: 0% 100%;
   }
-}
+} */
