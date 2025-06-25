@@ -1,0 +1,65 @@
+/* Layout Fix and Reference Background Match */
+
+/* Reset and match reference layout */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  font-family: sans-serif;
+  font-weight: 300;
+}
+
+/* Match reference background exactly */
+body {
+  background: url("https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg") center center;
+  background-size: 400px;
+  animation: moveBackground 60s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes moveBackground {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 0% -1000%;
+  }
+}
+
+/* Fix element positioning */
+tabs-list {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+liquid-glass {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* Make interactive elements clickable */
+liquid-glass a,
+liquid-glass button,
+liquid-glass .liquidGlass-wrapper {
+  pointer-events: auto;
+}
+
+/* Ensure main panels are properly centered */
+#panels {
+  position: relative;
+  margin: auto;
+}

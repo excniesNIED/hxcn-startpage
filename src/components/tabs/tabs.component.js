@@ -81,28 +81,82 @@ class Tabs extends Component {
       this.resources.libs.awoo,
     ];
   }
-
   style() {
     return `
-      status-bar {
-          bottom: -70px;
-          height: 32px;
-          background: ${CONFIG.palette.base};
-          border-radius: 4px;
-          box-shadow: 0 10px 20px rgba(0, 0, 0, .25);
+      /* Liquid Glass Effect Styles */
+      .liquidGlass-wrapper {
+        position: relative;
+        display: flex;
+        font-weight: 600;
+        overflow: hidden;
+        color: black;
+        cursor: pointer;
+        box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
-      #panels, #panels ul,
+      .liquidGlass-effect {
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        backdrop-filter: blur(3px);
+        filter: url(#glass-distortion);
+        overflow: hidden;
+        isolation: isolate;
+      }
+
+      .liquidGlass-tint {
+        z-index: 1;
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      .liquidGlass-shine {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        overflow: hidden;
+        box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.5),
+          inset -1px -1px 1px 1px rgba(255, 255, 255, 0.5);
+      }
+
+      .liquidGlass-text {
+        z-index: 3;
+        position: relative;
+        color: black;
+      }      status-bar {
+          bottom: -70px;
+          height: 42px;
+          background: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(15px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 21px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+          transition: all 0.3s ease;
+      }
+
+      status-bar:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: translateY(-2px);
+          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      }      #panels, #panels ul,
       #panels .links {
           position: absolute;
       }
 
-      .nav {
-          color: #fff;
+      #links {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      #panels {
-          border-radius: 5px 0 0 5px;
+      .nav {
+          color: #fff;
+      }#panels {
+          border-radius: 20px;
           width: 90%;
           max-width: 1200px;
           height: 450px;
@@ -111,27 +165,79 @@ class Tabs extends Component {
           top: 0;
           bottom: 0;
           margin: auto;
-          box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-          background: ${CONFIG.palette.base};
+          /* Apply liquid glass effect */
+          position: relative;
+          overflow: hidden;
+          backdrop-filter: blur(10px);
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
-      .categories {
+      #panels:hover {
+          transform: scale(1.01);
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+          backdrop-filter: blur(15px);
+          background: rgba(255, 255, 255, 0.15);
+      }
+
+      #panels::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+          border-radius: 20px;
+          z-index: 1;
+          pointer-events: none;
+      }
+
+      #panels::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          box-shadow: inset 1px 1px 1px 0 rgba(255, 255, 255, 0.3),
+            inset -1px -1px 1px 1px rgba(255, 255, 255, 0.1);
+          border-radius: 20px;
+          z-index: 2;
+          pointer-events: none;
+      }.categories {
           width: 100%;
           height: 100%;
           overflow: hidden;
           position: relative;
-          border-radius: 10px 0 0 10px;
-      }
-
-      .categories ul {
+          border-radius: 20px;
+          z-index: 3;
+      }      .categories ul {
           --panelbg: transparent;
           --flavour: var(--accent);
           width: 100%;
           height: 100%;
           right: 100%;
-          background: ${CONFIG.palette.base} url("../img/bg-1.gif") repeat left;
-          transition: all .6s;
-          # animation: scroll 25s ease-in-out infinite;
+          background: rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(15px);
+          transition: all .6s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          position: relative;
+      }
+
+      .categories ul::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%, rgba(255, 255, 255, 0.02) 100%);
+          border-radius: 20px;
+          pointer-events: none;
       }
 
       @keyframes scroll {
@@ -166,82 +272,139 @@ class Tabs extends Component {
       .categories ul[active] {
           right: 0;
           z-index: 1;
-      }
-
-      .categories .links {
+      }      .categories .links {
           right: 0;
           width: 70%;
           height: 100%;
-          background: ${CONFIG.palette.base};
+          background: rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(10px);
           padding: 5%;
           flex-wrap: wrap;
+          border-radius: 0 20px 20px 0;
+          border-left: 1px solid rgba(255, 255, 255, 0.15);
+          position: relative;
+      }
+
+      .categories .links::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+          border-radius: 0 20px 20px 0;
+          pointer-events: none;
       }
 
       .categories .links li {
           list-style: none;
-      }
-
-      .categories ul .links a {
-          color: ${CONFIG.palette.text};
+      }      .categories ul .links a {
+          color: white;
           text-decoration: none;
-          font: 700 18px 'Roboto', sans-serif;
-          transition: all .2s;
+          font: 600 16px 'Roboto', sans-serif;
+          transition: all .4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
           display: inline-flex;
           align-items: center;
-          padding: .4em .7em;
-          background: ${CONFIG.palette.mantle};
-          box-shadow: 0 4px ${CONFIG.palette.mantle}, 0 5px 10px rgb(0 0 0 / 20%);
-          border-radius: 2px;
-          margin-bottom: .7em;
+          padding: .8em 1.2em;
+          position: relative;
+          background: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(8px);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+          border-radius: 16px;
+          margin-bottom: .8em;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          overflow: hidden;
+      }
+
+      .categories ul .links a::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+          border-radius: 16px;
+          z-index: -2;
+          transition: all 0.3s ease;
+      }
+
+      .categories ul .links a::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          box-shadow: inset 1px 1px 1px 0 rgba(255, 255, 255, 0.4),
+            inset -1px -1px 1px 1px rgba(255, 255, 255, 0.1);
+          border-radius: 16px;
+          z-index: -1;
+          opacity: 0;
+          transition: opacity 0.3s ease;
       }
 
       .categories .link-info {
           display: inline-flex;
       }
 
-      .categories .link-info:not(:last-child) { margin-right: .5em; }
-
-      .categories ul .links a:hover {
-          transform: translate(0, 4px);
-          box-shadow: 0 0 rgba(0, 0, 0, 0.25), 0 0 0 rgba(0, 0, 0, .5), 0 -0px 5px rgba(0, 0, 0, .1);
-          color: var(--flavour);
+      .categories .link-info:not(:last-child) { margin-right: .5em; }      .categories ul .links a:hover {
+          transform: scale(1.05) translateY(-2px);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+          background: rgba(255, 255, 255, 0.25);
+          backdrop-filter: blur(12px);
+          color: white;
       }
 
-      .categories ul::after {
+      .categories ul .links a:hover::before {
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+      }
+
+      .categories ul .links a:hover::after {
+          opacity: 1;
+      }      .categories ul::after {
           content: attr(class);
           position: absolute;
           display: flex;
           text-transform: uppercase;
           overflow-wrap: break-word;
-          width: 25px;
-          height: 250px;
-          padding: 1em;
+          width: 28px;
+          height: 280px;
+          padding: 1.2em;
           margin: auto;
-          border-radius: 20px;
-          box-shadow: inset 0 0 0 3px rgb(255 255 255 / 50%);
-          left: calc(15% - 42.5px);
+          border-radius: 25px;
+          box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.25);
+          left: calc(15% - 46px);
           bottom: 0;
           top: 0;
-          background: linear-gradient(to top, rgb(255 255 255 / 0%), rgb(255 255 255 / 40%));
+          background: rgba(255, 255, 255, 0.12);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
           color: white;
           letter-spacing: 2px;
-          font: 100 30px 'Nunito', sans-serif;
+          font: 200 28px 'Nunito', sans-serif;
           text-align: center;
           flex-wrap: wrap;
           word-break: break-all;
           align-items: center;
-          backdrop-filter: blur(4px);
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
-      .categories .links li:not(:last-child) {
-          box-shadow: 0 1px 0 ${CONFIG.palette.text};
+      .categories ul:hover::after {
+          background: rgba(255, 255, 255, 0.2);
+          transform: scale(1.03);
+          box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.4),
+                      0 6px 16px rgba(0, 0, 0, 0.2);
+      }.categories .links li:not(:last-child) {
+          box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
           padding: 0 0 .5em 0;
           margin-bottom: 1.5em;
       }
 
       .categories .links li h1 {
-          color: ${CONFIG.palette.text};
-        opacity: 0.5;
+          color: white;
+          opacity: 0.8;
           font-size: 13px;
           margin-bottom: 1em;
           font-weight: 600;
@@ -252,7 +415,7 @@ class Tabs extends Component {
 
       .categories .link-icon {
           font-size: 27px;
-          color: ${CONFIG.palette.text};
+          color: white;
       }
 
       .categories .link-icon + .link-name {
@@ -282,11 +445,9 @@ class Tabs extends Component {
       }
     `;
   }
-
   template() {
     return `
       <div id="links" class="-">
-
         <div id="panels">
           <div class="categories">
             ${Category.getAll(this.tabs)}

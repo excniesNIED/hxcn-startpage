@@ -5,16 +5,71 @@
     <meta name="author" content="AllJavi (https://github.com/AllJavi)" />
     <link rel="stylesheet" type="text/css" href="src/css/awoo.min.css" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:200|Roboto:100,400,700|Raleway:600" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/gh/monzanifabio/cryptofont/cryptofont.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css" />
-    <link href="src/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/monzanifabio/cryptofont/cryptofont.css" rel="stylesheet" />    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css" />    <link href="src/css/style.css" rel="stylesheet" type="text/css" />    <link href="src/css/enhanced-background.css" rel="stylesheet" type="text/css" />
+    <link href="src/css/layout-fix.css" rel="stylesheet" type="text/css" />
+    <link href="src/css/interactive-effects.css" rel="stylesheet" type="text/css" />
     <link href="src/css/tabler-icons.min.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="https://gastigado.cnies.org/d/elements/%E5%9B%BE%E7%89%872.png?sign=tWud_gJgrQwZtumkND4Lzx4QSFnp0GVS__3KN8YWmd0=:0" />
     <title>Churnie HXCN</title>
   </head>
-
   <body>
-    <tabs-list></tabs-list>
+    <!-- SVG Filter for Liquid Glass Effect -->
+    <svg style="display: none">
+      <filter
+        id="glass-distortion"
+        x="0%"
+        y="0%"
+        width="100%"
+        height="100%"
+        filterUnits="objectBoundingBox"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.005"
+          numOctaves="1"
+          seed="17"
+          result="turbulence"
+        />
+
+        <feComponentTransfer in="turbulence" result="mapped">
+          <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
+          <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
+          <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
+        </feComponentTransfer>
+
+        <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap" />
+
+        <feSpecularLighting
+          in="softMap"
+          surfaceScale="5"
+          specularConstant="1"
+          specularExponent="100"
+          lighting-color="white"
+          result="specLight"
+        >
+          <fePointLight x="-200" y="-200" z="300" />
+        </feSpecularLighting>
+
+        <feComposite
+          in="specLight"
+          operator="arithmetic"
+          k1="0"
+          k2="1"
+          k3="1"
+          k4="0"
+          result="litImage"
+        />
+
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="softMap"
+          scale="200"
+          xChannelSelector="R"
+          yChannelSelector="G"
+        />
+      </filter>
+    </svg>    <tabs-list></tabs-list>
+    <liquid-glass></liquid-glass>
 
     <script type="text/javascript" src="src/common/palette.js"></script>
     <script type="text/javascript" src="src/common/utils.js"></script>
@@ -27,6 +82,7 @@
     <script type="text/javascript" src="./userconfig.js"></script>
 
     <script type="text/javascript" src="src/components/tabs/tabs.component.js"></script>
+    <script type="text/javascript" src="src/components/liquid-glass/liquid-glass.component.js"></script>
 
     <script type="text/javascript" src="src/components/weather/weather.api.js"></script>
     <script type="text/javascript" src="src/components/weather/weather.component.js"></script>
