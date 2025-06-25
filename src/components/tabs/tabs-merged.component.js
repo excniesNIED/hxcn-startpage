@@ -254,17 +254,17 @@ class Tabs extends Component {
         position: relative;
         border-radius: 24px;
         z-index: 3;
-      }
-
-      .categories ul {
+      }      .categories ul {
         --flavour: var(--accent);
         width: 100%;
         height: 100%;
         /* 将背景色调从白色改为黑色 */
         background: rgba(0, 0, 0, 0.05);
         backdrop-filter: blur(3px);
-        /* 修改动画属性以支持左右轮播 */
-        transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+        /* 修改动画属性以支持左右轮播和Q弹效果 */
+        transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1), 
+                    opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+                    scale 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         border-radius: 24px;
         border: 1px solid rgba(255, 255, 255, 0.03);
         position: absolute;
@@ -277,6 +277,18 @@ class Tabs extends Component {
         isolation: isolate;
         /* 默认将所有标签页移到右侧 */
         transform: translateX(100%);
+      }
+
+      /* 为分类大卡片添加Q弹悬停效果 */
+      .categories ul:hover {
+        scale: 1.02;
+        backdrop-filter: blur(5px);
+        background: rgba(0, 0, 0, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: scale 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2),
+                    backdrop-filter 0.32s ease,
+                    background 0.32s ease,
+                    border 0.32s ease;
       }
 
       .categories ul:nth-child(1) { --flavour: ${CONFIG.palette.green}; }
@@ -307,59 +319,63 @@ class Tabs extends Component {
         border-radius: 24px;
         pointer-events: none;
         z-index: 1;
+      }      /* 为分类大卡片悬停时的内部links区域添加反向缩放效果 */
+      .categories ul:hover .links {
+        transform: scale(0.98);
+        transition: transform 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      /* 为分类大卡片悬停时的内部link-info添加轻微反向缩放 */
+      .categories ul:hover .link-info {
+        transform: scale(0.99);
+        transition: transform 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
       .categories .links {
         right: 0;
         width: 75%;
         height: 100%;
+        /* 设置固定的黑色模糊背景，悬停时不变 */
         background: rgba(0, 0, 0, 0.03);
-        /* 移除遮罩模糊 */
-        backdrop-filter: none;
+        backdrop-filter: blur(60px);
         padding: 6%;
         flex-wrap: wrap;
         border-radius: 0 24px 24px 0;
         border-left: 1px solid rgba(255, 255, 255, 0.08);
         position: relative;
-        box-shadow: inset -3px 0 var(--flavour), 0 20px 80px rgba(0, 0, 0, 0.6);
+        box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
         overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+        /* 隐藏滚动条 */
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
         z-index: 2;
         mix-blend-mode: overlay;
         filter: url(#glass-distortion-light) contrast(1.2) saturate(1.1);
-        /* 分离过渡效果，为背景和滤镜使用更平滑的曲线 */
-        transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.5),
-                    box-shadow 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.5),
-                    border-radius 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.5),
-                    background 0.4s ease-out,
-                    backdrop-filter 0.4s ease-out;
+        /* 添加丝滑的悬停过渡动画 */
+        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                    transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                    box-shadow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         animation: linksBreathing 8s ease-in-out infinite;
-      }
-
-      @keyframes linksBreathing {
+      }@keyframes linksBreathing {
         0%, 100% { 
           background: rgba(0, 0, 0, 0.03);
-          box-shadow: inset -3px 0 var(--flavour), 0 20px 80px rgba(0, 0, 0, 0.6);
+          box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
           backdrop-filter: blur(60px);
         }
         50% { 
           background: rgba(0, 0, 0, 0.05);
-          box-shadow: inset -3px 0 var(--flavour), 0 25px 100px rgba(0, 0, 0, 0.7);
+          box-shadow: 0 25px 100px rgba(0, 0, 0, 0.7);
           backdrop-filter: blur(65px);
         }
-      }
-
-      .categories .links:hover {
-        background: rgba(0, 0, 0, 0.12);
+      }      .categories .links:hover {
         transform: scale(1.05) translateY(-5px);
-        box-shadow: inset -3px 0 var(--flavour), 0 35px 140px rgba(0, 0, 0, 0.9);
+        /* 保持与基础状态相同的背景和模糊，不发生变化 */
+        background: rgba(0, 0, 0, 0.12);
         backdrop-filter: blur(100px);
+        box-shadow: 0 35px 140px rgba(0, 0, 0, 0.9);
         border-radius: 0 30px 30px 0;
         border-left: 1px solid rgba(255, 255, 255, 0.15);
-      }
-
-      .categories .links::before {
+      }      .categories .links::before {
         content: '';
         position: absolute;
         top: 0;
@@ -373,55 +389,23 @@ class Tabs extends Component {
         border-radius: 0 24px 24px 0;
         pointer-events: none;
         z-index: -1;
-        /* 移除遮罩模糊 */
-        backdrop-filter: none;
         mix-blend-mode: screen;
         filter: url(#glass-distortion-light);
-      }
-
-      .categories .links:hover::before {
-        border-radius: 0 30px 30px 0;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }.categories .links:hover::before {
+        border-radius: 0 32px 32px 0;
         background: linear-gradient(135deg, 
-          rgba(0, 0, 0, 0.08) 0%, 
-          rgba(0, 0, 0, 0.04) 50%,
-          rgba(0, 0, 0, 0.06) 100%);
-        backdrop-filter: blur(25px);
+          rgba(0, 0, 0, 0.06) 0%, 
+          rgba(0, 0, 0, 0.03) 50%,
+          rgba(0, 0, 0, 0.05) 100%);
+        backdrop-filter: blur(28px);
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transform: scale(1.01);
       }
 
-      /* 滚动条样式 */
+      /* 滚动条样式 - 隐藏滚动条 */
       .categories .links::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      .categories .links::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 10px;
-        backdrop-filter: blur(8px);
-        border: 0.5px solid rgba(255, 255, 255, 0.1);
-      }
-
-      .categories .links::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.4);
-        border-radius: 10px;
-        backdrop-filter: blur(15px);
-        border: 0.5px solid rgba(255, 255, 255, 0.2);
-        transition: all 0.3s ease;
-        box-shadow: inset 1px 1px 1px 0 rgba(255, 255, 255, 0.3),
-          0 2px 8px rgba(0, 0, 0, 0.2);
-      }
-
-      .categories .links::-webkit-scrollbar-thumb:hover {
-        background: rgba(255, 255, 255, 0.6);
-        transform: scaleY(1.1);
-        box-shadow: inset 1px 1px 1px 0 rgba(255, 255, 255, 0.5),
-          0 4px 12px rgba(0, 0, 0, 0.3);
-      }
-
-      .categories .links::-webkit-scrollbar-thumb:active {
-        background: rgba(255, 255, 255, 0.8);
-        transform: scaleY(0.9);
-        box-shadow: inset 2px 2px 2px 0 rgba(255, 255, 255, 0.4),
-          0 2px 8px rgba(0, 0, 0, 0.4);
+        display: none; /* Chrome, Safari, Opera */
       }
 
       .categories .links li {
@@ -451,20 +435,22 @@ class Tabs extends Component {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-      }
-
-      .categories .link-info {
+      }      .categories .link-info {
         margin-bottom: 8px;
         border-radius: 25px;
-        /* 减慢动画速率，增强弹性 */
-        transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.5);
+        /* 调整动画速率为0.8（0.4s * 0.8 = 0.32s） */
+        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         display: inline-flex;
+        /* 恢复原来的深色背景 */
         background: rgba(0, 0, 0, 0.15);
         backdrop-filter: blur(20px);
         border: 0.5px solid rgba(255, 255, 255, 0.25);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         position: relative;
         overflow: hidden;
+      }      /* 添加非激活状态的悬停效果 */
+      .categories .link-info:not(.active):hover {
+        background: rgba(0, 0, 0, 0.18);
       }
 
       .categories .link-info::before {
@@ -474,55 +460,75 @@ class Tabs extends Component {
         left: 0;
         right: 0;
         bottom: 0;
-        /* 将渐变背景从深色系改为浅色系 */
+        /* 恢复原来的浅色渐变背景 */
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
         border-radius: 25px;
         pointer-events: none;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-      }
-
-      .categories .link-info:hover {
+        /* 调整动画速率为0.8 */
+        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }      .categories .link-info:hover {
+        /* Q弹动画：按钮整体放大 */
         transform: scale(1.12) translateY(-5px);
+        /* 恢复原来的深色悬停背景 */
         background: rgba(0, 0, 0, 0.18);
-        box-shadow: 
-          0 15px 50px rgba(0, 0, 0, 0.4),
-          0 0 30px rgba(255, 255, 255, 0.1),
-          inset 0 1px 1px rgba(255, 255, 255, 0.2);
+        /* 移除所有白色阴影，只保留黑色阴影 */
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
         border-radius: 30px;
         border: 0.5px solid rgba(255, 255, 255, 0.4);
         backdrop-filter: blur(25px);
         z-index: 100;
         position: relative;
+        /* 动画速率0.8 */
+        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
-      .categories .link-info:hover::before {
+      /* Q弹动画：悬停时内部元素反向缩放 */
+      .categories .link-info:hover .link-icon {
+        transform: scale(0.95);
+        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      .categories .link-info:hover .link-name {
+        transform: scale(0.95);
+        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }      .categories .link-info:hover::before {
         border-radius: 30px;
-        /* 同样将悬停状态的渐变背景改为浅色系 */
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
-      }
-
-      /* 简化的磁性效果 */
-      .categories .link-info:hover ~ .link-info {
-        transform: scale(0.97) translateY(1px);
-        opacity: 0.8;
-        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      }
-
+        /* 完全移除白色渐变，使用深色渐变以避免诡异的白色效果 */
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.02) 100%);
+        /* 动画速率0.8 */
+        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }      /* 修复磁性效果，避免临近按钮出现诡异白色 - 重新设计 */
+      .categories .link-info:hover ~ .link-info,
       .categories .link-info:hover + .link-info {
-        transform: scale(1.03) translateY(-1px) translateX(-3px);
-        opacity: 0.9;
-        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        /* 统一所有临近按钮的样式，去掉白色阴影 */
+        background: rgba(0, 0, 0, 0.12) !important;
+        backdrop-filter: blur(18px) !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.15) !important;
+        /* 移除可能产生白色阴影的box-shadow */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+        transform: scale(0.96) translateY(1px);
+        opacity: 0.75;
+        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
-      .categories .links-wrapper:has(.link-info:hover) {
-        filter: brightness(1.05) contrast(1.02);
-        transition: all 0.4s ease-out;
-      }
-
-      .categories .link-icon {
+      /* 特殊处理直接相邻的按钮（hover的下一个） */
+      .categories .link-info:hover + .link-info {
+        transform: scale(1.02) translateY(-1px) translateX(-2px);
+        opacity: 0.88;
+        background: rgba(0, 0, 0, 0.08) !important;
+        /* 确保没有白色阴影 */
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25) !important;
+      }.categories .links-wrapper:has(.link-info:hover) {
+        filter: brightness(1.08) contrast(1.03) saturate(1.05);
+        transform: scale(1.005);
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }.categories .link-icon {
         font-size: 20px;
+        /* 恢复原来的白色图标 */
         color: rgba(255, 255, 255, 0.9);
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        /* 为 Q 弹动画添加过渡效果 */
+        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
       .categories .link-name {
@@ -532,6 +538,8 @@ class Tabs extends Component {
         color: rgba(255, 255, 255, 0.95);
         text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
         font-family: 'SF Pro Display', 'SF Pro Text', 'San Francisco', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
+        /* 为 Q 弹动画添加过渡效果 */
+        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
       .categories ul::after {
@@ -558,22 +566,24 @@ class Tabs extends Component {
         text-align: center;
         flex-wrap: wrap;
         word-break: break-all;
-        align-items: center;
-        /* 减慢动画速率，增强弹性 */
-        transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.5);
+        align-items: center;        /* 减慢动画速率，增强弹性，并添加更多缓动曲线 */
+        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
         cursor: pointer;
         transform-origin: center center;
-      }
-
-      .categories ul::after:hover {
-        transform: scale(1.08) translateY(-2px);
-        padding: 1.5em;
-        border-radius: 30px;
-        background: rgba(255, 255, 255, 0.22);
-        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.4), 0 12px 40px rgba(0, 0, 0, 0.35);
-        backdrop-filter: blur(15px);
-        text-shadow: 0 6px 16px rgba(0, 0, 0, 0.8);
+        filter: saturate(1.05) brightness(1.02);
+      }.categories ul::after:hover {
+        transform: scale(1.05) translateY(-3px) rotate(0.5deg);
+        padding: 1.4em;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.20);
+        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35), 
+                    0 16px 48px rgba(0, 0, 0, 0.4),
+                    0 4px 16px rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(18px);
+        text-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        filter: brightness(1.1) saturate(1.1);
       }
 
       .categories ul::after:active {
