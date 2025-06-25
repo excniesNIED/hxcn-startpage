@@ -73,6 +73,7 @@ class Tabs extends Component {
   constructor() {
     super();
     this.tabs = CONFIG.tabs;
+    this.currentTab = 0;
   }
 
   imports() {
@@ -174,12 +175,9 @@ class Tabs extends Component {
         border: 1px solid rgba(255, 255, 255, 0.05);
         box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-        /* 主卡片使用最强扭曲效果 */
         filter: url(#glass-distortion) contrast(1.1) saturate(1.05) brightness(1.02);
         isolation: isolate;
-        /* 增强边缘扭曲的视觉效果 */
         transform-style: preserve-3d;
-        /* 增强3D变换效果 */
         perspective: 1000px;
       }
 
@@ -194,15 +192,15 @@ class Tabs extends Component {
         border-radius: 26px;
         z-index: -1;
         pointer-events: none;
-        /* 边缘也应用扭曲 */
         filter: url(#glass-distortion);
         opacity: 0.6;
-      }      #panels:hover {
+      }
+
+      #panels:hover {
         transform: scale(1.02);
         box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25), 0 0 25px rgba(0, 0, 0, 0.15);
         backdrop-filter: blur(5px);
         background: rgba(255, 255, 255, 0.02);
-        /* 确保悬停时保持白色调 */
         filter: url(#glass-distortion) contrast(1.1) saturate(1.05) brightness(1.05);
       }
 
@@ -211,7 +209,6 @@ class Tabs extends Component {
         opacity: 0.8;
       }
 
-      /* 添加额外的玻璃光泽效果 */
       #panels::after {
         content: '';
         position: absolute;
@@ -251,7 +248,6 @@ class Tabs extends Component {
         top: 0;
         z-index: 0;
         opacity: 0;
-        /* 子卡片使用中等扭曲效果 */
         filter: url(#glass-distortion-medium);
         overflow: hidden;
         isolation: isolate;
@@ -277,7 +273,6 @@ class Tabs extends Component {
         opacity: 1;
       }
 
-      /* 增强玻璃效果层 */
       .categories ul::before {
         content: '';
         position: absolute;
@@ -297,7 +292,8 @@ class Tabs extends Component {
       .categories .links {
         right: 0;
         width: 75%;
-        height: 100%;        background: rgba(0, 0, 0, 0.03);
+        height: 100%;
+        background: rgba(0, 0, 0, 0.03);
         backdrop-filter: blur(60px);
         padding: 6%;
         flex-wrap: wrap;
@@ -306,17 +302,16 @@ class Tabs extends Component {
         position: relative;
         box-shadow: inset -3px 0 var(--flavour), 0 20px 80px rgba(0, 0, 0, 0.6);
         overflow-y: auto;
-        /* 自定义滚动条样式 */
         scrollbar-width: thin;
         scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
         z-index: 2;
-        /* 混色模糊效果 - 参考导航栏风格 */
         mix-blend-mode: overlay;
         filter: url(#glass-distortion-light) contrast(1.2) saturate(1.1);
-        /* 参考导航栏的动效 */
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);        /* 添加微妙的呼吸动画 */
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         animation: linksBreathing 8s ease-in-out infinite;
-      }      @keyframes linksBreathing {
+      }
+
+      @keyframes linksBreathing {
         0%, 100% { 
           background: rgba(0, 0, 0, 0.03);
           box-shadow: inset -3px 0 var(--flavour), 0 20px 80px rgba(0, 0, 0, 0.6);
@@ -327,7 +322,9 @@ class Tabs extends Component {
           box-shadow: inset -3px 0 var(--flavour), 0 25px 100px rgba(0, 0, 0, 0.7);
           backdrop-filter: blur(65px);
         }
-      }      .categories .links:hover {
+      }
+
+      .categories .links:hover {
         background: rgba(0, 0, 0, 0.12);
         transform: scale(1.05) translateY(-5px);
         box-shadow: inset -3px 0 var(--flavour), 0 35px 140px rgba(0, 0, 0, 0.9);
@@ -336,7 +333,6 @@ class Tabs extends Component {
         border-left: 1px solid rgba(255, 255, 255, 0.15);
       }
 
-      /* 增强.links区域的玻璃效果 - 参考导航栏 */
       .categories .links::before {
         content: '';
         position: absolute;
@@ -352,7 +348,7 @@ class Tabs extends Component {
         pointer-events: none;
         z-index: -1;
         backdrop-filter: blur(8px);
-        mix-blend-mode: screen;        /* 为.links区域添加轻微扭曲 */
+        mix-blend-mode: screen;
         filter: url(#glass-distortion-light);
       }
 
@@ -365,23 +361,23 @@ class Tabs extends Component {
         backdrop-filter: blur(25px);
       }
 
-      /* 增强玻璃效果滚动条 */
+      /* 滚动条样式 */
       .categories .links::-webkit-scrollbar {
-        width: 10px;
+        width: 8px;
       }
 
       .categories .links::-webkit-scrollbar-track {
         background: rgba(255, 255, 255, 0.08);
-        border-radius: 12px;
+        border-radius: 10px;
         backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 0.5px solid rgba(255, 255, 255, 0.1);
       }
 
       .categories .links::-webkit-scrollbar-thumb {
         background: rgba(255, 255, 255, 0.4);
-        border-radius: 12px;
+        border-radius: 10px;
         backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 0.5px solid rgba(255, 255, 255, 0.2);
         transition: all 0.3s ease;
         box-shadow: inset 1px 1px 1px 0 rgba(255, 255, 255, 0.3),
           0 2px 8px rgba(0, 0, 0, 0.2);
@@ -428,15 +424,16 @@ class Tabs extends Component {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-      }      .categories .link-info {
+      }
+
+      .categories .link-info {
         margin-bottom: 8px;
         border-radius: 25px;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         display: inline-flex;
-        /* 使用与底部导航栏相同的模糊参数但背景为黑色 */
         background: rgba(0, 0, 0, 0.15);
         backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.25);
+        border: 0.5px solid rgba(255, 255, 255, 0.25);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         position: relative;
         overflow: hidden;
@@ -448,22 +445,48 @@ class Tabs extends Component {
         top: 0;
         left: 0;
         right: 0;
-        bottom: 0;        background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 100%);
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 100%);
         border-radius: 25px;
         pointer-events: none;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-      }      .categories .link-info:hover {
+      }
+
+      .categories .link-info:hover {
         transform: scale(1.12) translateY(-5px);
         background: rgba(0, 0, 0, 0.18);
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+        box-shadow: 
+          0 15px 50px rgba(0, 0, 0, 0.4),
+          0 0 30px rgba(255, 255, 255, 0.1),
+          inset 0 1px 1px rgba(255, 255, 255, 0.2);
         border-radius: 30px;
-        border: 1px solid rgba(255, 255, 255, 0.4);
+        border: 0.5px solid rgba(255, 255, 255, 0.4);
         backdrop-filter: blur(25px);
+        z-index: 100;
+        position: relative;
       }
 
       .categories .link-info:hover::before {
         border-radius: 30px;
         background: linear-gradient(135deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.06) 100%);
+      }
+
+      /* 简化的磁性效果 */
+      .categories .link-info:hover ~ .link-info {
+        transform: scale(0.97) translateY(1px);
+        opacity: 0.8;
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      .categories .link-info:hover + .link-info {
+        transform: scale(1.03) translateY(-1px) translateX(-3px);
+        opacity: 0.9;
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      .categories .links-wrapper:has(.link-info:hover) {
+        filter: brightness(1.05) contrast(1.02);
+        transition: all 0.4s ease-out;
       }
 
       .categories .link-icon {
@@ -522,7 +545,6 @@ class Tabs extends Component {
         text-shadow: 0 6px 16px rgba(0, 0, 0, 0.8);
       }
 
-      /* 增强Q弹动效 - aerolab风格 */
       .categories ul::after:active {
         transform: scale(0.88) translateY(1px);
         transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -530,7 +552,6 @@ class Tabs extends Component {
         box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.5), 0 4px 16px rgba(0, 0, 0, 0.4);
       }
 
-      /* 鼠标释放后的回弹效果 */
       .categories ul::after:not(:active) {
         animation: bounce-back 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       }
@@ -541,7 +562,7 @@ class Tabs extends Component {
         100% { transform: scale(1); }
       }
 
-      /* Navigation Container (外部导航栏) */
+      /* Navigation Container */
       .navigation-container {
         display: flex;
         gap: 15px;
@@ -550,10 +571,9 @@ class Tabs extends Component {
         flex-wrap: wrap;
         margin-top: 25px;
         z-index: 10;
-        /* 添加胶囊背景 */
         background: rgba(255, 255, 255, 0.12);
         backdrop-filter: blur(25px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 0.5px solid rgba(255, 255, 255, 0.2);
         border-radius: 50px;
         padding: 12px 20px;
         box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
@@ -571,7 +591,7 @@ class Tabs extends Component {
         border-radius: 25px;
         background: rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.25);
+        border: 0.5px solid rgba(255, 255, 255, 0.25);
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         cursor: pointer;
@@ -579,7 +599,6 @@ class Tabs extends Component {
         text-align: center;
         position: relative;
         overflow: hidden;
-        /* 导航按钮轻微扭曲 */
         filter: url(#glass-distortion-light);
       }
 
@@ -609,23 +628,11 @@ class Tabs extends Component {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
       }
 
-      .nav-item:hover .liquidGlass-effect {
-        border-radius: 30px;
-      }
-
-      .nav-item:hover .liquidGlass-tint {
-        border-radius: 30px;
-      }
-
-      .nav-item:hover .liquidGlass-shine {
-        border-radius: 30px;
-      }
-
       .nav-item.active {
         background: rgba(255, 255, 255, 0.3);
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 2px 8px rgba(255, 255, 255, 0.2);
         transform: scale(1.02);
-        border: 1px solid rgba(255, 255, 255, 0.4);
+        border: 0.5px solid rgba(255, 255, 255, 0.4);
       }
 
       .nav-item.active::before {
@@ -639,7 +646,7 @@ class Tabs extends Component {
         text-shadow: 0 1px 3px rgba(255, 255, 255, 0.5);
         padding: 0;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-        pointer-events: none; /* 防止子元素干扰点击事件 */
+        pointer-events: none;
         font-family: 'SF Pro Display', 'SF Pro Text', 'San Francisco', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
       }
 
@@ -649,7 +656,6 @@ class Tabs extends Component {
         text-shadow: 0 2px 4px rgba(255, 255, 255, 0.7);
       }
 
-      /* 激活状态的额外样式 */
       .nav-item.active .liquidGlass-text {
         color: rgba(0, 0, 0, 1);
         font-weight: 700;
@@ -669,7 +675,6 @@ class Tabs extends Component {
         100% { opacity: 1; transform: translateY(0); }
       }
 
-      /* Scroll indicator */
       .scroll-hint {
         position: absolute;
         bottom: 80px;
@@ -696,7 +701,6 @@ class Tabs extends Component {
             ${Category.getAll(this.tabs)}
           </div>
         </div>
-        <!-- 导航栏移到大卡片外部 -->
         <div class="navigation-container">
           ${this.tabs.map((tab, index) => `
             <div class="nav-item liquidGlass-wrapper ${index === 0 ? 'active' : ''}" data-tab="${index}">
@@ -713,7 +717,6 @@ class Tabs extends Component {
   }
 
   setEvents() {
-    // 延迟确保DOM完全渲染
     setTimeout(() => {
       this.refs.categories = this.shadowRoot.querySelector(".categories");
       this.refs.navItems = this.shadowRoot.querySelectorAll(".nav-item");
@@ -727,7 +730,6 @@ class Tabs extends Component {
 
       console.log('🔧 Setting up navigation events...');
       
-      // 简化但可靠的导航事件设置
       this.refs.navItems.forEach((navItem, index) => {
         navItem.addEventListener('click', (e) => {
           console.log(`🎯 Navigation click: ${index}`);
@@ -745,7 +747,6 @@ class Tabs extends Component {
         });
       });
 
-      // Scroll wheel events for tab switching
       if (this.refs.links) {
         this.refs.links.addEventListener("wheel", (e) => {
           e.preventDefault();
@@ -754,7 +755,6 @@ class Tabs extends Component {
         });
       }
 
-      // Keyboard events
       document.addEventListener("keydown", (e) => {
         if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
           e.preventDefault();
@@ -765,7 +765,6 @@ class Tabs extends Component {
         }
       });
 
-      // Touch/swipe events for mobile
       let startX = 0;
       let startY = 0;
       
@@ -781,24 +780,21 @@ class Tabs extends Component {
           const deltaX = endX - startX;
           const deltaY = endY - startY;
 
-          // Only handle horizontal swipes
           if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
             if (deltaX > 0) {
-              this.switchTab(-1); // Swipe right = previous tab
+              this.switchTab(-1);
             } else {
-              this.switchTab(1);  // Swipe left = next tab
+              this.switchTab(1);
             }
           }
         });
       }
 
       this.currentTab = 0;
-      
-      // 强制初始化显示第一个标签页
       setTimeout(() => {
         this.showCategory(0);
       }, 50);
-    }, 200);
+    }, 50);
   }
 
   switchTab(direction) {
@@ -815,7 +811,6 @@ class Tabs extends Component {
     console.log(`🔄 Switching to category ${index}: ${this.tabs[index].name}`);
     this.currentTab = index;
     
-    // Update active navigation item with clear visual feedback
     const navItems = this.shadowRoot.querySelectorAll('.nav-item');
     navItems.forEach((item, i) => {
       if (i === index) {
@@ -826,13 +821,11 @@ class Tabs extends Component {
       }
     });
 
-    // Force category switching with multiple methods
     const categories = this.shadowRoot.querySelectorAll(".categories ul");
     console.log(`Found ${categories.length} categories`);
     
     categories.forEach((cat, i) => {
       if (i === index) {
-        // Show active category
         cat.setAttribute("active", "");
         cat.style.setProperty('right', '0', 'important');
         cat.style.setProperty('z-index', '10', 'important');
@@ -841,7 +834,6 @@ class Tabs extends Component {
         cat.style.setProperty('pointer-events', 'auto', 'important');
         console.log(`✅ Category ${i} shown`);
       } else {
-        // Hide inactive categories
         cat.removeAttribute("active");
         cat.style.setProperty('right', '100%', 'important');
         cat.style.setProperty('z-index', '0', 'important');
@@ -851,7 +843,6 @@ class Tabs extends Component {
       }
     });
 
-    // Visual feedback animation
     const activeCategory = categories[index];
     if (activeCategory) {
       activeCategory.style.transform = 'scale(1.01)';
