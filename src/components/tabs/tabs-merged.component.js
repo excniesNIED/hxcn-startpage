@@ -105,8 +105,8 @@ class Tabs extends Component {
         position: absolute;
         z-index: 0;
         inset: 0;
-        backdrop-filter: blur(3px);
-        filter: url(#glass-distortion-light);
+        backdrop-filter: blur(1.5px);
+        filter: url(#glass-distortion);
         overflow: hidden;
         isolation: isolate;
         border-radius: inherit;
@@ -170,12 +170,12 @@ class Tabs extends Component {
         height: 500px;
         position: relative;
         overflow: hidden;
-        backdrop-filter: blur(3px);
+        backdrop-filter: none;
         background: rgba(255, 255, 255, 0.01);
         border: 1px solid rgba(255, 255, 255, 0.05);
         box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-        filter: url(#glass-distortion) contrast(1.1) saturate(1.05) brightness(1.02);
+        filter: url(#glass-distortion) contrast(1.2) saturate(1.1) brightness(1.05) !important;
         isolation: isolate;
         transform-style: preserve-3d;
         perspective: 1000px;
@@ -201,7 +201,7 @@ class Tabs extends Component {
         box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25), 0 0 25px rgba(0, 0, 0, 0.15);
         backdrop-filter: blur(5px);
         background: rgba(255, 255, 255, 0.02);
-        filter: url(#glass-distortion) contrast(1.1) saturate(1.05) brightness(1.05);
+        filter: url(#glass-distortion) contrast(1.2) saturate(1.1) brightness(1.05) !important;
       }
 
       #panels:hover::before {
@@ -719,31 +719,27 @@ class Tabs extends Component {
   setEvents() {
     setTimeout(() => {
       this.refs.categories = this.shadowRoot.querySelector(".categories");
-      this.refs.navItems = this.shadowRoot.querySelectorAll(".nav-item");
+      const navItems = this.shadowRoot.querySelectorAll('.nav-item');
       this.refs.links = this.shadowRoot.querySelector("#links");
 
-      if (!this.refs.categories || !this.refs.navItems.length) {
+      if (!this.refs.categories || navItems.length === 0) {
         console.error('DOM elements not found, retrying...');
         setTimeout(() => this.setEvents(), 100);
         return;
       }
 
       console.log('🔧 Setting up navigation events...');
-      
-      this.refs.navItems.forEach((navItem, index) => {
-        navItem.addEventListener('click', (e) => {
-          console.log(`🎯 Navigation click: ${index}`);
+      navItems.forEach((item) => {
+        const index = Number(item.dataset.tab);
+        item.addEventListener('click', e => {
           e.preventDefault();
-          e.stopPropagation();
+          console.log(`🎯 Nav click: ${index}`);
           this.showCategory(index);
         });
-        
-        navItem.addEventListener('mousedown', (e) => {
+        item.addEventListener('mousedown', e => {
           e.preventDefault();
-          navItem.style.transform = 'scale(0.95)';
-          setTimeout(() => {
-            navItem.style.transform = '';
-          }, 150);
+          item.style.transform = 'scale(0.95)';
+          setTimeout(() => item.style.transform = '', 150);
         });
       });
 
