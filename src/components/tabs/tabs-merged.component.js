@@ -780,7 +780,6 @@ class Tabs extends Component {
 
   setEvents() {
     setTimeout(() => {
-      // 本地获取 DOM 引用，避免 Proxy.set 触发错误
       const categoriesEl = this.shadowRoot.querySelector(".categories");
       const navItems = this.shadowRoot.querySelectorAll('.nav-item');
       const linksEl = this.shadowRoot.querySelector("#links");
@@ -790,14 +789,31 @@ class Tabs extends Component {
         return;
       }
 
+      // 初始化所有标签页的位置和动画
+      const categories = this.shadowRoot.querySelectorAll('.categories ul');
+      categories.forEach((cat, i) => {
+        if (i === 0) {
+          cat.setAttribute('active', '');
+          cat.style.transform = 'translateX(0)';
+          const icons = cat.querySelectorAll('.ti');
+          icons.forEach(icon => icon.classList.add('animate-in'));
+          const linkItems = cat.querySelectorAll('.link-info');
+          linkItems.forEach((item, idx) => {
+            item.style.animationDelay = `${idx * 50}ms`;
+            item.classList.add('animate-in');
+          });
+        } else {
+          cat.style.transform = 'translateX(100%)';
+        }
+      });
+      this.currentTab = 0;
+
       console.log('🔧 Setting up navigation events...');
-      // 注册导航点击及按下反馈
       navItems.forEach(item => {
         const index = Number(item.dataset.tab);
         item.addEventListener('click', e => {
           e.preventDefault();
           console.log(`🎯 Nav click: ${index}`);
-          // 按钮 Q 弹
           item.classList.add('click-bounce');
           setTimeout(() => item.classList.remove('click-bounce'), 300);
           this.showCategory(index);
@@ -809,7 +825,6 @@ class Tabs extends Component {
         });
       });
 
-      // 添加 link-info 点击和按下反馈
       const linkInfos = this.shadowRoot.querySelectorAll('.link-info');
       linkInfos.forEach(info => {
         info.addEventListener('click', () => {
@@ -864,11 +879,6 @@ class Tabs extends Component {
           }
         });
       }
-
-      this.currentTab = 0;
-      setTimeout(() => {
-        this.showCategory(0);
-      }, 50);
     }, 50);
   }
 
@@ -877,76 +887,68 @@ class Tabs extends Component {
     this.showCategory(newTab);
   }
 
-  showCategory(index) {
-    if (index < 0 || index >= this.tabs.length) {
-      console.log('Invalid index:', index);
+  showCategory(newIndex) {
+    const oldIndex = this.currentTab;
+    if (newIndex === oldIndex || newIndex < 0 || newIndex >= this.tabs.length) {
       return;
     }
 
-    console.log(`🔄 Switching to category ${index}: ${this.tabs[index].name}`);
-    this.currentTab = index;
-    
-    const navItems = this.shadowRoot.querySelectorAll('.nav-item');
-    navItems.forEach((item, i) => {
-      if (i === index) {
-        item.classList.add("active");
-      } else {
-        item.classList.remove("active");
-      }
-    });
-
+    console.log(`🔄 Switching from ${oldIndex} to ${newIndex}`);
     const categories = this.shadowRoot.querySelectorAll(".categories ul");
-    
-    categories.forEach((cat, i) => {
-      const linkItems = cat.querySelectorAll('.link-info');
+    const navItems = this.shadowRoot.querySelectorAll('.nav-item');
+    const direction = newIndex > oldIndex ? 'right' : 'left';
 
-      if (i === index) {
-        cat.setAttribute("active", "");
-        cat.style.setProperty('transform', 'translateX(0)', 'important');
-        cat.style.setProperty('z-index', '10', 'important');
-        cat.style.setProperty('opacity', '1', 'important');
-        cat.style.setProperty('visibility', 'visible', 'important');
-        cat.style.setProperty('pointer-events', 'auto', 'important');
-        
-        const icons = cat.querySelectorAll('.ti');
-        icons.forEach(icon => {
-          icon.classList.remove('animate-in');
-          void icon.offsetWidth; // Force reflow
-          icon.classList.add('animate-in');
-        });
+    const currentSlide = categories[oldIndex];
+    const nextSlide = categories[newIndex];
 
-        // 为 link-info 触发交错动画
-        linkItems.forEach((item, idx) => {
-          item.classList.remove('animate-in');
-          void item.offsetWidth; // 强制重绘以确保动画重新播放
-          item.style.animationDelay = `${idx * 50}ms`; // 设置交错延迟
-          item.classList.add('animate-in');
-        });
+    nextSlide.style.transition = 'none';
+    if (direction === 'right') {
+      nextSlide.style.transform = 'translateX(100%)';
+    } else {
+      nextSlide.style.transform = 'translateX(-100%)';
+    }
+    nextSlide.offsetHeight;
 
-      } else {
-        cat.removeAttribute("active");
-        cat.style.setProperty('transform', 'translateX(100%)', 'important');
-        cat.style.setProperty('z-index', '0', 'important');
-        cat.style.setProperty('opacity', '0', 'important');
-        cat.style.setProperty('visibility', 'hidden', 'important');
-        cat.style.setProperty('pointer-events', 'none', 'important');
+    const transitionStyle = 'transform 0.7s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1)';
+    currentSlide.style.transition = transitionStyle;
+    nextSlide.style.transition = transitionStyle;
 
-        // 重置非活动标签页的动画
-        linkItems.forEach(item => {
-          item.classList.remove('animate-in');
-          item.style.animationDelay = '';
-        });
-      }
+    if (direction === 'right') {
+      currentSlide.style.transform = 'translateX(-100%)';
+    } else {
+      currentSlide.style.transform = 'translateX(100%)';
+    }
+    nextSlide.style.transform = 'translateX(0)';
+
+    navItems[oldIndex].classList.remove('active');
+    navItems[newIndex].classList.add('active');
+
+    currentSlide.removeAttribute('active');
+    nextSlide.setAttribute('active', '');
+
+    const icons = nextSlide.querySelectorAll('.ti');
+    icons.forEach(icon => {
+      icon.classList.remove('animate-in');
+      void icon.offsetWidth;
+      icon.classList.add('animate-in');
+    });
+    const linkItems = nextSlide.querySelectorAll('.link-info');
+    linkItems.forEach((item, idx) => {
+      item.classList.remove('animate-in');
+      void item.offsetWidth;
+      item.style.animationDelay = `${idx * 50}ms`;
+      item.classList.add('animate-in');
     });
 
-    // 恢复主卡片切换时的回弹动画
+    this.currentTab = newIndex;
+
     const panelsEl = this.shadowRoot.querySelector('#panels');
     panelsEl.classList.remove('bounce');
-    void panelsEl.offsetWidth; // 强制重绘以确保动画可以重新触发
+    void panelsEl.offsetWidth;
     panelsEl.classList.add('bounce');
-    setTimeout(() => panelsEl.classList.remove('bounce'), 700); // 动画结束后移除类
+    setTimeout(() => panelsEl.classList.remove('bounce'), 700);
 
-    console.log(`🎯 Category switch completed: ${this.tabs[index].name} is now active`);
+    console.log(`🎯 Category switch completed: ${this.tabs[newIndex].name} is now active`);
   }
 
   connectedCallback() {
