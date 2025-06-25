@@ -894,15 +894,11 @@ class Tabs extends Component {
         } else {
           cat.style.transform = 'translateX(100%)';
         }
-      });
-      this.currentTab = 0;
+      });      this.currentTab = 0;
 
-      console.log('🔧 Setting up navigation events...');
       navItems.forEach(item => {
-        const index = Number(item.dataset.tab);
-        item.addEventListener('click', e => {
+        const index = Number(item.dataset.tab);        item.addEventListener('click', e => {
           e.preventDefault();
-          console.log(`🎯 Nav click: ${index}`);
           item.classList.add('click-bounce');
           setTimeout(() => item.classList.remove('click-bounce'), 300);
           this.showCategory(index);
@@ -964,23 +960,19 @@ class Tabs extends Component {
   }
   switchTab(direction) {
     const newTab = (this.currentTab + direction + this.tabs.length) % this.tabs.length;
-    
-    // 如果正在过渡中，存储待处理的请求
+      // 如果正在过渡中，存储待处理的请求
     if (this.isTransitioning) {
       this.pendingSwitch = newTab;
-      console.log(`🔄 Queued switch to tab ${newTab} (currently transitioning)`);
       return;
     }
     
     this.showCategory(newTab);
   }
-
   // 新增：处理待处理的切换请求
   processPendingSwitch() {
     if (this.pendingSwitch !== null && !this.isTransitioning) {
       const targetTab = this.pendingSwitch;
       this.pendingSwitch = null;
-      console.log(`🎯 Processing queued switch to tab ${targetTab}`);
       this.showCategory(targetTab);
     }
   }
@@ -993,22 +985,17 @@ class Tabs extends Component {
     const oldIndex = this.currentTab;
     if (newIndex === oldIndex || newIndex < 0 || newIndex >= this.tabs.length) {
       return;
-    }
-
-    // 如果正在过渡，但新请求与当前目标不同，允许中断
+    }    // 如果正在过渡，但新请求与当前目标不同，允许中断
     if (this.isTransitioning) {
-      console.log(`🔄 Interrupting current transition to switch to ${newIndex}`);
       this.clearTransitionTimeouts();
       
       // 快速清理当前状态
       const categories = this.shadowRoot.querySelectorAll(".categories ul");
       categories.forEach(cat => {
         cat.classList.remove('transitioning', 'blur-out', 'blur-in', 'blur-clear');
-      });
-    }
+      });    }
 
     this.isTransitioning = true; // 设置过渡状态
-    console.log(`🔄 Switching from ${oldIndex} to ${newIndex}`);
     const categories = this.shadowRoot.querySelectorAll(".categories ul");
     const navItems = this.shadowRoot.querySelectorAll('.nav-item');
     const direction = newIndex > oldIndex ? 'right' : 'left';
@@ -1102,12 +1089,9 @@ class Tabs extends Component {
     // 面板弹跳效果
     const panelsEl = this.shadowRoot.querySelector('#panels');
     panelsEl.classList.remove('bounce');
-    void panelsEl.offsetWidth;
-    panelsEl.classList.add('bounce');
+    void panelsEl.offsetWidth;    panelsEl.classList.add('bounce');
     const timeout6 = setTimeout(() => panelsEl.classList.remove('bounce'), 800);
     this.transitionTimeouts.push(timeout6);
-
-    console.log(`🎯 Category switch completed: ${this.tabs[newIndex].name} is now active`);
   }
   connectedCallback() {
     this.render().then(() => this.setEvents());
