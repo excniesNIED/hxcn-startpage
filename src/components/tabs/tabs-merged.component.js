@@ -634,9 +634,6 @@ class Tabs extends Component {
         content: '';
         position: absolute;
         top: 0;
-        content: '';
-        position: absolute;
-        top: 0;
         left: 0;
         right: 0;
         bottom: 0;
@@ -905,7 +902,7 @@ class Tabs extends Component {
 
       if (i === index) {
         cat.setAttribute("active", "");
-        cat.style.setProperty('right', '0', 'important');
+        cat.style.setProperty('transform', 'translateX(0)', 'important');
         cat.style.setProperty('z-index', '10', 'important');
         cat.style.setProperty('opacity', '1', 'important');
         cat.style.setProperty('visibility', 'visible', 'important');
@@ -928,7 +925,7 @@ class Tabs extends Component {
 
       } else {
         cat.removeAttribute("active");
-        cat.style.setProperty('right', '100%', 'important');
+        cat.style.setProperty('transform', 'translateX(100%)', 'important');
         cat.style.setProperty('z-index', '0', 'important');
         cat.style.setProperty('opacity', '0', 'important');
         cat.style.setProperty('visibility', 'hidden', 'important');
