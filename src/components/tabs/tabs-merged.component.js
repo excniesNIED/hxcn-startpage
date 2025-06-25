@@ -430,11 +430,11 @@ class Tabs extends Component {
         gap: 12px;
       }      .categories .link-info {
         margin-bottom: 8px;
-        border-radius: 16px;
+        border-radius: 25px;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         display: inline-flex;
-        /* 使用与底部导航栏相同的模糊参数但背景为白色 */
-        background: rgba(255, 255, 255, 0.15);
+        /* 使用与底部导航栏相同的模糊参数但背景为黑色 */
+        background: rgba(0, 0, 0, 0.15);
         backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.25);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
@@ -448,24 +448,22 @@ class Tabs extends Component {
         top: 0;
         left: 0;
         right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-        border-radius: 16px;
+        bottom: 0;        background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 100%);
+        border-radius: 25px;
         pointer-events: none;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-      }
-
-      .categories .link-info:hover {
+      }      .categories .link-info:hover {
         transform: scale(1.12) translateY(-5px);
-        background: rgba(255, 255, 255, 0.3);
+        background: rgba(0, 0, 0, 0.18);
         box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
-        border-radius: 20px;
+        border-radius: 30px;
         border: 1px solid rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(25px);
       }
 
       .categories .link-info:hover::before {
-        border-radius: 20px;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+        border-radius: 30px;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.06) 100%);
       }
 
       .categories .link-icon {
