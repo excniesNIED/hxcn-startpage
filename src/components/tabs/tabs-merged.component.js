@@ -197,13 +197,18 @@ class Tabs extends Component {
         /* 边缘也应用扭曲 */
         filter: url(#glass-distortion);
         opacity: 0.6;
-      }
-
-      #panels:hover {
+      }      #panels:hover {
         transform: scale(1.02);
         box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25), 0 0 25px rgba(0, 0, 0, 0.15);
         backdrop-filter: blur(5px);
         background: rgba(255, 255, 255, 0.02);
+        /* 确保悬停时保持白色调 */
+        filter: url(#glass-distortion) contrast(1.1) saturate(1.05) brightness(1.05);
+      }
+
+      #panels:hover::before {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.15) 100%);
+        opacity: 0.8;
       }
 
       /* 添加额外的玻璃光泽效果 */
@@ -292,15 +297,14 @@ class Tabs extends Component {
       .categories .links {
         right: 0;
         width: 75%;
-        height: 100%;
-        background: rgba(255, 255, 255, 0.06);
-        backdrop-filter: blur(40px);
+        height: 100%;        background: rgba(0, 0, 0, 0.03);
+        backdrop-filter: blur(60px);
         padding: 6%;
         flex-wrap: wrap;
         border-radius: 0 24px 24px 0;
-        border-left: 1px solid rgba(255, 255, 255, 0.15);
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
         position: relative;
-        box-shadow: inset -3px 0 var(--flavour), 0 15px 60px rgba(0, 0, 0, 0.4);
+        box-shadow: inset -3px 0 var(--flavour), 0 20px 80px rgba(0, 0, 0, 0.6);
         overflow-y: auto;
         /* 自定义滚动条样式 */
         scrollbar-width: thin;
@@ -310,31 +314,26 @@ class Tabs extends Component {
         mix-blend-mode: overlay;
         filter: url(#glass-distortion-light) contrast(1.2) saturate(1.1);
         /* 参考导航栏的动效 */
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-        /* 添加微妙的呼吸动画 */
-        animation: linksBreathing 4s ease-in-out infinite;
-      }
-
-      @keyframes linksBreathing {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);        /* 添加微妙的呼吸动画 */
+        animation: linksBreathing 8s ease-in-out infinite;
+      }      @keyframes linksBreathing {
         0%, 100% { 
-          background: rgba(255, 255, 255, 0.06);
-          box-shadow: inset -3px 0 var(--flavour), 0 15px 60px rgba(0, 0, 0, 0.4);
-          backdrop-filter: blur(40px);
-          transform: scale(1);
+          background: rgba(0, 0, 0, 0.03);
+          box-shadow: inset -3px 0 var(--flavour), 0 20px 80px rgba(0, 0, 0, 0.6);
+          backdrop-filter: blur(60px);
         }
         50% { 
-          background: rgba(255, 255, 255, 0.12);
-          box-shadow: inset -3px 0 var(--flavour), 0 20px 80px rgba(0, 0, 0, 0.5);
-          backdrop-filter: blur(45px);
-          transform: scale(1.005);
+          background: rgba(0, 0, 0, 0.05);
+          box-shadow: inset -3px 0 var(--flavour), 0 25px 100px rgba(0, 0, 0, 0.7);
+          backdrop-filter: blur(65px);
         }
-      }
-
-      .categories .links:hover {
-        background: rgba(255, 255, 255, 0.15);
-        transform: translateY(-2px) scale(1.008);
-        box-shadow: inset -3px 0 var(--flavour), 0 25px 100px rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(50px);
+      }      .categories .links:hover {
+        background: rgba(0, 0, 0, 0.12);
+        transform: scale(1.05) translateY(-5px);
+        box-shadow: inset -3px 0 var(--flavour), 0 35px 140px rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(100px);
+        border-radius: 0 30px 30px 0;
+        border-left: 1px solid rgba(255, 255, 255, 0.15);
       }
 
       /* 增强.links区域的玻璃效果 - 参考导航栏 */
@@ -353,9 +352,17 @@ class Tabs extends Component {
         pointer-events: none;
         z-index: -1;
         backdrop-filter: blur(8px);
-        mix-blend-mode: screen;
-        /* 为.links区域添加轻微扭曲 */
+        mix-blend-mode: screen;        /* 为.links区域添加轻微扭曲 */
         filter: url(#glass-distortion-light);
+      }
+
+      .categories .links:hover::before {
+        border-radius: 0 30px 30px 0;
+        background: linear-gradient(135deg, 
+          rgba(0, 0, 0, 0.08) 0%, 
+          rgba(0, 0, 0, 0.04) 50%,
+          rgba(0, 0, 0, 0.06) 100%);
+        backdrop-filter: blur(25px);
       }
 
       /* 增强玻璃效果滚动条 */
@@ -421,18 +428,44 @@ class Tabs extends Component {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-      }
-
-      .categories .link-info {
+      }      .categories .link-info {
         margin-bottom: 8px;
         border-radius: 16px;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         display: inline-flex;
+        /* 使用与底部导航栏相同的模糊参数但背景为白色 */
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .categories .link-info::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        border-radius: 16px;
+        pointer-events: none;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
       .categories .link-info:hover {
-        transform: scale(1.05) translateY(-2px);
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+        transform: scale(1.12) translateY(-5px);
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+      }
+
+      .categories .link-info:hover::before {
+        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
       }
 
       .categories .link-icon {
