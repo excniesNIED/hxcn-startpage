@@ -687,12 +687,27 @@ class Tabs extends Component {
       }      @keyframes pulse {
         0%, 100% { opacity: 0.7; }
         50% { opacity: 1; }
-      }
-
-      /* 响应式设计：在小屏幕上隐藏分类名字 */
+      }      /* 响应式设计：在小屏幕上隐藏分类名字并调整卡片宽度 */
       @media screen and (max-width: 768px) {
         .categories ul::after {
           display: none !important;
+        }
+        
+        /* 在小屏幕上调整分类大卡片和links区域的宽度 */
+        .categories ul {
+          width: 100% !important;
+        }
+        
+        .categories .links {
+          width: 100% !important;
+          border-radius: 24px !important;
+          border-left: none !important;
+        }
+        
+        /* 调整主面板的最大宽度以适配手机屏幕 */
+        #panels {
+          width: 98% !important;
+          max-width: 100% !important;
         }
       }
     `;
