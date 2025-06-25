@@ -105,8 +105,8 @@ class Tabs extends Component {
         position: absolute;
         z-index: 0;
         inset: 0;
-        backdrop-filter: blur(1.5px);
-        filter: url(#glass-distortion);
+        backdrop-filter: blur(3px);
+        filter: url(#glass-distortion-light);
         overflow: hidden;
         isolation: isolate;
         border-radius: inherit;
@@ -170,13 +170,12 @@ class Tabs extends Component {
         height: 500px;
         position: relative;
         overflow: hidden;
-        /* 保留背景模糊以增强玻璃效果 */
         backdrop-filter: blur(3px);
         background: rgba(255, 255, 255, 0.01);
         border: 1px solid rgba(255, 255, 255, 0.05);
         box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-        filter: url(#glass-distortion) contrast(1.2) saturate(1.1) brightness(1.05) !important;
+        filter: url(#glass-distortion) contrast(1.1) saturate(1.05) brightness(1.02);
         isolation: isolate;
         transform-style: preserve-3d;
         perspective: 1000px;
@@ -202,7 +201,7 @@ class Tabs extends Component {
         box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25), 0 0 25px rgba(0, 0, 0, 0.15);
         backdrop-filter: blur(5px);
         background: rgba(255, 255, 255, 0.02);
-        filter: url(#glass-distortion) contrast(1.2) saturate(1.1) brightness(1.05) !important;
+        filter: url(#glass-distortion) contrast(1.1) saturate(1.05) brightness(1.05);
       }
 
       #panels:hover::before {
@@ -295,8 +294,7 @@ class Tabs extends Component {
         width: 75%;
         height: 100%;
         background: rgba(0, 0, 0, 0.03);
-        /* 移除遮罩模糊 */
-        backdrop-filter: none;
+        backdrop-filter: blur(60px);
         padding: 6%;
         flex-wrap: wrap;
         border-radius: 0 24px 24px 0;
@@ -349,8 +347,7 @@ class Tabs extends Component {
         border-radius: 0 24px 24px 0;
         pointer-events: none;
         z-index: -1;
-        /* 移除遮罩模糊 */
-        backdrop-filter: none;
+        backdrop-filter: blur(8px);
         mix-blend-mode: screen;
         filter: url(#glass-distortion-light);
       }
@@ -721,34 +718,37 @@ class Tabs extends Component {
 
   setEvents() {
     setTimeout(() => {
-      // 本地获取 DOM 引用，避免 Proxy.set 触发错误
-      const categoriesEl = this.shadowRoot.querySelector(".categories");
-      const navItems = this.shadowRoot.querySelectorAll('.nav-item');
-      const linksEl = this.shadowRoot.querySelector("#links");
-      if (!categoriesEl || navItems.length === 0) {
+      this.refs.categories = this.shadowRoot.querySelector(".categories");
+      this.refs.navItems = this.shadowRoot.querySelectorAll(".nav-item");
+      this.refs.links = this.shadowRoot.querySelector("#links");
+
+      if (!this.refs.categories || !this.refs.navItems.length) {
         console.error('DOM elements not found, retrying...');
         setTimeout(() => this.setEvents(), 100);
         return;
       }
 
       console.log('🔧 Setting up navigation events...');
-      // 注册导航点击及按下反馈
-      navItems.forEach(item => {
-        const index = Number(item.dataset.tab);
-        item.addEventListener('click', e => {
+      
+      this.refs.navItems.forEach((navItem, index) => {
+        navItem.addEventListener('click', (e) => {
+          console.log(`🎯 Navigation click: ${index}`);
           e.preventDefault();
-          console.log(`🎯 Nav click: ${index}`);
+          e.stopPropagation();
           this.showCategory(index);
         });
-        item.addEventListener('mousedown', e => {
+        
+        navItem.addEventListener('mousedown', (e) => {
           e.preventDefault();
-          item.style.transform = 'scale(0.95)';
-          setTimeout(() => item.style.transform = '', 150);
+          navItem.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            navItem.style.transform = '';
+          }, 150);
         });
       });
 
-      if (linksEl) {
-        linksEl.addEventListener("wheel", (e) => {
+      if (this.refs.links) {
+        this.refs.links.addEventListener("wheel", (e) => {
           e.preventDefault();
           const delta = e.deltaY > 0 ? 1 : -1;
           this.switchTab(delta);
@@ -768,13 +768,13 @@ class Tabs extends Component {
       let startX = 0;
       let startY = 0;
       
-      if (linksEl) {
-        linksEl.addEventListener("touchstart", (e) => {
+      if (this.refs.links) {
+        this.refs.links.addEventListener("touchstart", (e) => {
           startX = e.touches[0].clientX;
           startY = e.touches[0].clientY;
         });
 
-        linksEl.addEventListener("touchend", (e) => {
+        this.refs.links.addEventListener("touchend", (e) => {
           const endX = e.changedTouches[0].clientX;
           const endY = e.changedTouches[0].clientY;
           const deltaX = endX - startX;
