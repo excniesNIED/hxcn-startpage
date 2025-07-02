@@ -127,7 +127,7 @@ const default_config = {
       ],
     },
     {
-      name: "Specu",
+      name: "Services",
       categories: [
         {
           name: "development",
