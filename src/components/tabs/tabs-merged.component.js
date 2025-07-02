@@ -99,7 +99,7 @@ class Tabs extends Component {
         cursor: pointer;
         box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
         /* 减慢动画速率，增强弹性 */
-        transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.5);
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         border-radius: 16px;
       }
 
@@ -245,7 +245,7 @@ class Tabs extends Component {
       }
 
       #panels.bounce {
-        animation: panelBounce 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        animation: panelBounce 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
       }
 
       .categories {
@@ -262,10 +262,11 @@ class Tabs extends Component {
         /* 将背景色调从白色改为黑色 */
         background: rgba(0, 0, 0, 0.05);
         backdrop-filter: blur(3px);
-        /* 优化过渡效果，包含模糊过渡 */
-        transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                    opacity 0.3s ease-out,
-                    filter 0.4s ease-in-out;
+        /* 简化过渡动画，移除可能导致冲突的filter过渡 */
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+                    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                    box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: linksBreathing 8s ease-in-out infinite;
         border-radius: 24px;
         border: 1px solid rgba(255, 255, 255, 0.03);
         position: absolute;
@@ -350,7 +351,7 @@ class Tabs extends Component {
         z-index: 2;
         mix-blend-mode: overlay;
         filter: url(#glass-distortion-light) contrast(1.2) saturate(1.1);        /* 简化过渡动画，移除可能导致冲突的filter过渡 */
-        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
                     transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
                     box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         animation: linksBreathing 8s ease-in-out infinite;
@@ -395,7 +396,7 @@ class Tabs extends Component {
         z-index: -1;
         mix-blend-mode: screen;
         filter: url(#glass-distortion-light);
-        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
       }.categories .links:hover::before {
         border-radius: 0 32px 32px 0;
         background: linear-gradient(135deg, 
@@ -403,7 +404,7 @@ class Tabs extends Component {
           rgba(0, 0, 0, 0.03) 50%,
           rgba(0, 0, 0, 0.05) 100%);
         backdrop-filter: blur(28px);
-        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         transform: scale(1.01);
       }
 
@@ -431,7 +432,6 @@ class Tabs extends Component {
         text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         letter-spacing: 1px;
         text-transform: uppercase;
-        font-family: 'SF Pro Display', 'SF Pro Text', 'San Francisco', 'Helvetica Neue', 'Raleway', -apple-system, BlinkMacSystemFont, sans-serif;
         opacity: 0.9;
       }
 
@@ -443,7 +443,7 @@ class Tabs extends Component {
         margin-bottom: 8px;
         border-radius: 25px;
         /* 调整动画速率为0.8（0.4s * 0.8 = 0.32s） */
-        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
         display: inline-flex;
         /* 恢复原来的深色背景 */
         background: rgba(0, 0, 0, 0.15);
@@ -469,7 +469,7 @@ class Tabs extends Component {
         border-radius: 25px;
         pointer-events: none;
         /* 调整动画速率为0.8 */
-        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
       }      .categories .link-info:hover {
         /* Q弹动画：按钮整体放大 */
         transform: scale(1.12) translateY(-5px);
@@ -483,24 +483,24 @@ class Tabs extends Component {
         z-index: 100;
         position: relative;
         /* 动画速率0.8 */
-        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
       }
 
       /* Q弹动画：悬停时内部元素反向缩放 */
       .categories .link-info:hover .link-icon {
         transform: scale(0.95);
-        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
       }
 
       .categories .link-info:hover .link-name {
         transform: scale(0.95);
-        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
       }      .categories .link-info:hover::before {
         border-radius: 30px;
         /* 完全移除白色渐变，使用深色渐变以避免诡异的白色效果 */
         background: linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.02) 100%);
         /* 动画速率0.8 */
-        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
       }      /* 修复磁性效果，避免临近按钮出现诡异白色 - 重新设计 */
       .categories .link-info:hover ~ .link-info,
       .categories .link-info:hover + .link-info {
@@ -512,7 +512,7 @@ class Tabs extends Component {
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
         transform: scale(0.96) translateY(1px);
         opacity: 0.75;
-        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
       }
 
       /* 特殊处理直接相邻的按钮（hover的下一个） */
@@ -525,14 +525,14 @@ class Tabs extends Component {
       }.categories .links-wrapper:has(.link-info:hover) {
         filter: brightness(1.08) contrast(1.03) saturate(1.05);
         transform: scale(1.005);
-        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
       }.categories .link-icon {
         font-size: 20px;
         /* 恢复原来的白色图标 */
         color: rgba(255, 255, 255, 0.9);
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         /* 为 Q 弹动画添加过渡效果 */
-        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
       }
 
       .categories .link-name {
@@ -543,7 +543,7 @@ class Tabs extends Component {
         text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
         font-family: 'SF Pro Display', 'SF Pro Text', 'San Francisco', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
         /* 为 Q 弹动画添加过渡效果 */
-        transition: all 0.32s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
       }      .categories ul::after {
         content: attr(data-category-name);
         position: absolute;
@@ -570,7 +570,7 @@ class Tabs extends Component {
         word-break: break-all;
         align-items: center;
         /* 减慢动画速率，增强弹性，并添加更多缓动曲线 */
-        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
         cursor: pointer;
         transform-origin: center center;
@@ -589,7 +589,7 @@ class Tabs extends Component {
                     0 4px 16px rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(18px);
         text-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
-        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         filter: brightness(1.1) saturate(1.1);
       }
 
@@ -601,7 +601,7 @@ class Tabs extends Component {
       }
 
       .categories ul::after:not(:active) {
-        animation: bounce-back 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        animation: bounce-back 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       }
 
       @keyframes bounce-back {
@@ -626,7 +626,7 @@ class Tabs extends Component {
         padding: 12px 20px;
         box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
         /* 恢复原始动画速率 */
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
       }
 
       .navigation-container:hover {
@@ -643,7 +643,7 @@ class Tabs extends Component {
         border: none;
         box-shadow: none;
         /* 添加平滑过渡效果 */
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         cursor: pointer;
         min-width: 80px;
         text-align: center;
@@ -662,7 +662,7 @@ class Tabs extends Component {
         background: transparent;
         border-radius: 25px;
         pointer-events: none;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         opacity: 0;
         transform: scale(0.9);
       }
@@ -700,7 +700,7 @@ class Tabs extends Component {
         color: rgba(255, 255, 255, 0.7);
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         padding: 0;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         pointer-events: none;
         font-family: 'SF Pro Display', 'SF Pro Text', 'San Francisco', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
       }
@@ -723,7 +723,7 @@ class Tabs extends Component {
       }
 
       .ti.animate-in {
-        animation: fadeInAnimation ease .5s 1 forwards;
+        animation: fadeInAnimation ease .4s 1 forwards;
       }
 
       @keyframes fadeInAnimation {
@@ -767,7 +767,7 @@ class Tabs extends Component {
 
       .link-info.animate-in {
         opacity: 0; /* 动画开始前设为透明 */
-        animation: linkItemEnter 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        animation: linkItemEnter 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
       }      /* 按钮点击弹跳 */
       @keyframes clickBounce {
         0%, 100% { transform: scale(1); }
@@ -811,7 +811,7 @@ class Tabs extends Component {
       }.links-wrapper .link-info.click-bounce,
       .navigation-container .nav-item.click-bounce {
         /* 减慢动画速率 */
-        animation: clickBounce 0.4s cubic-bezier(0.34, 1.6, 0.64, 1);
+        animation: clickBounce 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       }      /* 响应式设计：在小屏幕上隐藏分类名字并调整卡片宽度 */
       @media screen and (max-width: 768px) {
         .categories ul::after {
@@ -1041,7 +1041,7 @@ class Tabs extends Component {
     // 强制重排
     requestAnimationFrame(() => {
       // 开始过渡动画 - 包含模糊效果
-      const transitionStyle = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-out, filter 0.4s ease-in-out';
+      const transitionStyle = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s ease-out, filter 0.4s ease-in-out';
       currentSlide.style.transition = transitionStyle;
       nextSlide.style.transition = transitionStyle;
 

@@ -1,6 +1,8 @@
 @charset "UTF-8";
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   border: 0;
   padding: 0;
@@ -25,6 +27,7 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 *:not(:defined) {
