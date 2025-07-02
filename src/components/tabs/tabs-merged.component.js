@@ -626,7 +626,7 @@ class Tabs extends Component {
         padding: 12px 20px;
         box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
         /* 恢复原始动画速率 */
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
       .navigation-container:hover {
@@ -643,7 +643,7 @@ class Tabs extends Component {
         border: none;
         box-shadow: none;
         /* 添加平滑过渡效果 */
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         cursor: pointer;
         min-width: 80px;
         text-align: center;
@@ -662,7 +662,7 @@ class Tabs extends Component {
         background: transparent;
         border-radius: 25px;
         pointer-events: none;
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         opacity: 0;
         transform: scale(0.9);
       }
@@ -700,7 +700,7 @@ class Tabs extends Component {
         color: rgba(255, 255, 255, 0.7);
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         padding: 0;
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         pointer-events: none;
         font-family: 'SF Pro Display', 'SF Pro Text', 'San Francisco', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
       }
@@ -811,7 +811,7 @@ class Tabs extends Component {
       }.links-wrapper .link-info.click-bounce,
       .navigation-container .nav-item.click-bounce {
         /* 减慢动画速率 */
-        animation: clickBounce 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        animation: clickBounce 0.4s cubic-bezier(0.34, 1.6, 0.64, 1);
       }      /* 响应式设计：在小屏幕上隐藏分类名字并调整卡片宽度 */
       @media screen and (max-width: 768px) {
         .categories ul::after {
@@ -824,7 +824,7 @@ class Tabs extends Component {
         }
         
         .categories .links {
-          width: 100% !important;
+          width: 100% !重要;
           border-radius: 24px !important;
           border-left: none !important;
         }
