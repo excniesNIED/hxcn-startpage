@@ -183,9 +183,14 @@ class Statusbar extends Component {
     return `
         <div id="tabs">
             <cols>
-                <button class="+ fastlink">
+                <button class="+ fastlink button-glass">
+<div class="effect"></div>
+<div class="tint"></div>
+<div class="shine"></div>
+<div class="button-content">
                   <img class="fastlink-icon" src="src/img/favicon.png"/>
-                </button>
+                </div>
+</button>
                 <ul class="- indicator"></ul>
                 <div class="+ widgets col-end">
                     <current-time class="+ widget"></current-time>

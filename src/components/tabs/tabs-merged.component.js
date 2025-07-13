@@ -56,10 +56,15 @@ class Category extends Component {
     return `
       ${tabs
         .map(({ name, background_url }, index) => {
-          return `<ul class="${name}" data-category-name="${name}" ${Category.getBackgroundStyle(background_url)} ${index === 0 ? 'active=""' : ''}>
+          return `<ul class="profile-card ${name}" data-category-name="${name}" ${Category.getBackgroundStyle(background_url)} ${index === 0 ? 'active=""' : ''}>
+<div class="effect"></div>
+<div class="tint"></div>
+<div class="shine"></div>
+<div class="card-content">
             <div class="banner"></div>
             <div class="links">${Links.getAll(name, tabs)}</div>
-          </ul>`;
+          </div>
+</ul>`;
         })
         .join("")}
     `;

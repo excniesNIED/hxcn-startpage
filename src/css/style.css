@@ -70,3 +70,83 @@ body {
     background-position: 0% 100%;
   }
 } */
+
+/* Big card and button glass styles from reference */
+.profile-card, .button-glass {
+  position: relative;
+  display: flex;
+  font-weight: 600;
+  overflow: hidden;
+  color: black;
+  cursor: pointer;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.6s cubic-bezier(0.6, -0.28, 0.735, 0.045), box-shadow 0.6s cubic-bezier(0.6, -0.28, 0.735, 0.045), padding 0.6s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  border-radius: 1.5rem;
+}
+
+.effect, .tint, .shine {
+  position: absolute;
+  inset: 0;
+}
+
+.effect {
+  z-index: 0;
+  backdrop-filter: blur(3px);
+  filter: url(#glass-distortion);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.tint {
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.shine {
+  z-index: 2;
+  overflow: hidden;
+  box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.5),
+    inset -1px -1px 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.card-content, .button-content {
+  z-index: 3;
+}
+
+.button-glass {
+  padding: 1.5rem 2.5rem;
+}
+
+.button-glass > div {
+  border-radius: 3rem;
+}
+
+.button-glass:hover {
+  transform: scale(1.07);
+  padding: 1.8rem 2.8rem;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.15);
+}
+
+.button-glass:hover > div {
+  border-radius: 4rem;
+}
+
+.profile-card {
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.profile-card > div {
+  border-radius: inherit;
+}
+
+.profile-card:hover {
+  transform: scale(1.05);
+  padding: 1.7rem;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.15);
+}
+
+.profile-card:active, .button-glass:active {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 1, 1);
+  transform: scale(0.95);
+}
