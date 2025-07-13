@@ -457,8 +457,8 @@ class Tabs extends Component {
       }      .categories .link-info {
         margin-bottom: 8px;
         border-radius: 25px;
-        /* 调整动画速率为0.8（0.4s * 0.8 = 0.32s） */
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+        /* 应用强烈的果冻动画效果 */
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         display: inline-flex;
         /* 恢复原来的深色背景 */
         background: rgba(0, 0, 0, 0.15);
@@ -467,6 +467,8 @@ class Tabs extends Component {
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         position: relative;
         overflow: hidden;
+        transform-style: preserve-3d;
+        will-change: transform;
       }      /* 添加非激活状态的悬停效果 */
       .categories .link-info:not(.active):hover {
         background: rgba(0, 0, 0, 0.18);
@@ -486,19 +488,19 @@ class Tabs extends Component {
         /* 调整动画速率为0.8 */
         transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
       }      .categories .link-info:hover {
-        /* Q弹动画：按钮整体放大 */
-        transform: scale(1.12) translateY(-5px);
-        /* 恢复原来的深色悬停背景 */
-        background: rgba(0, 0, 0, 0.18);
-        /* 移除所有白色阴影，只保留黑色阴影 */
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+        /* 强烈的果冻动画：按钮整体大幅放大 */
+        transform: scale(1.25) translateY(-8px);
+        /* 深色悬停背景 */
+        background: rgba(0, 0, 0, 0.25);
+        /* 强化阴影效果 */
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         border-radius: 30px;
-        border: 0.5px solid rgba(255, 255, 255, 0.4);
-        backdrop-filter: blur(25px);
+        border: 0.5px solid rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(30px);
         z-index: 100;
         position: relative;
-        /* 动画速率0.8 */
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+        /* 果冻动画效果 */
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
       .liquidGlass-text {
@@ -519,15 +521,15 @@ class Tabs extends Component {
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       }
 
-      /* Q弹动画：悬停时内部元素反向缩放 */
+      /* 强烈果冻动画：悬停时内部元素反向缩放增强 */
       .categories .link-info:hover .link-icon {
-        transform: scale(0.95);
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transform: scale(0.85) translateZ(30px);
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
       .categories .link-info:hover .link-name {
-        transform: scale(0.95);
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transform: scale(0.85) translateZ(25px);
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }      .categories .link-info:hover::before {
         border-radius: 30px;
         /* 完全移除白色渐变，使用深色渐变以避免诡异的白色效果 */
