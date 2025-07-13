@@ -62,7 +62,12 @@ class Category extends Component {
 <div class="shine"></div>
 <div class="card-content">
             <div class="banner"></div>
-            <div class="links">${Links.getAll(name, tabs)}</div>
+            <div class="links-container">
+              <div class="effect"></div>
+              <div class="tint"></div>
+              <div class="shine"></div>
+              <div class="links">${Links.getAll(name, tabs)}</div>
+            </div>
           </div>
 </ul>`;
         })
@@ -106,6 +111,11 @@ class Tabs extends Component {
         /* 减慢动画速率，增强弹性 */
         transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         border-radius: 16px;
+      }
+
+      .liquidGlass-wrapper:hover {
+        transform: scale(1.1);
+        box-shadow: 0 12px 20px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.15);
       }
 
       .liquidGlass-effect {
@@ -353,7 +363,7 @@ class Tabs extends Component {
         /* 隐藏滚动条 */
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
-        z-index: 2;
+        z-index: 3; /* Ensure links are on top of the container's effect */
         mix-blend-mode: overlay;
         filter: url(#glass-distortion-light) contrast(1.2) saturate(1.1);        /* 简化过渡动画，移除可能导致冲突的filter过渡 */
         transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
@@ -489,6 +499,24 @@ class Tabs extends Component {
         position: relative;
         /* 动画速率0.8 */
         transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+
+      .liquidGlass-text {
+        z-index: 3;
+        position: relative;
+        color: black;
+        padding: 12px 20px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        background: none;
+        border: none;
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       }
 
       /* Q弹动画：悬停时内部元素反向缩放 */
