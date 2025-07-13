@@ -529,38 +529,131 @@ class Tabs extends Component {
       .categories .link-info:hover .link-name {
         transform: scale(0.88);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      /* 磁性效果：相邻按钮内部元素的微妙响应 */
+      .categories .link-info:hover + .link-info .link-icon,
+      .categories .link-info:hover + .link-info .link-name {
+        transform: scale(0.95) translateX(2px);
+        opacity: 0.9;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      .categories .link-info:hover ~ .link-info .link-icon,
+      .categories .link-info:hover ~ .link-info .link-name {
+        transform: scale(0.92) translateX(1px);
+        opacity: 0.8;
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      /* 前置按钮的内部元素响应 */
+      .categories .link-info:has(+ .link-info:hover) .link-icon,
+      .categories .link-info:has(+ .link-info:hover) .link-name {
+        transform: scale(0.96) translateX(-1px);
+        opacity: 0.92;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }      .categories .link-info:hover::before {
         border-radius: 35px;
         /* 完全移除白色渐变，使用深色渐变以避免诡异的白色效果 */
         background: linear-gradient(135deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.04) 100%);
         /* 使用aerolab的缓动曲线 */
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-      }      /* Reference/3 Menu风格的"牵一发而动全身"效果 */
-      .categories .link-info:hover ~ .link-info {
-        /* 受影响的后续按钮 - 轻微缩小和位移 */
-        transform: scale(0.95) translateY(2px) translateX(3px);
-        opacity: 0.7;
-        background: rgba(0, 0, 0, 0.08) !important;
-        backdrop-filter: blur(15px) !important;
-        border: 0.5px solid rgba(255, 255, 255, 0.1) !important;
-        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2) !important;
+      }      /* 增强版"牵一发而动全身"磁性效果 - 模拟物理引力 */
+      
+      /* 直接相邻的按钮 - 最强的"引力"效果 */
+      .categories .link-info:hover + .link-info {
+        transform: scale(0.97) translateY(-2px) translateX(8px) rotate(1deg);
+        opacity: 0.82;
+        background: rgba(0, 0, 0, 0.12) !important;
+        backdrop-filter: blur(20px) !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.18) !important;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3) !important;
+        filter: brightness(0.95) contrast(1.02);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
-      .categories .link-info:hover + .link-info {
-        /* 直接相邻的按钮 - 稍微向外推开 */
-        transform: scale(0.98) translateY(-1px) translateX(5px);
+      /* 前一个相邻按钮 - 反向引力 */
+      .categories .link-info:has(+ .link-info:hover) {
+        transform: scale(0.98) translateY(-1px) translateX(-4px) rotate(-0.5deg);
         opacity: 0.85;
         background: rgba(0, 0, 0, 0.1) !important;
         backdrop-filter: blur(18px) !important;
         border: 0.5px solid rgba(255, 255, 255, 0.15) !important;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+        filter: brightness(0.96);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-      }      /* 整个links-wrapper容器在有按钮悬停时的整体效果 */
+      }
+
+      /* 后续所有按钮 - 递减的波纹效果 */
+      .categories .link-info:hover ~ .link-info {
+        transform: scale(0.94) translateY(3px) translateX(4px) rotate(0.5deg);
+        opacity: 0.65;
+        background: rgba(0, 0, 0, 0.06) !important;
+        backdrop-filter: blur(12px) !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.08) !important;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15) !important;
+        filter: brightness(0.9) saturate(0.95);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      /* 第二个后续按钮 - 中等影响 */
+      .categories .link-info:hover + .link-info + .link-info {
+        transform: scale(0.96) translateY(1px) translateX(6px) rotate(0.8deg);
+        opacity: 0.75;
+        background: rgba(0, 0, 0, 0.08) !important;
+        backdrop-filter: blur(15px) !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.12) !important;
+        box-shadow: 0 3px 18px rgba(0, 0, 0, 0.2) !important;
+        filter: brightness(0.93) contrast(1.01);
+        transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      /* 第三个后续按钮 - 轻微影响 */
+      .categories .link-info:hover + .link-info + .link-info + .link-info {
+        transform: scale(0.98) translateY(0.5px) translateX(2px);
+        opacity: 0.85;
+        background: rgba(0, 0, 0, 0.04) !important;
+        backdrop-filter: blur(10px) !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.06) !important;
+        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1) !important;
+        filter: brightness(0.97);
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }      /* 增强版整个links-wrapper容器的磁性响应效果 */
       .categories .links-wrapper:has(.link-info:hover) {
-        filter: brightness(1.1) contrast(1.05) saturate(1.08);
+        /* 整体容器的物理响应 */
+        filter: brightness(1.12) contrast(1.08) saturate(1.12);
+        transform: scale(1.02) translateY(-3px) rotate(0.2deg);
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(8px);
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      /* 容器内未悬停按钮的全局微调 */
+      .categories .links-wrapper:has(.link-info:hover) .link-info:not(:hover) {
+        filter: brightness(0.94) saturate(0.96);
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      /* 为整个分类卡片添加呼吸效果响应 */
+      .categories ul:has(.link-info:hover) {
+        transform: scale(1.005) translateY(-1px);
+        background: rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      /* 为links区域添加整体磁性拉伸效果 */
+      .categories .links:has(.link-info:hover) {
         transform: scale(1.01) translateY(-2px);
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        background: rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(80px);
+        border-radius: 0 28px 28px 0;
+        border-left: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }      .categories .link-icon {
         font-size: 20px;
         /* 恢复原来的白色图标 */
