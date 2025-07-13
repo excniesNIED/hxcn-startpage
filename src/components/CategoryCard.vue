@@ -16,10 +16,9 @@
         >
           <div class="liquidGlass-effect"></div>
           <div class="liquidGlass-tint"></div>
-          <div class="liquidGlass-shine"></div>          <div class="liquidGlass-text">
-            <component 
+          <div class="liquidGlass-shine"></div>          <div class="liquidGlass-text">            <component 
               :is="getIconComponent(link.icon)"
-              :size="20"
+              :size="24"
               class="link-icon"
               :style="{ color: link.icon_color }"
             />
@@ -53,11 +52,13 @@ export default {
 <style scoped>
 /* 卡片基础样式 - 参考 reference 中的 button 样式 */
 .category-card {
-  padding: 1.2rem;
-  border-radius: 2rem;
+  padding: 1.5rem 2.5rem;
+  border-radius: 3rem;
   margin-bottom: 2rem;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   animation: cardFloat 8s ease-in-out infinite;
+  width: auto;
+  min-width: 300px;
 }
 
 .category-card:nth-child(even) {
@@ -65,12 +66,12 @@ export default {
 }
 
 .category-card:hover {
-  padding: 1.5rem;
-  border-radius: 2.5rem;
+  padding: 1.8rem 2.8rem;
+  border-radius: 4rem;
 }
 
 .category-card:hover .liquidGlass-shine {
-  border-radius: 2.5rem;
+  border-radius: 4rem;
 }
 
 .category-title {
@@ -98,16 +99,16 @@ export default {
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
 }
 
-/* 链接按钮样式 - 减小尺寸 */
+/* 链接按钮样式 - 图标和文字左右并排，参考dock栏样式 */
 .link-button {
-  padding: 0.8rem;
+  padding: 0.8rem 1rem;
   border-radius: 1.5rem;
   text-decoration: none;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
-  min-width: 80px;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 90px;
   flex: 0 0 auto;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   box-shadow: 
@@ -116,7 +117,7 @@ export default {
 }
 
 .link-button:hover {
-  padding: 1rem;
+  padding: 1rem 1.2rem;
   border-radius: 1.8rem;
   transform: translateY(-2px);
   box-shadow: 
@@ -129,11 +130,19 @@ export default {
   border-radius: 1.8rem;
 }
 
+.link-button .liquidGlass-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
 .link-icon {
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
 }
 
@@ -142,7 +151,7 @@ export default {
 }
 
 .link-text {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: white;
   text-align: center;
@@ -174,14 +183,15 @@ export default {
 /* 响应式设计 */
 @media (max-width: 768px) {
   .category-card {
-    padding: 1rem;
-    border-radius: 1.8rem;
+    padding: 1.2rem 2rem;
+    border-radius: 2.5rem;
     margin-bottom: 1.5rem;
+    min-width: 250px;
   }
   
   .category-card:hover {
-    padding: 1.2rem;
-    border-radius: 2rem;
+    padding: 1.4rem 2.3rem;
+    border-radius: 3rem;
   }
   
   .category-title {
@@ -192,42 +202,62 @@ export default {
   .links-grid {
     gap: 0.6rem;
   }
-  
-  .link-button {
-    padding: 0.7rem;
-    min-width: 70px;
+    .link-button {
+    padding: 0.7rem 0.9rem;
+    min-width: 80px;
     border-radius: 1.3rem;
   }
   
   .link-button:hover {
-    padding: 0.85rem;
+    padding: 0.85rem 1.1rem;
     border-radius: 1.5rem;
   }
-    .link-text {
-    font-size: 0.7rem;
-    max-width: 70px;
+  
+  .link-icon {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .link-text {
+    font-size: 0.75rem;
+    max-width: 80px;
   }
 }
 
 @media (max-width: 480px) {
+  .category-card {
+    padding: 1rem 1.5rem;
+    border-radius: 2rem;
+    min-width: 200px;
+  }
+  
+  .category-card:hover {
+    padding: 1.2rem 1.8rem;
+    border-radius: 2.5rem;
+  }
+  
   .links-grid {
     gap: 0.5rem;
   }
-  
-  .link-button {
-    padding: 0.6rem;
-    min-width: 60px;
+    .link-button {
+    padding: 0.6rem 0.8rem;
+    min-width: 70px;
     border-radius: 1.2rem;
   }
   
   .link-button:hover {
-    padding: 0.75rem;
+    padding: 0.75rem 1rem;
     border-radius: 1.4rem;
   }
   
+  .link-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
   .link-text {
-    max-width: 60px;
-    font-size: 0.65rem;
+    max-width: 70px;
+    font-size: 0.7rem;
   }
   
   .category-title {
