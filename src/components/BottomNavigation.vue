@@ -13,9 +13,8 @@
         >
           <div class="liquidGlass-effect"></div>
           <div class="liquidGlass-tint"></div>
-          <div class="liquidGlass-shine"></div>
-          <div class="liquidGlass-text">
-            <component :is="getIconComponent(tab.icon)" :size="20" />
+          <div class="liquidGlass-shine"></div>          <div class="liquidGlass-text">
+            <component :is="getIconComponent(tab.icon)" :size="24" />
             <span>{{ tab.name }}</span>
           </div>
         </router-link>
@@ -56,7 +55,7 @@ export default {
   padding: 12px 20px;
   border-radius: 50px;
   z-index: 1000;
-  min-width: 280px;
+  width: max-content;
 }
 
 .bottom-navigation:hover {
@@ -116,22 +115,22 @@ export default {
 .nav-items {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  gap: 15px;
+  justify-content: center;
+  gap: 12px;
 }
 
 .nav-item {
-  padding: 8px 16px;
+  padding: 10px 14px;
   text-decoration: none;
   color: rgba(255, 255, 255, 0.9);
   border-radius: 16px;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   position: relative;
-  min-width: 60px;
+  white-space: nowrap;
 }
 
 .nav-item:hover {
-  padding: 10px 18px;
+  padding: 12px 16px;
   border-radius: 18px;
   transform: translateY(-2px);
   color: white;
@@ -144,7 +143,7 @@ export default {
 .nav-item .liquidGlass-text {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   justify-content: center;
 }
 
@@ -158,7 +157,6 @@ export default {
 @media (max-width: 768px) {
   .bottom-navigation {
     bottom: 15px;
-    min-width: 260px;
     padding: 10px 16px;
   }
   
@@ -166,13 +164,16 @@ export default {
     padding: 12px 20px;
   }
   
+  .nav-items {
+    gap: 10px;
+  }
+  
   .nav-item {
-    padding: 6px 12px;
-    min-width: 55px;
+    padding: 8px 12px;
   }
   
   .nav-item:hover {
-    padding: 8px 14px;
+    padding: 10px 14px;
   }
   
   .nav-item span {
