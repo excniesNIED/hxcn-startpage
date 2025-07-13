@@ -72,15 +72,27 @@ export default {
 
 <style scoped>
 .unified-page {
-  min-height: 100vh;
+  min-height: calc(100vh - 120px); /* 减去顶部菜单栏和底部导航栏的高度 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.page-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .content-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  justify-items: center;
 }
 
 .empty-state {
@@ -99,14 +111,31 @@ export default {
 
 .empty-card p {
   margin: 1rem 0 0 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
+  opacity: 0.8;
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
+  .unified-page {
+    padding: 1.5rem 0;
+  }
+  
+  .content-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .unified-page {
+    padding: 1rem 0;
+  }
+  
   .content-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
+    max-width: 300px;
   }
 }
 </style>
