@@ -50,26 +50,51 @@ export default {
 </script>
 
 <style scoped>
-/* 卡片基础样式 - 参考 reference 中的 button 样式 */
+/* 卡片基础样式 - 完全参考 reference 中的 button 样式 */
 .category-card {
   padding: 1.5rem 2.5rem;
   border-radius: 3rem;
   margin-bottom: 2rem;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   animation: cardFloat 8s ease-in-out infinite;
-  width: auto;
-  min-width: 300px;
+  /* 设置固定的基础尺寸，hover时会扩展 */
+  width: 350px;
+  min-height: 200px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.3), 
+    0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.category-card,
+.category-card .liquidGlass-effect,
+.category-card .liquidGlass-tint,
+.category-card .liquidGlass-shine {
+  border-radius: 3rem;
 }
 
 .category-card:nth-child(even) {
   animation-delay: -4s;
 }
 
+/* 卡片hover效果 - 真正的尺寸扩展 */
 .category-card:hover {
   padding: 1.8rem 2.8rem;
-  border-radius: 4rem;
+  /* 水平和垂直方向都扩展，为按钮提供更多空间 */
+  width: 380px;
+  min-height: 220px;
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4), 
+    0 6px 20px rgba(0, 0, 0, 0.3),
+    0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
+.category-card:hover .liquidGlass-effect,
+.category-card:hover .liquidGlass-tint,
 .category-card:hover .liquidGlass-shine {
   border-radius: 4rem;
 }
@@ -97,6 +122,17 @@ export default {
   justify-content: center;
   align-items: center;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  /* 添加最小宽度确保有足够空间容纳按钮变化 */
+  min-width: 100%;
+  width: 100%;
+  /* 添加最小高度确保按钮有足够垂直空间 */
+  min-height: 60px;
+}
+
+/* 卡片hover时，为按钮提供更多空间 */
+.category-card:hover .links-grid {
+  gap: 1rem;
+  min-height: 70px;
 }
 
 /* 链接按钮样式 - 图标和文字左右并排，参考dock栏样式 */
@@ -109,7 +145,9 @@ export default {
   justify-content: center;
   gap: 0.5rem;
   min-width: 90px;
-  flex: 0 0 auto;
+  /* 改进flex属性，让按钮能够更好地适应空间变化 */
+  flex: 0 1 auto;
+  max-width: 140px;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   box-shadow: 
     0 4px 12px rgba(0, 0, 0, 0.25), 
@@ -120,6 +158,8 @@ export default {
   padding: 1rem 1.2rem;
   border-radius: 1.8rem;
   transform: translateY(-2px);
+  /* 减小按钮hover时的变化幅度，避免过度影响布局 */
+  max-width: 150px;
   box-shadow: 
     0 8px 24px rgba(0, 0, 0, 0.35), 
     0 4px 12px rgba(0, 0, 0, 0.25),
@@ -170,13 +210,27 @@ export default {
   transform: scale(0.95);
 }
 
-/* 浮动动画 */
+/* 浮动动画 - 与hover效果协调 */
 @keyframes cardFloat {
   0%, 100% { 
     transform: translateY(0px); 
   }
   50% { 
     transform: translateY(-5px); 
+  }
+}
+
+/* hover时保持浮动动画但添加交互效果 */
+.category-card:hover {
+  animation: cardFloatHover 8s ease-in-out infinite;
+}
+
+@keyframes cardFloatHover {
+  0%, 100% { 
+    transform: scale(1.05) translateY(0px); 
+  }
+  50% { 
+    transform: scale(1.05) translateY(-3px); 
   }
 }
 
