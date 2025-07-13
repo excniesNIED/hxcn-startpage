@@ -467,6 +467,10 @@ class Tabs extends Component {
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         position: relative;
         overflow: hidden;
+        /* 为所有按钮添加transform-origin，让变换更自然 */
+        transform-origin: center center;
+        /* 添加will-change来优化性能 */
+        will-change: transform, opacity, filter;
       }      /* 添加非激活状态的悬停效果 */
       .categories .link-info:not(.active):hover {
         background: rgba(0, 0, 0, 0.18);
@@ -570,6 +574,10 @@ class Tabs extends Component {
         box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3) !important;
         filter: brightness(0.95) contrast(1.02);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        /* 使用更物理化的缓动曲线 */
+        transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        /* 为相邻按钮添加延迟，模拟物理传播 */
+        transition-delay: 0.02s;
       }
 
       /* 前一个相邻按钮 - 反向引力 */
@@ -582,6 +590,10 @@ class Tabs extends Component {
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
         filter: brightness(0.96);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        /* 使用更物理化的缓动曲线 */
+        transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        /* 反向传播延迟 */
+        transition-delay: 0.01s;
       }
 
       /* 后续所有按钮 - 递减的波纹效果 */
@@ -594,6 +606,8 @@ class Tabs extends Component {
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15) !important;
         filter: brightness(0.9) saturate(0.95);
         transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        /* 使用更物理化的缓动曲线 */
+        transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
       }
 
       /* 第二个后续按钮 - 中等影响 */
@@ -606,6 +620,10 @@ class Tabs extends Component {
         box-shadow: 0 3px 18px rgba(0, 0, 0, 0.2) !important;
         filter: brightness(0.93) contrast(1.01);
         transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        /* 使用更物理化的缓动曲线 */
+        transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        /* 为相邻按钮添加延迟，模拟物理传播 */
+        transition-delay: 0.04s;
       }
 
       /* 第三个后续按钮 - 轻微影响 */
@@ -618,6 +636,15 @@ class Tabs extends Component {
         box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1) !important;
         filter: brightness(0.97);
         transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        /* 使用更物理化的缓动曲线 */
+        transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        /* 为相邻按钮添加延迟，模拟物理传播 */
+        transition-delay: 0.06s;
+      }
+
+      /* 磁性恢复效果 - 当鼠标离开时 */
+      .categories .link-info:not(:hover) {
+        transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
       }      /* 增强版整个links-wrapper容器的磁性响应效果 */
       .categories .links-wrapper:has(.link-info:hover) {
         /* 整体容器的物理响应 */
