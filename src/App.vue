@@ -1,7 +1,6 @@
 <template>
   <div class="app-container">
-    <!-- 背景视频 -->
-    <video 
+    <!-- 背景视频 -->    <video 
       class="background-video" 
       autoplay 
       loop 
@@ -10,7 +9,11 @@
     >
       <source src="/background.webm" type="video/webm">
     </video>
-      <!-- 主要内容区域 -->
+    
+    <!-- 顶部菜单栏 -->
+    <TopMenuBar />
+    
+    <!-- 主要内容区域 -->
     <main class="main-content">
       <router-view v-slot="{ Component }">
         <transition name="page" mode="out-in">
@@ -80,11 +83,13 @@
 
 <script>
 import BottomNavigation from './components/BottomNavigation.vue'
+import TopMenuBar from './components/TopMenuBar.vue'
 
 export default {
   name: 'App',
   components: {
-    BottomNavigation
+    BottomNavigation,
+    TopMenuBar
   }
 }
 </script>
@@ -112,6 +117,7 @@ export default {
 .main-content {
   flex: 1;
   padding: 2rem;
+  padding-top: 64px;
   padding-bottom: 120px;
   overflow-y: auto;
   position: relative;
@@ -144,6 +150,7 @@ export default {
 @media (max-width: 768px) {
   .main-content {
     padding: 1rem;
+    padding-top: 56px;
     padding-bottom: 100px;
   }
 }
