@@ -457,8 +457,8 @@ class Tabs extends Component {
       }      .categories .link-info {
         margin-bottom: 8px;
         border-radius: 25px;
-        /* 调整动画速率为0.8（0.4s * 0.8 = 0.32s） */
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+        /* 使用aerolab的缓动曲线 */
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
         display: inline-flex;
         /* 恢复原来的深色背景 */
         background: rgba(0, 0, 0, 0.15);
@@ -483,22 +483,23 @@ class Tabs extends Component {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
         border-radius: 25px;
         pointer-events: none;
-        /* 调整动画速率为0.8 */
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
-      }      .categories .link-info:hover {
-        /* Q弹动画：按钮整体放大 */
-        transform: scale(1.12) translateY(-5px);
+        /* 使用aerolab的缓动曲线 */
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }      /* Aerolab风格的Q弹动效 - 参考reference/3右下角按钮 */
+      .categories .link-info:hover {
+        /* Q弹动画：按钮整体放大，使用aerolab的缓动曲线 */
+        transform: scale(1.15) translateY(-5px);
+        border-radius: 35px; /* 增加圆角模拟aerolab效果 */
         /* 恢复原来的深色悬停背景 */
         background: rgba(0, 0, 0, 0.18);
+        backdrop-filter: blur(25px);
         /* 移除所有白色阴影，只保留黑色阴影 */
         box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
-        border-radius: 30px;
-        border: 0.5px solid rgba(255, 255, 255, 0.4);
-        backdrop-filter: blur(25px);
+        border: 0.5px solid rgba(255, 255, 255, 0.3);
         z-index: 100;
         position: relative;
-        /* 动画速率0.8 */
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+        /* 使用aerolab的缓动曲线 */
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
       .liquidGlass-text {
@@ -519,53 +520,54 @@ class Tabs extends Component {
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       }
 
-      /* Q弹动画：悬停时内部元素反向缩放 */
+      /* Aerolab风格：悬停时内部元素反向缩放 */
       .categories .link-info:hover .link-icon {
-        transform: scale(0.95);
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transform: scale(0.88);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
       .categories .link-info:hover .link-name {
-        transform: scale(0.95);
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transform: scale(0.88);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }      .categories .link-info:hover::before {
-        border-radius: 30px;
+        border-radius: 35px;
         /* 完全移除白色渐变，使用深色渐变以避免诡异的白色效果 */
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.02) 100%);
-        /* 动画速率0.8 */
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
-      }      /* 修复磁性效果，避免临近按钮出现诡异白色 - 重新设计 */
-      .categories .link-info:hover ~ .link-info,
-      .categories .link-info:hover + .link-info {
-        /* 统一所有临近按钮的样式，去掉白色阴影 */
-        background: rgba(0, 0, 0, 0.12) !important;
-        backdrop-filter: blur(18px) !important;
-        border: 0.5px solid rgba(255, 255, 255, 0.15) !important;
-        /* 移除可能产生白色阴影的box-shadow */
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
-        transform: scale(0.96) translateY(1px);
-        opacity: 0.75;
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.04) 100%);
+        /* 使用aerolab的缓动曲线 */
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }      /* Reference/3 Menu风格的"牵一发而动全身"效果 */
+      .categories .link-info:hover ~ .link-info {
+        /* 受影响的后续按钮 - 轻微缩小和位移 */
+        transform: scale(0.95) translateY(2px) translateX(3px);
+        opacity: 0.7;
+        background: rgba(0, 0, 0, 0.08) !important;
+        backdrop-filter: blur(15px) !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.1) !important;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2) !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
-      /* 特殊处理直接相邻的按钮（hover的下一个） */
       .categories .link-info:hover + .link-info {
-        transform: scale(1.02) translateY(-1px) translateX(-2px);
-        opacity: 0.88;
-        background: rgba(0, 0, 0, 0.08) !important;
-        /* 确保没有白色阴影 */
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25) !important;
-      }.categories .links-wrapper:has(.link-info:hover) {
-        filter: brightness(1.08) contrast(1.03) saturate(1.05);
-        transform: scale(1.005);
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      }.categories .link-icon {
+        /* 直接相邻的按钮 - 稍微向外推开 */
+        transform: scale(0.98) translateY(-1px) translateX(5px);
+        opacity: 0.85;
+        background: rgba(0, 0, 0, 0.1) !important;
+        backdrop-filter: blur(18px) !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.15) !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }      /* 整个links-wrapper容器在有按钮悬停时的整体效果 */
+      .categories .links-wrapper:has(.link-info:hover) {
+        filter: brightness(1.1) contrast(1.05) saturate(1.08);
+        transform: scale(1.01) translateY(-2px);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }      .categories .link-icon {
         font-size: 20px;
         /* 恢复原来的白色图标 */
         color: rgba(255, 255, 255, 0.9);
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        /* 为 Q 弹动画添加过渡效果 */
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+        /* 使用aerolab的缓动曲线 */
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
       .categories .link-name {
@@ -575,8 +577,8 @@ class Tabs extends Component {
         color: rgba(255, 255, 255, 0.95);
         text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
         font-family: 'SF Pro Display', 'SF Pro Text', 'San Francisco', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
-        /* 为 Q 弹动画添加过渡效果 */
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+        /* 使用aerolab的缓动曲线 */
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }      .categories ul::after {
         content: attr(data-category-name);
         position: absolute;
