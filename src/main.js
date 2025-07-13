@@ -3,14 +3,14 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import './styles/main.css'
 
-// 导入页面组件
-import Home from './pages/Home.vue'
+// 导入统一页面组件
+import UnifiedPage from './pages/UnifiedPage.vue'
 
 // 创建路由
 const routes = [
-  { path: '/', name: 'Home', component: Home },
-  { path: '/services', name: 'Services', component: () => import('./pages/Services.vue') },
-  { path: '/chaworld', name: 'ChaWorld', component: () => import('./pages/ChaWorld.vue') }
+  { path: '/', name: 'Home', component: UnifiedPage },
+  { path: '/services', name: 'Services', component: UnifiedPage },
+  { path: '/chaworld', name: 'ChaWorld', component: UnifiedPage }
 ]
 
 const router = createRouter({

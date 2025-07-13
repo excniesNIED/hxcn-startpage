@@ -1,0 +1,274 @@
+# 萑澈起始页配置文件
+# 配置文件使用TOML格式，便于维护和修改
+
+[app]
+title = "萑澈起始页"
+fastlink = "https://hxcn.cnies.org"
+enable_animations = true
+
+[theme]
+# 使用的调色板：latte/frappe/macchiato/mocha
+palette = "frappe"
+
+[temperature]
+location = "Changqing"
+scale = "C"
+
+[clock]
+format = "h:i:s - Y/b/m"
+icon_color = "#ea999c"  # frappe.maroon
+
+# 标签页配置
+[[tabs]]
+name = "萑澈"
+key = "hxcn"
+icon = "home"
+
+  [[tabs.categories]]
+  name = "Websites"
+  
+    [[tabs.categories.links]]
+    name = "Homepage"
+    url = "https://hxcn.cnies.org"
+    icon = "home"
+    icon_color = "#a6d189"  # frappe.green
+    
+    [[tabs.categories.links]]
+    name = "Blog"
+    url = "https://hs.cnies.org"
+    icon = "archive"
+    icon_color = "#ef9f76"  # frappe.peach
+    
+    [[tabs.categories.links]]
+    name = "Note"
+    url = "https://enotes.cnies.org"
+    icon = "notebook"
+    icon_color = "#eebebe"  # frappe.flamingo
+    
+    [[tabs.categories.links]]
+    name = "BrushUp"
+    url = "https://bu.cnies.org"
+    icon = "pencil-star"
+    icon_color = "#ea999c"  # frappe.maroon
+    
+    [[tabs.categories.links]]
+    name = "Mates"
+    url = "https://hs.cnies.org/links"
+    icon = "link"
+    icon_color = "#81c8be"  # frappe.teal
+
+  [[tabs.categories]]
+  name = "Socials"
+  
+    [[tabs.categories.links]]
+    name = "Github"
+    url = "https://github.com/excniesNIED"
+    icon = "brand-github"
+    icon_color = "#babbf1"  # frappe.lavender
+    
+    [[tabs.categories.links]]
+    name = "Codeberg"
+    url = "https://codeberg.org/excnies"
+    icon = "mountain"
+    icon_color = "#a6d189"  # frappe.green
+    
+    [[tabs.categories.links]]
+    name = "Huggingface"
+    url = "https://huggingface.co/excnies"
+    icon = "mood-heart"
+    icon_color = "#e5c890"  # frappe.yellow
+    
+    [[tabs.categories.links]]
+    name = "Bilibili"
+    url = "https://space.bilibili.com/3494377156511978"
+    icon = "brand-bilibili"
+    icon_color = "#99d1db"  # frappe.sky
+    
+    [[tabs.categories.links]]
+    name = "QQ"
+    url = "https://qm.qq.com/cgi-bin/qm/qr?k=L_5nTaWr9hCupgFlntG9dJvVOYryFvv_&jump_from=webapi&authKey=dMK7Hy64j/qHufvU/SiTkzq1BCI2rAFXvNqNV57WFiQ/9nQUF5OP/ZSNQlSQuura"
+    icon = "brand-qq"
+    icon_color = "#8caaee"  # frappe.blue
+    
+    [[tabs.categories.links]]
+    name = "Afdian"
+    url = "https://afdian.com/a/excnies"
+    icon = "coffee"
+    icon_color = "#8caaee"  # frappe.blue
+    
+    [[tabs.categories.links]]
+    name = "Mail"
+    url = "mailto:hxcn@cnies.org"
+    icon = "mail"
+    icon_color = "#85c1dc"  # frappe.sapphire
+
+  [[tabs.categories]]
+  name = "Mates"
+  
+    [[tabs.categories.links]]
+    name = "ChaWorld"
+    url = "https://home.qcea.top"
+    icon = "home"
+    icon_color = "#a6d189"  # frappe.green
+    
+    [[tabs.categories.links]]
+    name = "Cysnies"
+    url = "https://tcea.top"
+    icon = "home"
+    icon_color = "#ef9f76"  # frappe.peach
+    
+    [[tabs.categories.links]]
+    name = "FOSScope"
+    url = "https://fosscope.com"
+    icon = "archive"
+    icon_color = "#eebebe"  # frappe.flamingo
+
+# 服务标签页
+[[tabs]]
+name = "服务"
+key = "services"
+icon = "server"
+
+  [[tabs.categories]]
+  name = "Development"
+  
+    [[tabs.categories.links]]
+    name = "github"
+    url = "https://github.com"
+    icon = "brand-github"
+    icon_color = "#a6d189"  # frappe.green
+    
+    [[tabs.categories.links]]
+    name = "neptune"
+    url = "https://ui.neptune.ai"
+    icon = "circle-triangle"
+    icon_color = "#ef9f76"  # frappe.peach
+    
+    [[tabs.categories.links]]
+    name = "stackoverflow"
+    url = "https://stackoverflow.com"
+    icon = "brand-stackoverflow"
+    icon_color = "#e78284"  # frappe.red
+
+  [[tabs.categories]]
+  name = "Challenges"
+  
+    [[tabs.categories.links]]
+    name = "kaggle"
+    url = "https://www.kaggle.com"
+    icon = "brain"
+    icon_color = "#a6d189"  # frappe.green
+    
+    [[tabs.categories.links]]
+    name = "leetcode"
+    url = "https://leetcode.com"
+    icon = "code-plus"
+    icon_color = "#ef9f76"  # frappe.peach
+    
+    [[tabs.categories.links]]
+    name = "exercism"
+    url = "https://exercism.org"
+    icon = "code-minus"
+    icon_color = "#e78284"  # frappe.red
+    
+    [[tabs.categories.links]]
+    name = "aoc"
+    url = "https://adventofcode.com"
+    icon = "brand-linktree"
+    icon_color = "#8caaee"  # frappe.blue
+
+  [[tabs.categories]]
+  name = "Resources"
+  
+    [[tabs.categories.links]]
+    name = "dou"
+    url = "https://dou.ua"
+    icon = "brand-prisma"
+    icon_color = "#a6d189"  # frappe.green
+    
+    [[tabs.categories.links]]
+    name = "hackernews"
+    url = "https://news.ycombinator.com"
+    icon = "brand-redhat"
+    icon_color = "#ef9f76"  # frappe.peach
+    
+    [[tabs.categories.links]]
+    name = "uber engineering"
+    url = "https://www.uber.com/en-GB/blog/london/engineering"
+    icon = "brand-uber"
+    icon_color = "#e78284"  # frappe.red
+    
+    [[tabs.categories.links]]
+    name = "netflix tech blog"
+    url = "https://netflixtechblog.com"
+    icon = "brand-netflix"
+    icon_color = "#8caaee"  # frappe.blue
+
+# 猹界标签页
+[[tabs]]
+name = "猹界"
+key = "chaworld"
+icon = "users"
+
+  [[tabs.categories]]
+  name = "Home Page"
+  
+    [[tabs.categories.links]]
+    name = "主页"
+    url = "https://home.qcea.top"
+    icon = "home"
+    icon_color = "#a6d189"  # frappe.green
+
+  [[tabs.categories]]
+  name = "Core Services"
+  
+    [[tabs.categories.links]]
+    name = "猹馆"
+    url = "https://home.qcea.top"
+    icon = "users"
+    icon_color = "#ef9f76"  # frappe.peach
+    
+    [[tabs.categories.links]]
+    name = "龙井猹馆"
+    url = "https://qm.qq.com/cgi-bin/qm/qr?k=L_5nTaWr9hCupgFlntG9dJvVOYryFvv_&jump_from=webapi&authKey=dMK7Hy64j/qHufvU/SiTkzq1BCI2rAFXvNqNV57WFiQ/9nQUF5OP/ZSNQlSQuura"
+    icon = "mug"
+    icon_color = "#ef9f76"  # frappe.peach
+    
+    [[tabs.categories.links]]
+    name = "猹聊"
+    url = "https://matrix.qcea.top"
+    icon = "message"
+    icon_color = "#e78284"  # frappe.red
+    
+    [[tabs.categories.links]]
+    name = "猹问"
+    url = "https://ask.qcea.top"
+    icon = "question-mark"
+    icon_color = "#e78284"  # frappe.red
+    
+    [[tabs.categories.links]]
+    name = "猹盘"
+    url = "https://ed.qcea.top"
+    icon = "brand-onedrive"
+    icon_color = "#e78284"  # frappe.red
+    
+    [[tabs.categories.links]]
+    name = "服务监测"
+    url = "https://status.qcea.top"
+    icon = "heart-rate-monitor"
+    icon_color = "#e78284"  # frappe.red
+
+  [[tabs.categories]]
+  name = "Tools"
+  
+    [[tabs.categories.links]]
+    name = "Stirling PDF"
+    url = "https://pdf.qcea.top"
+    icon = "file-type-pdf"
+    icon_color = "#a6d189"  # frappe.green
+    
+    [[tabs.categories.links]]
+    name = "IT Tools"
+    url = "https://tools.qcea.top"
+    icon = "tool"
+    icon_color = "#ef9f76"  # frappe.peach

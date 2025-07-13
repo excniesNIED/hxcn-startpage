@@ -4,15 +4,14 @@
     <div class="liquidGlass-tint"></div>
     <div class="liquidGlass-shine"></div>
     <div class="liquidGlass-text">
-      <div class="nav-items">
-        <router-link 
+      <div class="nav-items">        <router-link 
           v-for="tab in tabs" 
           :key="tab.name"
           :to="tab.path"
           class="nav-item"
           :class="{ active: $route.path === tab.path }"
         >
-          <component :is="tab.icon" :size="20" />
+          <component :is="getIconComponent(tab.icon)" :size="20" />
           <span>{{ tab.name }}</span>
         </router-link>
       </div>
@@ -21,34 +20,22 @@
 </template>
 
 <script>
-import { IconHome, IconServer, IconUsers } from '@tabler/icons-vue'
+import configManager from '../config/configManager.js'
+import iconManager from '../utils/iconManager.js'
 
 export default {
   name: 'BottomNavigation',
-  components: {
-    IconHome,
-    IconServer,
-    IconUsers
-  },
   data() {
     return {
-      tabs: [
-        {
-          name: '萑澈',
-          path: '/',
-          icon: 'IconHome'
-        },
-        {
-          name: '服务',
-          path: '/services',
-          icon: 'IconServer'
-        },
-        {
-          name: '猹界',
-          path: '/chaworld',
-          icon: 'IconUsers'
-        }
-      ]
+      tabs: []
+    }
+  },  async mounted() {
+    // 获取导航标签页
+    this.tabs = configManager.getNavigationTabs()
+  },
+  methods: {
+    getIconComponent(iconName) {
+      return iconManager.getIcon(iconName)
     }
   }
 }

@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import * as TablerIcons from '@tabler/icons-vue'
+import iconManager from '../utils/iconManager.js'
 
 export default {
   name: 'CategoryCard',
@@ -42,45 +42,9 @@ export default {
       type: Object,
       required: true
     }
-  },
-  methods: {
+  },  methods: {
     getIconComponent(iconName) {
-      // 将图标名称转换为对应的 Tabler 图标组件
-      const iconMap = {
-        'home': 'IconHome',
-        'archive': 'IconArchive',
-        'notebook': 'IconNotebook',
-        'pencil-star': 'IconPencil',
-        'link': 'IconLink',
-        'brand-github': 'IconBrandGithub',
-        'mountain': 'IconMountain',
-        'mood-heart': 'IconHeart',
-        'brand-bilibili': 'IconMovie',
-        'brand-qq': 'IconMessage',
-        'coffee': 'IconCoffee',
-        'mail': 'IconMail',
-        'circle-triangle': 'IconTriangle',
-        'brand-stackoverflow': 'IconStack2',
-        'brain': 'IconBrain',
-        'code-plus': 'IconCodePlus',
-        'code-minus': 'IconCodeMinus',
-        'brand-linktree': 'IconTree',
-        'brand-prisma': 'IconTriangleSquareCircle',
-        'brand-redhat': 'IconBrandRedhat',
-        'brand-uber': 'IconCar',
-        'brand-netflix': 'IconDeviceTv',
-        'users': 'IconUsers',
-        'mug': 'IconCoffee',
-        'message': 'IconMessage',
-        'question-mark': 'IconQuestionMark',
-        'brand-onedrive': 'IconCloud',
-        'heart-rate-monitor': 'IconActivity',
-        'file-type-pdf': 'IconFileText',
-        'tool': 'IconTool'
-      }
-      
-      const componentName = iconMap[iconName] || 'IconHelp'
-      return TablerIcons[componentName] || TablerIcons.IconHelp
+      return iconManager.getIcon(iconName)
     }
   }
 }
