@@ -654,7 +654,76 @@ class Tabs extends Component {
         border-left: 1px solid rgba(255, 255, 255, 0.12);
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
         transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-      }      .categories .link-icon {
+      }      /* 磁性波纹效果 - 从悬停按钮向外扩散 */
+      @keyframes magneticRipple {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
+        }
+        50% {
+          box-shadow: 0 0 0 15px rgba(255, 255, 255, 0.05);
+        }
+        100% {
+          box-shadow: 0 0 0 30px rgba(255, 255, 255, 0);
+        }
+      }
+
+      /* 为悬停的按钮添加波纹动画 */
+      .categories .link-info:hover::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: magneticRipple 1.5s ease-out infinite;
+        z-index: -1;
+      }
+
+      /* 磁性光晕效果 */
+      .categories .links-wrapper:has(.link-info:hover)::before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.05) 30%,
+          transparent 70%
+        );
+        border-radius: 20px;
+        pointer-events: none;
+        opacity: 0;
+        animation: glowPulse 2s ease-in-out infinite;
+        z-index: -1;
+      }
+
+      @keyframes glowPulse {
+        0%, 100% {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.02);
+        }
+      }
+
+      /* 按钮间的"磁力线"效果 */
+      .categories .link-info:hover + .link-info::before {
+        box-shadow: -2px 0 8px rgba(255, 255, 255, 0.1);
+      }
+
+      .categories .link-info:has(+ .link-info:hover)::before {
+        box-shadow: 2px 0 8px rgba(255, 255, 255, 0.1);
+      }
+
+      .categories .link-icon {
         font-size: 20px;
         /* 恢复原来的白色图标 */
         color: rgba(255, 255, 255, 0.9);
