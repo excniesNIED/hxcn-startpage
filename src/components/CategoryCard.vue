@@ -16,11 +16,10 @@
         >
           <div class="liquidGlass-effect"></div>
           <div class="liquidGlass-tint"></div>
-          <div class="liquidGlass-shine"></div>
-          <div class="liquidGlass-text">
+          <div class="liquidGlass-shine"></div>          <div class="liquidGlass-text">
             <component 
               :is="getIconComponent(link.icon)"
-              :size="24"
+              :size="20"
               class="link-icon"
               :style="{ color: link.icon_color }"
             />
@@ -109,8 +108,8 @@ export default {
 .link-icon {
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   flex-shrink: 0;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
 
 .link-button:hover .link-icon {

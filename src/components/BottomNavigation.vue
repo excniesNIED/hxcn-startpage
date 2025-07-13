@@ -122,7 +122,7 @@ export default {
 .nav-item {
   padding: 10px 14px;
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.6);
   border-radius: 16px;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   position: relative;
