@@ -8,11 +8,16 @@
           v-for="tab in tabs" 
           :key="tab.name"
           :to="tab.path"
-          class="nav-item"
+          class="liquidGlass-wrapper nav-item"
           :class="{ active: $route.path === tab.path }"
         >
-          <component :is="getIconComponent(tab.icon)" :size="20" />
-          <span>{{ tab.name }}</span>
+          <div class="liquidGlass-effect"></div>
+          <div class="liquidGlass-tint"></div>
+          <div class="liquidGlass-shine"></div>
+          <div class="liquidGlass-text">
+            <component :is="getIconComponent(tab.icon)" :size="20" />
+            <span>{{ tab.name }}</span>
+          </div>
         </router-link>
       </div>
     </div>
@@ -116,36 +121,36 @@ export default {
 }
 
 .nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 8px 16px;
   text-decoration: none;
   color: rgba(255, 255, 255, 0.9);
   border-radius: 16px;
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   position: relative;
-  min-width: 50px;
+  min-width: 60px;
 }
 
 .nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  box-shadow: inset -2px -2px 2px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(2px);
-  transform: translateY(-1px);
+  padding: 10px 18px;
+  border-radius: 18px;
+  transform: translateY(-2px);
   color: white;
 }
 
 .nav-item.active {
-  background-color: rgba(255, 255, 255, 0.4);
-  box-shadow: inset -2px -2px 2px rgba(0, 0, 0, 0.15);
   color: white;
+}
+
+.nav-item .liquidGlass-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
 }
 
 .nav-item span {
   font-size: 11px;
   font-weight: 500;
-  margin-top: 2px;
   text-align: center;
 }
 
@@ -163,7 +168,11 @@ export default {
   
   .nav-item {
     padding: 6px 12px;
-    min-width: 45px;
+    min-width: 55px;
+  }
+  
+  .nav-item:hover {
+    padding: 8px 14px;
   }
   
   .nav-item span {
