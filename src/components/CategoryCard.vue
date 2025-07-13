@@ -19,7 +19,7 @@
           <div class="liquidGlass-shine"></div>          <div class="liquidGlass-text">
             <component 
               :is="getIconComponent(link.icon)"
-              :size="20"
+              :size="18"
               class="link-icon"
               :style="{ color: link.icon_color }"
             />
@@ -73,7 +73,9 @@ export default {
   font-weight: 700;
   margin-bottom: 1.5rem;
   color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.7),
+    0 1px 3px rgba(0, 0, 0, 0.5);
   text-align: center;
 }
 
@@ -97,19 +99,27 @@ export default {
   min-width: 100px;
   flex: 0 0 auto;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.3), 
+    0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 .link-button:hover {
   padding: 1.4rem;
   border-radius: 2.5rem;
   transform: translateY(-2px);
+  box-shadow: 
+    0 12px 32px rgba(0, 0, 0, 0.4), 
+    0 6px 16px rgba(0, 0, 0, 0.3),
+    0 3px 8px rgba(0, 0, 0, 0.2);
 }
 
 .link-icon {
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
 }
 
 .link-button:hover .link-icon {
@@ -117,7 +127,7 @@ export default {
 }
 
 .link-text {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: white;
   text-align: center;
@@ -126,6 +136,9 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100px;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.6),
+    0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 /* 浮动动画 */
@@ -168,9 +181,8 @@ export default {
   .link-button:hover {
     padding: 1.2rem;
   }
-  
-  .link-text {
-    font-size: 0.8rem;
+    .link-text {
+    font-size: 0.7rem;
     max-width: 80px;
   }
 }

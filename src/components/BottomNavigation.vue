@@ -14,7 +14,7 @@
           <div class="liquidGlass-effect"></div>
           <div class="liquidGlass-tint"></div>
           <div class="liquidGlass-shine"></div>          <div class="liquidGlass-text">
-            <component :is="getIconComponent(tab.icon)" :size="24" />
+            <component :is="getIconComponent(tab.icon)" :size="28" />
             <span>{{ tab.name }}</span>
           </div>
         </router-link>
@@ -56,11 +56,19 @@ export default {
   border-radius: 50px;
   z-index: 1000;
   width: max-content;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.5),
+    0 6px 20px rgba(0, 0, 0, 0.3),
+    0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 .bottom-navigation:hover {
   padding: 15px 25px;
   border-radius: 55px;
+  box-shadow: 
+    0 15px 50px rgba(0, 0, 0, 0.6),
+    0 8px 25px rgba(0, 0, 0, 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* 液体玻璃效果 - 参考 reference 中的 menu 样式 */
@@ -127,6 +135,7 @@ export default {
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   position: relative;
   white-space: nowrap;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .nav-item:hover {
@@ -134,10 +143,12 @@ export default {
   border-radius: 18px;
   transform: translateY(-2px);
   color: white;
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .nav-item.active {
-  color: white;
+  color: rgba(80, 80, 80, 0.9);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .nav-item .liquidGlass-text {
@@ -147,10 +158,35 @@ export default {
   justify-content: center;
 }
 
+/* 选中状态的图标颜色 */
+.nav-item.active .liquidGlass-text > * {
+  color: rgba(0, 0, 0, 0.9) !important;
+}
+
+/* 导航栏图标阴影效果 */
+.nav-item .liquidGlass-text > * {
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4));
+}
+
+/* 选中状态的图标和文字阴影 */
+.nav-item.active .liquidGlass-text > * {
+  filter: drop-shadow(0 1px 2px rgba(255, 255, 255, 0.3));
+}
+
 .nav-item span {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   text-align: center;
+  text-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.6),
+    0 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+/* 选中状态的文字阴影 */
+.nav-item.active span {
+  text-shadow: 
+    0 1px 2px rgba(255, 255, 255, 0.4),
+    0 0.5px 1px rgba(255, 255, 255, 0.2);
 }
 
 /* 响应式设计 */
@@ -175,9 +211,8 @@ export default {
   .nav-item:hover {
     padding: 10px 14px;
   }
-  
-  .nav-item span {
-    font-size: 10px;
+    .nav-item span {
+    font-size: 11px;
   }
 }
 </style>
