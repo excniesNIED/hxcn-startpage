@@ -184,95 +184,108 @@ body {
 .main-content {
   flex: 1;
   padding: 2rem;
-  padding-bottom: 6rem; /* 为底部导航栏留出空间 */
+  padding-bottom: 8rem; /* 为底部导航栏留出空间 */
+  overflow-y: auto;
+  position: relative;
+  z-index: 1;
 }
 
-/* Liquid Glass 效果 */
-.liquid-glass-wrapper {
+/* 液体玻璃效果 - 参考 reference/styles.css */
+.liquidGlass-wrapper {
   position: relative;
   display: flex;
   font-weight: 600;
   overflow: hidden;
-  color: black;
+  color: white;
   cursor: pointer;
-  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.2);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
 }
 
-.liquid-glass-effect {
+.liquidGlass-effect {
   position: absolute;
   z-index: 0;
   inset: 0;
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(8px);
   filter: url(#glass-distortion);
   overflow: hidden;
   isolation: isolate;
 }
 
-.liquid-glass-tint {
+.liquidGlass-tint {
   z-index: 1;
   position: absolute;
   inset: 0;
   background: rgba(255, 255, 255, 0.25);
+  border-radius: inherit;
 }
 
-.liquid-glass-shine {
+.liquidGlass-shine {
   position: absolute;
   inset: 0;
   z-index: 2;
   overflow: hidden;
+  border-radius: inherit;
   box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.5),
     inset -1px -1px 1px 1px rgba(255, 255, 255, 0.5);
 }
 
-.liquid-glass-text {
+.liquidGlass-text {
   z-index: 3;
   color: white;
   position: relative;
 }
 
-/* 底部导航栏 - menu 样式 */
+/* 底部导航栏 - 参考 reference 中的 menu 样式 */
 .bottom-navigation {
   position: fixed;
-  bottom: 1rem;
+  bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  padding: 0.4rem;
-  border-radius: 1.8rem;
+  padding: 0.6rem;
+  border-radius: 2.5rem;
+  min-width: 320px;
 }
 
 .bottom-navigation:hover {
-  padding: 0.6rem;
+  padding: 0.8rem;
+  border-radius: 2.8rem;
 }
 
 .nav-items {
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  justify-content: center;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
   font-size: 16px;
   color: white;
-  padding: 0.4rem 0.6rem;
-  border-radius: 0.8rem;
-  transition: all 0.1s ease-in;
+  padding: 0.8rem 1.2rem;
+  border-radius: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   text-decoration: none;
   cursor: pointer;
+  font-weight: 600;
+  flex: 1;
+  justify-content: center;
+  min-width: 80px;
 }
 
 .nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.35);
   box-shadow: inset -2px -2px 2px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(2px);
+  transform: translateY(-2px);
 }
 
 .nav-item.active {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.25);
   box-shadow: inset -2px -2px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -285,74 +298,105 @@ body {
   margin: 0 auto;
 }
 
-/* 分类卡片 - dock 样式 */
+/* 页面头部样式 */
+.page-header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border-radius: 2.5rem;
+  overflow: hidden;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.page-subtitle {
+  font-size: 1.1rem;
+  margin: 0.5rem 0 0 0;
+  color: rgba(255, 255, 255, 0.8);
+  opacity: 0.9;
+}
+
+/* 分类卡片 - 参考 reference 中的 dock 样式 */
 .category-card {
-  padding: 0.6rem;
-  border-radius: 2rem;
+  padding: 1.5rem;
+  border-radius: 2.5rem;
 }
 
 .category-card:hover {
-  padding: 0.8rem;
+  padding: 1.8rem;
+  border-radius: 3rem;
+}
+
+.category-card .liquidGlass-shine,
+.category-card .liquidGlass-effect,
+.category-card .liquidGlass-tint {
   border-radius: 2.5rem;
 }
 
-.category-card .liquid-glass-shine,
-.category-card .liquid-glass-effect,
-.category-card .liquid-glass-tint {
-  border-radius: 2rem;
-}
-
-.category-card:hover .liquid-glass-shine,
-.category-card:hover .liquid-glass-effect,
-.category-card:hover .liquid-glass-tint {
-  border-radius: 2.5rem;
+.category-card:hover .liquidGlass-shine,
+.category-card:hover .liquidGlass-effect,
+.category-card:hover .liquidGlass-tint {
+  border-radius: 3rem;
 }
 
 .category-title {
   font-size: 1.5rem;
   font-weight: bold;
   color: white;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   text-align: center;
 }
 
 .links-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
+  justify-content: center;
+  align-items: center;
 }
 
-/* 链接按钮 - button 样式 */
+/* 链接按钮 - 参考 reference 中的 button 样式 */
 .link-button {
-  padding: 1rem;
-  border-radius: 1.5rem;
+  padding: 1.2rem;
+  border-radius: 2rem;
   text-decoration: none;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
+  min-width: 100px;
+  flex: 0 0 auto;
 }
 
 .link-button:hover {
-  padding: 1.2rem;
+  padding: 1.4rem;
+  border-radius: 2.5rem;
+  transform: translateY(-2px);
+}
+
+.link-button .liquidGlass-shine,
+.link-button .liquidGlass-effect,
+.link-button .liquidGlass-tint {
   border-radius: 2rem;
 }
 
-.link-button .liquid-glass-shine,
-.link-button .liquid-glass-effect,
-.link-button .liquid-glass-tint {
-  border-radius: 1.5rem;
-}
-
-.link-button:hover .liquid-glass-shine,
-.link-button:hover .liquid-glass-effect,
-.link-button:hover .liquid-glass-tint {
-  border-radius: 2rem;
+.link-button:hover .liquidGlass-shine,
+.link-button:hover .liquidGlass-effect,
+.link-button:hover .liquidGlass-tint {
+  border-radius: 2.5rem;
 }
 
 .link-icon {
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  flex-shrink: 0;
 }
 
 .link-button:hover .link-icon {
@@ -364,13 +408,18 @@ body {
   font-weight: 600;
   color: white;
   text-align: center;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
   .main-content {
     padding: 1rem;
-    padding-bottom: 6rem;
+    padding-bottom: 7rem;
   }
   
   .content-grid {
@@ -378,22 +427,50 @@ body {
     gap: 1.5rem;
   }
   
+  .bottom-navigation {
+    bottom: 1.5rem;
+    min-width: 280px;
+    padding: 0.5rem;
+  }
+  
+  .bottom-navigation:hover {
+    padding: 0.6rem;
+  }
+  
   .nav-item {
     font-size: 14px;
-    padding: 0.3rem 0.5rem;
+    padding: 0.6rem 1rem;
+    gap: 0.6rem;
   }
-  
-  .links-grid {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 0.8rem;
-  }
-  
-  .link-button {
+}
+
+@media (max-width: 480px) {
+  .main-content {
     padding: 0.8rem;
+    padding-bottom: 6rem;
   }
   
-  .link-button:hover {
-    padding: 1rem;
+  .bottom-navigation {
+    bottom: 1rem;
+    min-width: 260px;
+    padding: 0.4rem;
+    border-radius: 2rem;
+  }
+  
+  .bottom-navigation:hover {
+    padding: 0.5rem;
+    border-radius: 2.2rem;
+  }
+  
+  .nav-item {
+    font-size: 13px;
+    padding: 0.5rem 0.8rem;
+    gap: 0.5rem;
+    border-radius: 1.2rem;
+  }
+  
+  .nav-item span {
+    display: none;
   }
 }
 

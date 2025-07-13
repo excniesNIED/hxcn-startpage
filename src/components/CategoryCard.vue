@@ -19,8 +19,8 @@
           <div class="liquidGlass-shine"></div>
           <div class="liquidGlass-text">
             <component 
-              :is="getIconComponent(link.icon)" 
-              :size="32" 
+              :is="getIconComponent(link.icon)"
+              :size="24"
               class="link-icon"
               :style="{ color: link.icon_color }"
             />
@@ -42,7 +42,8 @@ export default {
       type: Object,
       required: true
     }
-  },  methods: {
+  },
+  methods: {
     getIconComponent(iconName) {
       return iconManager.getIcon(iconName)
     }
@@ -53,9 +54,9 @@ export default {
 <style scoped>
 /* 卡片基础样式 - 参考 reference 中的 dock 样式 */
 .category-card {
-  padding: 24px;
-  border-radius: 20px;
-  margin-bottom: 24px;
+  padding: 1.5rem;
+  border-radius: 2.5rem;
+  margin-bottom: 2rem;
   animation: cardFloat 8s ease-in-out infinite;
 }
 
@@ -64,50 +65,52 @@ export default {
 }
 
 .category-card:hover {
-  padding: 28px;
-  border-radius: 24px;
+  padding: 1.8rem;
+  border-radius: 3rem;
 }
 
 .category-title {
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
   color: white;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   text-align: center;
 }
 
 .links-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 16px;
-  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
   justify-content: center;
+  align-items: center;
 }
 
 /* 链接按钮样式 - 参考 reference 中的 button 样式 */
 .link-button {
-  padding: 16px 12px;
-  border-radius: 16px;
+  padding: 1.2rem;
+  border-radius: 2rem;
   text-decoration: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  min-height: 80px;
-  justify-content: center;
+  gap: 0.6rem;
+  min-width: 100px;
+  flex: 0 0 auto;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
 }
 
 .link-button:hover {
-  padding: 18px 14px;
-  border-radius: 20px;
-  transform: scale(0.98);
+  padding: 1.4rem;
+  border-radius: 2.5rem;
+  transform: translateY(-2px);
 }
 
 .link-icon {
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
 }
 
 .link-button:hover .link-icon {
@@ -115,75 +118,80 @@ export default {
 }
 
 .link-text {
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 600;
   color: white;
   text-align: center;
   line-height: 1.2;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  max-width: 100%;
-  word-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
 }
 
-/* 卡片浮动动画 */
+/* 浮动动画 */
 @keyframes cardFloat {
   0%, 100% { 
-    transform: translateY(0px) rotate(0deg); 
+    transform: translateY(0px); 
   }
   50% { 
-    transform: translateY(-5px) rotate(0.5deg); 
+    transform: translateY(-5px); 
   }
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
   .category-card {
-    padding: 20px;
-    border-radius: 16px;
-    margin-bottom: 20px;
+    padding: 1.2rem;
+    border-radius: 2rem;
+    margin-bottom: 1.5rem;
   }
   
   .category-card:hover {
-    padding: 22px;
-    border-radius: 18px;
+    padding: 1.4rem;
+    border-radius: 2.5rem;
   }
   
   .category-title {
     font-size: 1.3rem;
-    margin-bottom: 16px;
+    margin-bottom: 1.2rem;
   }
   
   .links-grid {
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    gap: 12px;
+    gap: 0.8rem;
   }
   
   .link-button {
-    padding: 12px 8px;
-    min-height: 70px;
+    padding: 1rem;
+    min-width: 80px;
   }
   
   .link-button:hover {
-    padding: 14px 10px;
+    padding: 1.2rem;
   }
   
   .link-text {
-    font-size: 11px;
+    font-size: 0.8rem;
+    max-width: 80px;
   }
 }
 
 @media (max-width: 480px) {
   .links-grid {
-    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
   }
   
   .link-button {
-    min-height: 60px;
-    padding: 10px 6px;
+    padding: 0.8rem;
+    min-width: 70px;
+  }
+  
+  .link-button:hover {
+    padding: 1rem;
   }
   
   .link-text {
-    font-size: 10px;
+    max-width: 70px;
   }
 }
 </style>
