@@ -16,7 +16,7 @@ const default_config = {
   openLastVisitedTab: true,
   tabs: [
     {
-      name: "HXCN",
+      name: "萑澈",
       categories: [
         {
           name: "Websites",
@@ -127,7 +127,7 @@ const default_config = {
       ],
     },
     {
-      name: "Services",
+      name: "服务",
       categories: [
         {
           name: "development",
@@ -213,7 +213,7 @@ const default_config = {
       ],
     },
     {
-      name: "CHA",
+      name: "猹界",
       categories: [
         {
           name: "Home Page",
