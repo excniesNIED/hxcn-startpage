@@ -59,16 +59,20 @@
         />
 
         <!-- 搜索按钮 -->
-        <button 
-          class="search-button"
-          @click="handleSearch"
-          :disabled="!searchQuery.trim()"
-        >
-          <component 
-            :is="getIconComponent('arrow-right')" 
-            :size="18"
-          />
-        </button>
+        <div class="liquidGlass-wrapper search-button-wrapper" @click="handleSearch">
+          <div class="liquidGlass-effect"></div>
+          <div class="liquidGlass-tint"></div>
+          <div class="liquidGlass-shine"></div>
+          <button 
+            class="search-button"
+            :disabled="!searchQuery.trim()"
+          >
+            <component 
+              :is="getIconComponent('arrow-right')" 
+              :size="18"
+            />
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -169,7 +173,7 @@ export default {
 .search-container {
   width: 100%;
   max-width: 600px;
-  margin: 0 auto 2rem auto;
+  margin: 0 auto 3rem auto;
   position: relative;
   z-index: 10;
 }
@@ -187,6 +191,7 @@ export default {
   gap: 0.5rem;
   position: relative;
   z-index: 2;
+  width: 100%;
 }
 
 /* 搜索引擎选择器 */
@@ -194,15 +199,19 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 0.5rem 0.7rem;
-  border-radius: 1rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 1.2rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   background: rgba(var(--surface0-rgb), 0.3);
   position: relative;
+  flex-shrink: 0;
+  min-width: fit-content;
 }
 
 .engine-selector:hover {
+  padding: 0.8rem 1rem;
+  border-radius: 1.4rem;
   background: rgba(var(--surface0-rgb), 0.5);
   transform: translateY(-1px);
 }
@@ -233,9 +242,16 @@ export default {
 }
 
 .dropdown-content {
-  border-radius: 1rem;
+  border-radius: 1.5rem;
   overflow: hidden;
   border: 1px solid rgba(var(--surface1-rgb), 0.5);
+  padding: 0.4rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+}
+
+.dropdown-content:hover {
+  padding: 0.6rem;
+  border-radius: 1.8rem;
 }
 
 .engine-option {
@@ -244,13 +260,18 @@ export default {
   gap: 0.7rem;
   padding: 0.7rem 1rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   position: relative;
   z-index: 2;
+  border-radius: 1rem;
+  color: var(--text);
 }
 
 .engine-option:hover {
-  background: rgba(var(--surface1-rgb), 0.3);
+  background: rgba(var(--surface1-rgb), 0.5);
+  backdrop-filter: blur(2px);
+  border-radius: 1.2rem;
+  padding: 0.8rem 1.1rem;
 }
 
 .engine-option.active {
@@ -273,11 +294,12 @@ export default {
   border: none;
   outline: none;
   background: transparent;
-  padding: 0.7rem 1rem;
+  padding: 0.8rem 1.2rem;
   font-size: 1rem;
   color: var(--text);
-  border-radius: 1rem;
-  transition: all 0.2s ease;
+  border-radius: 1.2rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  min-width: 0;
 }
 
 .search-input::placeholder {
@@ -287,6 +309,24 @@ export default {
 
 .search-input:focus {
   background: rgba(var(--surface0-rgb), 0.2);
+  padding: 0.9rem 1.3rem;
+  border-radius: 1.4rem;
+}
+
+/* 搜索按钮容器 */
+.search-button-wrapper {
+  border-radius: 50%;
+  padding: 0.3rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  width: fit-content;
+  flex-shrink: 0;
+}
+
+.search-button-wrapper:hover {
+  padding: 0.5rem;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.3);
 }
 
 /* 搜索按钮 */
@@ -294,25 +334,26 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.8rem;
+  height: 2.8rem;
   border: none;
   border-radius: 50%;
   background: var(--accent);
   color: var(--base);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .search-button:hover:not(:disabled) {
   background: var(--accent-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.3);
+  transform: scale(0.95);
 }
 
 .search-button:active:not(:disabled) {
-  transform: translateY(0);
+  transform: scale(0.9);
 }
 
 .search-button:disabled {
@@ -321,16 +362,20 @@ export default {
   transform: none;
 }
 
+.search-button-wrapper .search-button:disabled {
+  pointer-events: none;
+}
+
 /* 下拉菜单动画 */
 .dropdown-enter-active,
 .dropdown-leave-active {
-  transition: all 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
 }
 
 .dropdown-enter-from,
 .dropdown-leave-to {
   opacity: 0;
-  transform: translateY(-10px) scale(0.95);
+  transform: translateY(-15px) scale(0.9);
 }
 
 .dropdown-enter-to,
@@ -343,7 +388,7 @@ export default {
 @media (max-width: 768px) {
   .search-container {
     max-width: 100%;
-    margin: 0 1rem 1.5rem 1rem;
+    margin: 0 1rem 2.5rem 1rem;
   }
   
   .search-content {
@@ -352,23 +397,47 @@ export default {
   }
   
   .search-input {
-    padding: 0.6rem 0.8rem;
+    padding: 0.7rem 1rem;
     font-size: 0.9rem;
   }
   
+  .search-input:focus {
+    padding: 0.8rem 1.1rem;
+  }
+  
   .search-button {
-    width: 2.2rem;
-    height: 2.2rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .search-button-wrapper {
+    padding: 0.25rem;
+  }
+
+  .search-button-wrapper:hover {
+    padding: 0.4rem;
   }
   
   .engine-dropdown {
     min-width: 180px;
   }
+
+  .engine-selector {
+    padding: 0.6rem 0.8rem;
+  }
+
+  .engine-selector:hover {
+    padding: 0.7rem 0.9rem;
+  }
 }
 
 @media (max-width: 480px) {
   .search-container {
-    margin: 0 0.5rem 1rem 0.5rem;
+    margin: 0 0.5rem 2rem 0.5rem;
+  }
+
+  .search-content {
+    gap: 0.3rem;
   }
   
   .search-input::placeholder {
@@ -382,9 +451,26 @@ export default {
   .engine-option {
     padding: 0.6rem 0.8rem;
   }
+
+  .engine-option:hover {
+    padding: 0.7rem 0.9rem;
+  }
   
   .option-name {
     font-size: 0.85rem;
+  }
+
+  .search-button {
+    width: 2.3rem;
+    height: 2.3rem;
+  }
+
+  .search-button-wrapper {
+    padding: 0.2rem;
+  }
+
+  .search-button-wrapper:hover {
+    padding: 0.35rem;
   }
 }
 </style>
