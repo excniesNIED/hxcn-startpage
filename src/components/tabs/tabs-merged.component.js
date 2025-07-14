@@ -550,24 +550,228 @@ class Tabs extends Component {
         transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
       }
 
-      /* 特殊处理直接相邻的按钮（hover的下一个） */
+      /* 磁性效果：相邻按钮内部元素的微妙响应 */
+      .categories .link-info:hover + .link-info .link-icon,
+      .categories .link-info:hover + .link-info .link-name {
+        transform: scale(0.95) translateX(2px);
+        opacity: 0.9;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      .categories .link-info:hover ~ .link-info .link-icon,
+      .categories .link-info:hover ~ .link-info .link-name {
+        transform: scale(0.92) translateX(1px);
+        opacity: 0.8;
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      /* 前置按钮的内部元素响应 */
+      .categories .link-info:has(+ .link-info:hover) .link-icon,
+      .categories .link-info:has(+ .link-info:hover) .link-name {
+        transform: scale(0.96) translateX(-1px);
+        opacity: 0.92;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }      .categories .link-info:hover::before {
+        border-radius: 35px;
+        /* 完全移除白色渐变，使用深色渐变以避免诡异的白色效果 */
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.04) 100%);
+        /* 使用aerolab的缓动曲线 */
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }      /* 增强版"牵一发而动全身"磁性效果 - 模拟物理引力 */
+      
+      /* 直接相邻的按钮 - 最强的"引力"效果 */
       .categories .link-info:hover + .link-info {
-        transform: scale(1.02) translateY(-1px) translateX(-2px);
-        opacity: 0.88;
+        transform: scale(0.97) translateY(-2px) translateX(8px) rotate(1deg);
+        opacity: 0.82;
+        background: rgba(0, 0, 0, 0.12) !important;
+        backdrop-filter: blur(20px) !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.18) !important;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3) !important;
+        filter: brightness(0.95) contrast(1.02);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        /* 使用更物理化的缓动曲线 */
+        transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        /* 为相邻按钮添加延迟，模拟物理传播 */
+        transition-delay: 0.02s;
+      }
+
+      /* 前一个相邻按钮 - 反向引力 */
+      .categories .link-info:has(+ .link-info:hover) {
+        transform: scale(0.98) translateY(-1px) translateX(-4px) rotate(-0.5deg);
+        opacity: 0.85;
+        background: rgba(0, 0, 0, 0.1) !important;
+        backdrop-filter: blur(18px) !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.15) !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+        filter: brightness(0.96);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        /* 使用更物理化的缓动曲线 */
+        transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        /* 反向传播延迟 */
+        transition-delay: 0.01s;
+      }
+
+      /* 后续所有按钮 - 递减的波纹效果 */
+      .categories .link-info:hover ~ .link-info {
+        transform: scale(0.94) translateY(3px) translateX(4px) rotate(0.5deg);
+        opacity: 0.65;
+        background: rgba(0, 0, 0, 0.06) !important;
+        backdrop-filter: blur(12px) !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.08) !important;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15) !important;
+        filter: brightness(0.9) saturate(0.95);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        /* 使用更物理化的缓动曲线 */
+        transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      /* 第二个后续按钮 - 中等影响 */
+      .categories .link-info:hover + .link-info + .link-info {
+        transform: scale(0.96) translateY(1px) translateX(6px) rotate(0.8deg);
+        opacity: 0.75;
         background: rgba(0, 0, 0, 0.08) !important;
-        /* 确保没有白色阴影 */
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25) !important;
-      }.categories .links-wrapper:has(.link-info:hover) {
-        filter: brightness(1.08) contrast(1.03) saturate(1.05);
-        transform: scale(1.005);
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      }.categories .link-icon {
+        backdrop-filter: blur(15px) !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.12) !important;
+        box-shadow: 0 3px 18px rgba(0, 0, 0, 0.2) !important;
+        filter: brightness(0.93) contrast(1.01);
+        transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        /* 使用更物理化的缓动曲线 */
+        transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        /* 为相邻按钮添加延迟，模拟物理传播 */
+        transition-delay: 0.04s;
+      }
+
+      /* 第三个后续按钮 - 轻微影响 */
+      .categories .link-info:hover + .link-info + .link-info + .link-info {
+        transform: scale(0.98) translateY(0.5px) translateX(2px);
+        opacity: 0.85;
+        background: rgba(0, 0, 0, 0.04) !important;
+        backdrop-filter: blur(10px) !important;
+        border: 0.5px solid rgba(255, 255, 255, 0.06) !important;
+        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1) !important;
+        filter: brightness(0.97);
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+        /* 使用更物理化的缓动曲线 */
+        transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        /* 为相邻按钮添加延迟，模拟物理传播 */
+        transition-delay: 0.06s;
+      }
+
+      /* 磁性恢复效果 - 当鼠标离开时 */
+      .categories .link-info:not(:hover) {
+        transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      }      /* 增强版整个links-wrapper容器的磁性响应效果 */
+      .categories .links-wrapper:has(.link-info:hover) {
+        /* 整体容器的物理响应 */
+        filter: brightness(1.12) contrast(1.08) saturate(1.12);
+        transform: scale(1.02) translateY(-3px) rotate(0.2deg);
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(8px);
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      /* 容器内未悬停按钮的全局微调 */
+      .categories .links-wrapper:has(.link-info:hover) .link-info:not(:hover) {
+        filter: brightness(0.94) saturate(0.96);
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      /* 为整个分类卡片添加呼吸效果响应 */
+      .categories ul:has(.link-info:hover) {
+        transform: scale(1.005) translateY(-1px);
+        background: rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }
+
+      /* 为links区域添加整体磁性拉伸效果 */
+      .categories .links:has(.link-info:hover) {
+        transform: scale(1.01) translateY(-2px);
+        background: rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(80px);
+        border-radius: 0 28px 28px 0;
+        border-left: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+      }      /* 磁性波纹效果 - 从悬停按钮向外扩散 */
+      @keyframes magneticRipple {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
+        }
+        50% {
+          box-shadow: 0 0 0 15px rgba(255, 255, 255, 0.05);
+        }
+        100% {
+          box-shadow: 0 0 0 30px rgba(255, 255, 255, 0);
+        }
+      }
+
+      /* 为悬停的按钮添加波纹动画 */
+      .categories .link-info:hover::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: magneticRipple 1.5s ease-out infinite;
+        z-index: -1;
+      }
+
+      /* 磁性光晕效果 */
+      .categories .links-wrapper:has(.link-info:hover)::before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.05) 30%,
+          transparent 70%
+        );
+        border-radius: 20px;
+        pointer-events: none;
+        opacity: 0;
+        animation: glowPulse 2s ease-in-out infinite;
+        z-index: -1;
+      }
+
+      @keyframes glowPulse {
+        0%, 100% {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.02);
+        }
+      }
+
+      /* 按钮间的"磁力线"效果 */
+      .categories .link-info:hover + .link-info::before {
+        box-shadow: -2px 0 8px rgba(255, 255, 255, 0.1);
+      }
+
+      .categories .link-info:has(+ .link-info:hover)::before {
+        box-shadow: 2px 0 8px rgba(255, 255, 255, 0.1);
+      }
+
+      .categories .link-icon {
         font-size: 20px;
         /* 恢复原来的白色图标 */
         color: rgba(255, 255, 255, 0.9);
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        /* 为 Q 弹动画添加过渡效果 */
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+        /* 使用aerolab的缓动曲线 */
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }
 
       .categories .link-name {
@@ -577,8 +781,8 @@ class Tabs extends Component {
         color: rgba(255, 255, 255, 0.95);
         text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
         font-family: 'SF Pro Display', 'SF Pro Text', 'San Francisco', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
-        /* 为 Q 弹动画添加过渡效果 */
-        transition: all 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+        /* 使用aerolab的缓动曲线 */
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
       }      .categories ul::after {
         content: attr(data-category-name);
         position: absolute;
