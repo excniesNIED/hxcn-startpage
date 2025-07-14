@@ -91,12 +91,15 @@ export default {
   filter: url(#glass-distortion);
   overflow: hidden;
   isolation: isolate;
+  border-radius: inherit;
 }
 
 .liquidGlass-tint {
   z-index: 1;
   position: absolute;
   inset: 0;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: inherit;
   background: rgba(255, 255, 255, 0.25);
   border-radius: inherit;
 }
@@ -136,6 +139,7 @@ export default {
   position: relative;
   white-space: nowrap;
   background: rgba(0, 0, 0, 0.2);
+  overflow: hidden; /* 确保子元素不会超出圆角边界 */
 }
 
 .nav-item:hover {
@@ -144,10 +148,10 @@ export default {
   transform: translateY(-2px);
   color: white;
   background: rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* 确保子元素不会超出圆角边界 */
 }
 
 .nav-item.active {
-  color: rgba(80, 80, 80, 0.9);
   background: rgba(255, 255, 255, 0.3);
 }
 
@@ -158,9 +162,22 @@ export default {
   justify-content: center;
 }
 
+/* 确保导航项目的液体玻璃效果有正确的圆角 */
+.nav-item .liquidGlass-effect,
+.nav-item .liquidGlass-tint,
+.nav-item .liquidGlass-shine {
+  border-radius: 16px;
+}
+
+.nav-item:hover .liquidGlass-effect,
+.nav-item:hover .liquidGlass-tint,
+.nav-item:hover .liquidGlass-shine {
+  border-radius: 18px;
+}
+
 /* 选中状态的图标颜色 */
 .nav-item.active .liquidGlass-text > * {
-  color: rgba(0, 0, 0, 0.9) !important;
+  color: rgba(0, 0, 0, 0.8) !important;
 }
 
 /* 导航栏图标阴影效果 */
@@ -184,9 +201,10 @@ export default {
 
 /* 选中状态的文字阴影 */
 .nav-item.active span {
+  color: rgba(0, 0, 0, 0.8) !important;
   text-shadow: 
-    0 1px 2px rgba(255, 255, 255, 0.4),
-    0 0.5px 1px rgba(255, 255, 255, 0.2);
+    0 1px 3px rgba(71, 71, 71, 0.3),
+    0 1px 1px rgba(95, 95, 95, 0.2);
 }
 
 /* 响应式设计 */
@@ -206,10 +224,12 @@ export default {
   
   .nav-item {
     padding: 8px 12px;
+    overflow: hidden; /* 确保子元素不会超出圆角边界 */
   }
   
   .nav-item:hover {
     padding: 10px 14px;
+    overflow: hidden; /* 确保子元素不会超出圆角边界 */
   }
     .nav-item span {
     font-size: 11px;
