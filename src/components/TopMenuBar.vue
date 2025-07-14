@@ -31,7 +31,9 @@
         <div class="liquidGlass-tint"></div>
         <div class="liquidGlass-shine"></div>
         <div class="liquidGlass-text">
-          <span class="page-title">{{ currentPageName }}</span>
+          <transition :name="pageTransitionName" mode="out-in">
+            <span :key="currentPageName" class="page-title">{{ currentPageName }}</span>
+          </transition>
         </div>
       </div>
     </div>
@@ -58,7 +60,10 @@ export default {
   data() {
     return {
       currentTime: '',
-      timeInterval: null
+      timeInterval: null,
+      previousPageIndex: 0,
+      currentPageIndex: 0,
+      transitionDirection: 'right'
     }
   },  computed: {
     siteTitle() {
@@ -76,15 +81,24 @@ export default {
       })
       
       return currentTab ? currentTab.name : '萑澈'
+    },
+    pageTransitionName() {
+      return `page-title-${this.transitionDirection}`
     }
   },
   mounted() {
     this.updateTime()
     this.timeInterval = setInterval(this.updateTime, 1000)
+    this.updatePageIndex()
   },
   beforeUnmount() {
     if (this.timeInterval) {
       clearInterval(this.timeInterval)
+    }
+  },
+  watch: {
+    '$route'(to, from) {
+      this.updateTransitionDirection(to, from)
     }
   },  methods: {
     updateTime() {
@@ -100,6 +114,32 @@ export default {
       const day = now.getDate().toString().padStart(2, '0')
       
       this.currentTime = `${hours}:${minutes}:${seconds} - ${year}/${month}/${day}`
+    },
+    getPageIndex(route) {
+      const tabs = configManager.getNavigationTabs()
+      const pageKey = route.path === '/' ? 'hxcn' : route.path.slice(1)
+      
+      return tabs.findIndex(tab => tab.key === pageKey)
+    },
+    updatePageIndex() {
+      this.currentPageIndex = this.getPageIndex(this.$route)
+      this.previousPageIndex = this.currentPageIndex
+    },
+    updateTransitionDirection(to, from) {
+      const fromIndex = this.getPageIndex(from)
+      const toIndex = this.getPageIndex(to)
+      
+      this.previousPageIndex = fromIndex
+      this.currentPageIndex = toIndex
+      
+      // 根据页面索引确定动画方向
+      if (toIndex > fromIndex) {
+        this.transitionDirection = 'right' // 向右切换，新页面从右侧进入
+      } else if (toIndex < fromIndex) {
+        this.transitionDirection = 'left'  // 向左切换，新页面从左侧进入
+      } else {
+        this.transitionDirection = 'right' // 默认方向
+      }
     }
   }
 }
@@ -242,6 +282,54 @@ export default {
   font-weight: 400;
   color: white;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  display: inline-block;
+}
+
+/* Page Title Transition Animation */
+/* 向右切换动画 (新页面从右侧进入) */
+.page-title-right-enter-active,
+.page-title-right-leave-active {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.page-title-right-enter-from {
+  opacity: 0;
+  transform: translateX(20px) scale(0.95);
+  filter: blur(2px);
+}
+
+.page-title-right-leave-to {
+  opacity: 0;
+  transform: translateX(-20px) scale(0.95);
+  filter: blur(2px);
+}
+
+/* 向左切换动画 (新页面从左侧进入) */
+.page-title-left-enter-active,
+.page-title-left-leave-active {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.page-title-left-enter-from {
+  opacity: 0;
+  transform: translateX(-20px) scale(0.95);
+  filter: blur(2px);
+}
+
+.page-title-left-leave-to {
+  opacity: 0;
+  transform: translateX(20px) scale(0.95);
+  filter: blur(2px);
+}
+
+/* 通用的进入和离开状态 */
+.page-title-right-enter-to,
+.page-title-right-leave-from,
+.page-title-left-enter-to,
+.page-title-left-leave-from {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  filter: blur(0);
 }
 
 .page-separator {
