@@ -1,118 +1,120 @@
 <template>
-  <div class="search-container">
-    <div class="liquidGlass-wrapper search-box">
-      <div class="liquidGlass-effect"></div>
-      <div class="liquidGlass-tint"></div>
-      <div class="liquidGlass-shine"></div>
-      
-      <div class="search-content">
-        <!-- 搜索引擎选择器 -->
-        <div class="engine-selector" @click="toggleEngineDropdown">
-          <component 
-            :is="getIconComponent(currentEngine.icon)" 
-            :size="20" 
-            class="engine-icon"
+  <div class="search-container" :class="{ 'search-active': isActive, 'search-inactive': !isActive }">
+    <transition name="dynamic-island">
+      <div v-if="isActive" class="liquidGlass-wrapper search-box">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        
+        <div class="search-content">
+          <!-- 搜索引擎选择器 -->
+          <div class="engine-selector" @click="toggleEngineDropdown">
+            <component 
+              :is="getIconComponent(currentEngine.icon)" 
+              :size="20" 
+              class="engine-icon"
+            />
+            <component 
+              :is="getIconComponent('chevron-down')" 
+              :size="16" 
+              class="dropdown-icon"
+              :class="{ 'rotated': showEngineDropdown }"
+            />
+            
+            <!-- 搜索引擎下拉列表 -->
+            <transition name="dropdown">
+              <div v-if="showEngineDropdown" class="engine-dropdown">
+                <div class="liquidGlass-wrapper dropdown-content">
+                  <div class="liquidGlass-effect"></div>
+                  <div class="liquidGlass-tint"></div>
+                  <div class="liquidGlass-shine"></div>
+                  
+                  <div class="liquidGlass-text">
+                    <div 
+                      v-for="engine in engines" 
+                      :key="engine.key"
+                      class="engine-option"
+                      :class="{ 'active': engine.key === currentEngine.key }"
+                      @click.stop="selectEngine(engine, $event)"
+                      @mousedown.prevent
+                    >
+                      <component 
+                        :is="getIconComponent(engine.icon)" 
+                        :size="18" 
+                        class="option-icon"
+                      />
+                      <span class="option-name">{{ engine.name }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </transition>
+          </div>
+
+          <!-- 搜索输入框 -->
+          <input 
+            ref="searchInput"
+            v-model="searchQuery"
+            type="text"
+            class="search-input"
+            :placeholder="`使用 ${currentEngine.name} 搜索或粘贴链接...`"
+            @keydown.enter="handleSearch"
+            @keydown.arrow-down="navigateSuggestions(1)"
+            @keydown.arrow-up="navigateSuggestions(-1)"
+            @keydown.escape="hideSearch"
+            @input="handleInput"
+            @focus="handleFocus"
+            @blur="handleBlur"
           />
-          <component 
-            :is="getIconComponent('chevron-down')" 
-            :size="16" 
-            class="dropdown-icon"
-            :class="{ 'rotated': showEngineDropdown }"
-          />
-          
-          <!-- 搜索引擎下拉列表 -->
-          <transition name="dropdown">
-            <div v-if="showEngineDropdown" class="engine-dropdown">
-              <div class="liquidGlass-wrapper dropdown-content">
+
+          <!-- 搜索建议下拉列表 -->
+          <transition name="suggestions">
+            <div v-if="showSuggestions && suggestions.length > 0" class="suggestions-dropdown">
+              <div class="liquidGlass-wrapper suggestions-content">
                 <div class="liquidGlass-effect"></div>
                 <div class="liquidGlass-tint"></div>
                 <div class="liquidGlass-shine"></div>
                 
                 <div class="liquidGlass-text">
                   <div 
-                    v-for="engine in engines" 
-                    :key="engine.key"
-                    class="engine-option"
-                    :class="{ 'active': engine.key === currentEngine.key }"
-                    @click.stop="selectEngine(engine, $event)"
+                    v-for="(suggestion, index) in suggestions" 
+                    :key="index"
+                    class="suggestion-option"
+                    :class="{ 'active': index === selectedSuggestionIndex }"
+                    @click.stop="selectSuggestion(suggestion)"
+                    @mouseenter="selectedSuggestionIndex = index"
                     @mousedown.prevent
                   >
                     <component 
-                      :is="getIconComponent(engine.icon)" 
-                      :size="18" 
-                      class="option-icon"
+                      :is="getIconComponent('search')" 
+                      :size="16" 
+                      class="suggestion-icon"
                     />
-                    <span class="option-name">{{ engine.name }}</span>
+                    <span class="suggestion-text">{{ suggestion }}</span>
                   </div>
                 </div>
               </div>
             </div>
           </transition>
-        </div>
 
-        <!-- 搜索输入框 -->
-        <input 
-          ref="searchInput"
-          v-model="searchQuery"
-          type="text"
-          class="search-input"
-          :placeholder="`使用 ${currentEngine.name} 搜索或粘贴链接...`"
-          @keydown.enter="handleSearch"
-          @keydown.arrow-down="navigateSuggestions(1)"
-          @keydown.arrow-up="navigateSuggestions(-1)"
-          @keydown.escape="hideSuggestions"
-          @input="handleInput"
-          @focus="handleFocus"
-          @blur="handleBlur"
-        />
-
-        <!-- 搜索建议下拉列表 -->
-        <transition name="suggestions">
-          <div v-if="showSuggestions && suggestions.length > 0" class="suggestions-dropdown">
-            <div class="liquidGlass-wrapper suggestions-content">
-              <div class="liquidGlass-effect"></div>
-              <div class="liquidGlass-tint"></div>
-              <div class="liquidGlass-shine"></div>
-              
-              <div class="liquidGlass-text">
-                <div 
-                  v-for="(suggestion, index) in suggestions" 
-                  :key="index"
-                  class="suggestion-option"
-                  :class="{ 'active': index === selectedSuggestionIndex }"
-                  @click.stop="selectSuggestion(suggestion)"
-                  @mouseenter="selectedSuggestionIndex = index"
-                  @mousedown.prevent
-                >
-                  <component 
-                    :is="getIconComponent('search')" 
-                    :size="16" 
-                    class="suggestion-icon"
-                  />
-                  <span class="suggestion-text">{{ suggestion }}</span>
-                </div>
-              </div>
-            </div>
+          <!-- 搜索按钮 -->
+          <div class="liquidGlass-wrapper search-button-wrapper" @click="handleSearch">
+            <div class="liquidGlass-effect"></div>
+            <div class="liquidGlass-tint"></div>
+            <div class="liquidGlass-shine"></div>
+            <button 
+              class="search-button"
+              :disabled="!searchQuery.trim()"
+            >
+              <component 
+                :is="getIconComponent('arrow-right')" 
+                :size="18"
+              />
+            </button>
           </div>
-        </transition>
-
-        <!-- 搜索按钮 -->
-        <div class="liquidGlass-wrapper search-button-wrapper" @click="handleSearch">
-          <div class="liquidGlass-effect"></div>
-          <div class="liquidGlass-tint"></div>
-          <div class="liquidGlass-shine"></div>
-          <button 
-            class="search-button"
-            :disabled="!searchQuery.trim()"
-          >
-            <component 
-              :is="getIconComponent('arrow-right')" 
-              :size="18"
-            />
-          </button>
         </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -131,7 +133,8 @@ export default {
       showSuggestions: false,
       suggestions: [],
       selectedSuggestionIndex: -1,
-      suggestionDebounceTimer: null
+      suggestionDebounceTimer: null,
+      isActive: false // 新增：控制搜索框的显示/隐藏状态
     }
   },
   computed: {
@@ -152,9 +155,16 @@ export default {
     
     // 点击外部关闭下拉菜单
     document.addEventListener('click', this.handleClickOutside)
+    
+    // 监听搜索切换事件
+    window.addEventListener('search:toggle', this.handleSearchToggle)
   },
   beforeUnmount() {
     document.removeEventListener('click', this.handleClickOutside)
+    window.removeEventListener('search:toggle', this.handleSearchToggle)
+    if (this.suggestionDebounceTimer) {
+      clearTimeout(this.suggestionDebounceTimer)
+    }
   },
   methods: {
     /**
@@ -324,13 +334,44 @@ export default {
       if (!this.$el.contains(event.target)) {
         this.showEngineDropdown = false
         this.hideSuggestions()
+
+        // 如果点击的不是搜索按钮，并且搜索框是激活状态，则关闭搜索框
+        if (this.isActive && !event.target.closest('.search-btn-item')) {
+          // 触发搜索关闭事件，通知菜单栏
+          window.dispatchEvent(new CustomEvent('search:close'))
+          this.hideSearch()
+        }
       }
-    }
-  },
-  beforeUnmount() {
-    document.removeEventListener('click', this.handleClickOutside)
-    if (this.suggestionDebounceTimer) {
-      clearTimeout(this.suggestionDebounceTimer)
+    },
+
+    /**
+     * 显示搜索框
+     */
+    showSearch() {
+      this.isActive = true
+      this.$nextTick(() => {
+        this.$refs.searchInput.focus()
+      })
+    },
+
+    /**
+     * 隐藏搜索框
+     */
+    hideSearch() {
+      this.isActive = false
+      this.searchQuery = ''
+      this.hideSuggestions()
+    },
+
+    /**
+     * 处理搜索切换事件
+     */
+    handleSearchToggle(event) {
+      if (event.detail.isActive) {
+        this.showSearch()
+      } else {
+        this.hideSearch()
+      }
     }
   }
 }
@@ -340,22 +381,43 @@ export default {
 .search-container {
   width: 100%;
   max-width: 600px;
-  margin: 0 auto 3rem auto;
   position: relative;
-  z-index: 10;
+  z-index: 110; /* 确保在遮罩之上 */
+}
+
+.search-container.search-active {
+  margin-top: 0;
+}
+
+.search-container.search-inactive {
+  margin-top: 0;
 }
 
 .search-box {
   border-radius: 1.5rem;
   overflow: visible;
   position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  animation: floatEffect 3s ease-in-out infinite;
+}
+
+@keyframes floatEffect {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 .search-content {
   display: flex;
   align-items: center;
-  padding: 0.5rem;
-  gap: 0.5rem;
+  padding: 0.6rem; /* 略微增加内边距 */
+  gap: 0.6rem; /* 增加间距 */
   position: relative;
   z-index: 2;
   width: 100%;
@@ -478,14 +540,15 @@ export default {
   flex: 1;
   border: none;
   outline: none;
-  background: transparent;
-  padding: 0.8rem 1.2rem;
+  background: rgba(var(--surface0-rgb), 0.2);
+  padding: 0.9rem 1.2rem;
   font-size: 1rem;
   color: var(--text);
   border-radius: 1.2rem;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   min-width: 0;
   position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .search-input::placeholder {
@@ -494,9 +557,10 @@ export default {
 }
 
 .search-input:focus {
-  background: rgba(var(--surface0-rgb), 0.2);
+  background: rgba(var(--surface0-rgb), 0.3);
   padding: 0.9rem 1.3rem;
   border-radius: 1.4rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
 /* 搜索建议下拉菜单 */
@@ -574,12 +638,13 @@ export default {
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   width: fit-content;
   flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.2);
 }
 
 .search-button-wrapper:hover {
   padding: 0.5rem;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.3);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.4);
 }
 
 /* 搜索按钮 */
@@ -653,6 +718,41 @@ export default {
 .suggestions-leave-from {
   opacity: 1;
   transform: translateY(0) scale(1);
+}
+
+/* 灵动岛动画 */
+.dynamic-island-enter-active {
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); /* 弹性曲线 */
+  transform-origin: center top;
+}
+
+.dynamic-island-leave-active {
+  transition: all 0.4s cubic-bezier(0.33, 0, 0.67, 1);
+  transform-origin: center top;
+}
+
+.dynamic-island-enter-from {
+  opacity: 0;
+  transform: translateY(-20px) scale(0.8);
+  filter: blur(4px);
+}
+
+.dynamic-island-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.dynamic-island-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.dynamic-island-leave-to {
+  opacity: 0;
+  transform: translateY(-20px) scale(0.9);
+  filter: blur(4px);
 }
 
 /* 响应式设计 */

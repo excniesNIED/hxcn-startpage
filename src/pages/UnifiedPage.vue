@@ -1,7 +1,4 @@
 <template>  <div class="unified-page">
-    <!-- 搜索框 -->
-    <SearchBox />
-    
     <!-- 主要内容区域 -->
     <main class="page-content">
       <div class="content-grid">
@@ -30,15 +27,13 @@
 
 <script>
 import CategoryCard from '../components/CategoryCard.vue'
-import SearchBox from '../components/SearchBox.vue'
 import configManager from '../config/configManager.js'
 import iconManager from '../utils/iconManager.js'
 
 export default {
   name: 'UnifiedPage',
   components: {
-    CategoryCard,
-    SearchBox
+    CategoryCard
   },
   computed: {
     /**

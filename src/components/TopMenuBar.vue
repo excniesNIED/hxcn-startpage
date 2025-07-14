@@ -40,6 +40,16 @@
     
     <!-- 右侧：时间显示 -->
     <div class="right-section">
+      <!-- 搜索按钮 -->
+      <div class="liquidGlass-wrapper menu-item search-btn-item" @click="toggleSearch" v-show="!isSearchActive">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+          <component :is="getIconComponent('search')" :size="16" class="search-icon" />
+        </div>
+      </div>
+
       <div class="liquidGlass-wrapper menu-item time-item">
         <div class="liquidGlass-effect"></div>
         <div class="liquidGlass-tint"></div>
@@ -54,6 +64,8 @@
 
 <script>
 import configManager from '../config/configManager.js'
+import iconManager from '../utils/iconManager.js'
+import { ref } from 'vue'
 
 export default {
   name: 'TopMenuBar',
@@ -63,7 +75,8 @@ export default {
       timeInterval: null,
       previousPageIndex: 0,
       currentPageIndex: 0,
-      transitionDirection: 'right'
+      transitionDirection: 'right',
+      isSearchActive: false
     }
   },  computed: {
     siteTitle() {
@@ -95,11 +108,20 @@ export default {
     this.updateTime()
     this.timeInterval = setInterval(this.updateTime, 1000)
     this.updatePageIndex()
+    
+    // 监听搜索关闭事件
+    window.addEventListener('search:close', this.handleSearchClose)
+    // 监听点击事件
+    document.addEventListener('click', this.handleOutsideClick)
   },
   beforeUnmount() {
     if (this.timeInterval) {
       clearInterval(this.timeInterval)
     }
+    
+    // 清除监听器
+    window.removeEventListener('search:close', this.handleSearchClose)
+    document.removeEventListener('click', this.handleOutsideClick)
   },
   watch: {
     '$route'(to, from) {
@@ -144,6 +166,42 @@ export default {
         this.transitionDirection = 'left'  // 向左切换，新页面从左侧进入
       } else {
         this.transitionDirection = 'right' // 默认方向
+      }
+    },
+    
+    /**
+     * 获取图标组件
+     */
+    getIconComponent(iconName) {
+      return iconManager.getIcon(iconName)
+    },
+    
+    /**
+     * 切换搜索框显示状态
+     */
+    toggleSearch() {
+      this.isSearchActive = true
+      // 触发自定义事件，通知搜索框组件显示
+      window.dispatchEvent(new CustomEvent('search:toggle', { detail: { isActive: true } }))
+    },
+    
+    /**
+     * 处理搜索框关闭事件
+     */
+    handleSearchClose() {
+      this.isSearchActive = false
+    },
+    
+    /**
+     * 处理点击外部
+     */
+    handleOutsideClick(event) {
+      // 如果点击的不是搜索按钮，并且搜索框已经激活，则触发搜索框关闭
+      if (this.isSearchActive && 
+          !event.target.closest('.search-btn-item') && 
+          !event.target.closest('.search-container')) {
+        window.dispatchEvent(new CustomEvent('search:toggle', { detail: { isActive: false } }))
+        this.isSearchActive = false
       }
     }
   }
@@ -373,6 +431,34 @@ export default {
   font-weight: 400;
   color: white;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* 搜索按钮 */
+.search-btn-item {
+  padding: 0.4rem;
+  border-radius: 50%;
+  margin-right: 10px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+}
+
+.search-btn-item:hover {
+  padding: 0.5rem;
+  transform: scale(1.1);
+  background: rgba(var(--accent-rgb), 0.2);
+}
+
+.search-btn-item:hover .liquidGlass-effect,
+.search-btn-item:hover .liquidGlass-tint,
+.search-btn-item:hover .liquidGlass-shine {
+  opacity: 1;
+}
+
+.search-btn-item:hover .liquidGlass-tint {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.search-icon {
+  color: var(--text);
 }
 
 /* 响应式设计 */

@@ -13,14 +13,22 @@
     <!-- 顶部菜单栏 -->
     <TopMenuBar />
     
+    <!-- 全局搜索框 -->
+    <div class="global-search">
+      <SearchBox />
+    </div>
+    
     <!-- 主要内容区域 -->
-    <main class="main-content">
+    <main class="main-content" :class="{ 'content-pushed': isSearchActive }">
       <router-view v-slot="{ Component }">
         <transition name="page" mode="out-in">
           <component :is="Component" />
         </transition>
       </router-view>
     </main>
+    
+    <!-- 搜索遮罩 -->
+    <div class="search-overlay" :class="{ 'overlay-active': isSearchActive }" @click="closeSearch"></div>
     
     <!-- 底部导航栏 -->
     <BottomNavigation />
@@ -84,12 +92,44 @@
 <script>
 import BottomNavigation from './components/BottomNavigation.vue'
 import TopMenuBar from './components/TopMenuBar.vue'
+import SearchBox from './components/SearchBox.vue'
 
 export default {
   name: 'App',
   components: {
     BottomNavigation,
-    TopMenuBar
+    TopMenuBar,
+    SearchBox
+  },
+  data() {
+    return {
+      isSearchActive: false
+    }
+  },
+  mounted() {
+    // 监听搜索框状态变化
+    window.addEventListener('search:toggle', this.handleSearchToggle)
+    window.addEventListener('search:close', this.handleSearchClose)
+  },
+  beforeUnmount() {
+    // 清除监听
+    window.removeEventListener('search:toggle', this.handleSearchToggle)
+    window.removeEventListener('search:close', this.handleSearchClose)
+  },
+  methods: {
+    // 处理搜索框状态变化
+    handleSearchToggle(event) {
+      this.isSearchActive = event.detail.isActive
+    },
+    // 处理搜索框关闭
+    handleSearchClose() {
+      this.isSearchActive = false
+    },
+    // 点击遮罩关闭搜索
+    closeSearch() {
+      window.dispatchEvent(new CustomEvent('search:toggle', { detail: { isActive: false } }))
+      this.isSearchActive = false
+    }
   }
 }
 </script>
@@ -114,6 +154,59 @@ export default {
   opacity: 0.8;
 }
 
+/* 全局搜索框 */
+.global-search {
+  position: fixed;
+  top: 80px; /* 调整搜索框位置，向下移动 */
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 100;
+  pointer-events: none; /* 允许点击穿透 */
+}
+
+.global-search :deep(.search-container) {
+  pointer-events: auto; /* 恢复搜索框的可点击性 */
+  position: absolute;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+}
+
+.global-search :deep(.search-inactive) {
+  opacity: 0;
+  transform: translateY(-40px) scale(0.8);
+  pointer-events: none; /* 不活跃时禁用点击 */
+}
+
+.global-search :deep(.search-active) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 搜索遮罩 */
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+.search-overlay.overlay-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 主内容区域 */
 .main-content {
   flex: 1;
   padding: 2rem;
@@ -122,6 +215,12 @@ export default {
   overflow-y: auto;
   position: relative;
   z-index: 1;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+}
+
+/* 当搜索框激活时，内容向下推移 */
+.content-pushed {
+  transform: translateY(80px);
 }
 
 .glass-filter {
@@ -152,6 +251,15 @@ export default {
     padding: 1rem;
     padding-top: 56px;
     padding-bottom: 100px;
+  }
+  
+  .global-search :deep(.search-container) {
+    max-width: 90%;
+  }
+  
+  /* 调整移动设备上的推移距离 */
+  .content-pushed {
+    transform: translateY(70px);
   }
 }
 </style>
