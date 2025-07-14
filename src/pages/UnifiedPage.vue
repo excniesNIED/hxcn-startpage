@@ -1,4 +1,7 @@
 <template>  <div class="unified-page">
+    <!-- 搜索框 -->
+    <SearchBox />
+    
     <!-- 主要内容区域 -->
     <main class="page-content">
       <div class="content-grid">
@@ -27,13 +30,15 @@
 
 <script>
 import CategoryCard from '../components/CategoryCard.vue'
+import SearchBox from '../components/SearchBox.vue'
 import configManager from '../config/configManager.js'
 import iconManager from '../utils/iconManager.js'
 
 export default {
   name: 'UnifiedPage',
   components: {
-    CategoryCard
+    CategoryCard,
+    SearchBox
   },
   computed: {
     /**
@@ -89,8 +94,9 @@ export default {
 .unified-page {
   min-height: calc(100vh - 120px); /* 减去顶部菜单栏和底部导航栏的高度 */
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 2rem 0;
 }
 
@@ -98,7 +104,8 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  flex: 1;
 }
 
 .content-grid {
@@ -115,6 +122,7 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 200px;
+  flex: 1;
 }
 
 .empty-card {

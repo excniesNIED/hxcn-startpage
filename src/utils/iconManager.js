@@ -35,6 +35,9 @@ class IconManager {
       'brand-uber': 'IconCar',
       'brand-netflix': 'IconDeviceTv',
       'brand-onedrive': 'IconCloud',
+      'brand-bing': 'IconBrandBing',
+      'brand-google': 'IconBrandGoogle',
+      'brand-yandex': 'IconBrandYandex',
       
       // 开发相关
       'code-plus': 'IconCodePlus',
@@ -49,6 +52,11 @@ class IconManager {
       'world': 'IconWorld',
       'rocket': 'IconRocket',
       'box': 'IconBox',
+      
+      // 搜索相关图标
+      'search': 'IconSearch',
+      'arrow-right': 'IconArrowRight',
+      'chevron-down': 'IconChevronDown',
       
       // 默认图标
       'default': 'IconHelp'
