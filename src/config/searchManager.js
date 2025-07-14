@@ -110,15 +110,13 @@ class SearchManager {
         name: "Bing",
         key: "bing",
         icon: "brand-bing",
-        url: "https://www.bing.com/search?&q=%s",
-        suggest_url: "https://www.bing.com/osjson.aspx?query=%s&language=zh-CN"
+        url: "https://www.bing.com/search?&q=%s"
       },
       {
         name: "Google",
         key: "google",
         icon: "brand-google",
-        url: "https://www.google.com/search?q=%s&sourceid=chrome&ie=UTF-8",
-        suggest_url: "https://www.google.com/complete/search?client=chrome&q=%s"
+        url: "https://www.google.com/search?q=%s&sourceid=chrome&ie=UTF-8"
       }
     ]
   }

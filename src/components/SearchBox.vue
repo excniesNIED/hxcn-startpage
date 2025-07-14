@@ -119,6 +119,8 @@
 <script>
 import searchManager from '../config/searchManager.js'
 import iconManager from '../utils/iconManager.js'
+import suggestionDict from '../config/suggestionDict.js'
+import generatedSuggestions from '../config/suggestionGenerator.js'
 
 export default {
   name: 'SearchBox',
@@ -242,55 +244,38 @@ export default {
         return
       }
 
-      try {
-        // 使用当前搜索引擎的建议API
-        const suggestions = await this.getSuggestionsFromEngine(query)
-        this.suggestions = suggestions.slice(0, 8) // 限制最多8条建议
-        this.showSuggestions = this.suggestions.length > 0
-      } catch (error) {
-        console.error('获取搜索建议失败:', error)
-        // 使用本地建议作为后备
-        this.suggestions = this.getLocalSuggestions(query)
-        this.showSuggestions = this.suggestions.length > 0
-      }
+      // 获取本地搜索建议
+      const suggestions = await this.getSuggestionsFromEngine(query)
+      this.suggestions = suggestions
+      this.showSuggestions = this.suggestions.length > 0
     },
 
     /**
      * 从搜索引擎获取建议
      */
     async getSuggestionsFromEngine(query) {
-      const engine = this.currentEngine
-      if (!engine.suggest_url) {
-        return this.getLocalSuggestions(query)
-      }
-
-      const url = engine.suggest_url.replace('%s', encodeURIComponent(query))
-      
-      try {
-        // 由于CORS限制，这里使用本地建议
-        // 在实际应用中，需要通过后端代理或使用JSONP
-        return this.getLocalSuggestions(query)
-      } catch (error) {
-        return this.getLocalSuggestions(query)
-      }
+      // 直接使用本地建议，不再尝试从在线服务获取
+      return this.getLocalSuggestions(query)
     },
 
     /**
      * 获取本地搜索建议
      */
     getLocalSuggestions(query) {
-      const commonSuggestions = [
-        'JavaScript', 'Python', 'Vue.js', 'React', 'Node.js',
-        'TypeScript', 'CSS', 'HTML', 'Git', 'GitHub',
-        'Docker', 'Linux', 'Windows', 'macOS', 'VSCode',
-        'Chrome', 'Firefox', 'Safari', 'MongoDB', 'MySQL',
-        'PostgreSQL', 'Redis', 'Nginx', 'Apache', 'AWS',
-        'Azure', 'Google Cloud', 'Firebase', 'Netlify', 'Vercel'
-      ]
-
-      return commonSuggestions
-        .filter(item => item.toLowerCase().includes(query.toLowerCase()))
-        .slice(0, 8)
+      if (!query || query.trim().length === 0) return []
+      
+      const lowerQuery = query.toLowerCase().trim()
+      
+      // 合并两个建议数据源
+      const allSuggestions = [...suggestionDict, ...generatedSuggestions]
+      
+      // 根据查询过滤建议
+      return allSuggestions
+        .filter(item => {
+          if (typeof item !== 'string') return false
+          return item.toLowerCase().includes(lowerQuery)
+        })
+        .slice(0, 8) // 限制最多8条建议
     },
 
     /**
