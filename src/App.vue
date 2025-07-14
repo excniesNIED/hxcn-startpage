@@ -199,11 +199,22 @@ export default {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
+  transform: translateZ(0);
 }
 
 .search-overlay.overlay-active {
   opacity: 1;
   pointer-events: auto;
+  animation: overlay-appear 0.4s ease forwards;
+}
+
+@keyframes overlay-appear {
+  0% {
+    backdrop-filter: blur(0);
+  }
+  100% {
+    backdrop-filter: blur(8px);
+  }
 }
 
 /* 主内容区域 */
@@ -221,6 +232,22 @@ export default {
 /* 当搜索框激活时，内容向下推移 */
 .content-pushed {
   transform: translateY(80px);
+  animation: content-push 0.5s cubic-bezier(0.175, 0.885, 0.32, 2.2) forwards;
+}
+
+@keyframes content-push {
+  0% {
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(90px);
+  }
+  85% {
+    transform: translateY(75px);
+  }
+  100% {
+    transform: translateY(80px);
+  }
 }
 
 .glass-filter {
