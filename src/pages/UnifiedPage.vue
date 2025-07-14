@@ -38,11 +38,26 @@ export default {
   computed: {
     /**
      * 获取当前路由对应的标签页key
+     * 优先使用路由 meta 中的 tabKey，否则根据 path 推断
      */
     currentTabKey() {
+      // 优先使用路由元信息中的 tabKey
+      if (this.$route.meta && this.$route.meta.tabKey) {
+        return this.$route.meta.tabKey
+      }
+      
+      // 如果是根路径，查找第一个标签页的 key
       const path = this.$route.path
-      if (path === '/') return 'hxcn'
-      return path.substring(1) // 移除开头的 '/'
+      if (path === '/') {
+        const config = configManager.getConfig()
+        if (config && config.tabs && config.tabs.length > 0) {
+          return config.tabs[0].key
+        }
+        return 'hxcn' // 默认值
+      }
+      
+      // 其他路径移除开头的 '/'
+      return path.substring(1)
     },
 
     /**

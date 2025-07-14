@@ -71,6 +71,11 @@ export default {
       return appConfig.title || '萑澈'
     },
     currentPageName() {
+      // 优先使用路由 meta 中的页面名称
+      if (this.$route.meta && this.$route.meta.tabName) {
+        return this.$route.meta.tabName
+      }
+      
       // 根据当前路由获取页面名称
       const currentRoute = this.$route.path
       const tabs = configManager.getNavigationTabs()
