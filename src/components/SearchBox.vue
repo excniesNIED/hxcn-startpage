@@ -28,19 +28,22 @@
                 <div class="liquidGlass-tint"></div>
                 <div class="liquidGlass-shine"></div>
                 
-                <div 
-                  v-for="engine in engines" 
-                  :key="engine.key"
-                  class="engine-option"
-                  :class="{ 'active': engine.key === currentEngine.key }"
-                  @click="selectEngine(engine, $event)"
-                >
-                  <component 
-                    :is="getIconComponent(engine.icon)" 
-                    :size="18" 
-                    class="option-icon"
-                  />
-                  <span class="option-name">{{ engine.name }}</span>
+                <div class="liquidGlass-text">
+                  <div 
+                    v-for="engine in engines" 
+                    :key="engine.key"
+                    class="engine-option"
+                    :class="{ 'active': engine.key === currentEngine.key }"
+                    @click.stop="selectEngine(engine, $event)"
+                    @mousedown.prevent
+                  >
+                    <component 
+                      :is="getIconComponent(engine.icon)" 
+                      :size="18" 
+                      class="option-icon"
+                    />
+                    <span class="option-name">{{ engine.name }}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -53,10 +56,45 @@
           v-model="searchQuery"
           type="text"
           class="search-input"
-          :placeholder="`使用 ${currentEngine.name} 搜索...`"
+          :placeholder="`使用 ${currentEngine.name} 搜索或粘贴链接...`"
           @keydown.enter="handleSearch"
+          @keydown.arrow-down="navigateSuggestions(1)"
+          @keydown.arrow-up="navigateSuggestions(-1)"
+          @keydown.escape="hideSuggestions"
           @input="handleInput"
+          @focus="handleFocus"
+          @blur="handleBlur"
         />
+
+        <!-- 搜索建议下拉列表 -->
+        <transition name="suggestions">
+          <div v-if="showSuggestions && suggestions.length > 0" class="suggestions-dropdown">
+            <div class="liquidGlass-wrapper suggestions-content">
+              <div class="liquidGlass-effect"></div>
+              <div class="liquidGlass-tint"></div>
+              <div class="liquidGlass-shine"></div>
+              
+              <div class="liquidGlass-text">
+                <div 
+                  v-for="(suggestion, index) in suggestions" 
+                  :key="index"
+                  class="suggestion-option"
+                  :class="{ 'active': index === selectedSuggestionIndex }"
+                  @click.stop="selectSuggestion(suggestion)"
+                  @mouseenter="selectedSuggestionIndex = index"
+                  @mousedown.prevent
+                >
+                  <component 
+                    :is="getIconComponent('search')" 
+                    :size="16" 
+                    class="suggestion-icon"
+                  />
+                  <span class="suggestion-text">{{ suggestion }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
 
         <!-- 搜索按钮 -->
         <div class="liquidGlass-wrapper search-button-wrapper" @click="handleSearch">
@@ -87,7 +125,11 @@ export default {
   data() {
     return {
       searchQuery: '',
-      showEngineDropdown: false
+      showEngineDropdown: false,
+      showSuggestions: false,
+      suggestions: [],
+      selectedSuggestionIndex: -1,
+      suggestionDebounceTimer: null
     }
   },
   computed: {
@@ -132,7 +174,10 @@ export default {
      * 选择搜索引擎
      */
     selectEngine(engine, event) {
-      event.stopPropagation()
+      if (event) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
       searchManager.setCurrentEngine(engine.key)
       this.showEngineDropdown = false
       this.$nextTick(() => {
@@ -146,6 +191,7 @@ export default {
     handleSearch() {
       if (this.searchQuery.trim()) {
         searchManager.search(this.searchQuery.trim())
+        this.hideSuggestions()
         this.searchQuery = ''
       }
     },
@@ -154,7 +200,136 @@ export default {
      * 处理输入
      */
     handleInput() {
-      // 这里可以添加搜索建议功能
+      this.selectedSuggestionIndex = -1
+      
+      if (this.searchQuery.trim().length > 0) {
+        // 防抖处理
+        clearTimeout(this.suggestionDebounceTimer)
+        this.suggestionDebounceTimer = setTimeout(() => {
+          this.fetchSuggestions()
+        }, 300)
+      } else {
+        this.hideSuggestions()
+      }
+    },
+
+    /**
+     * 处理输入框聚焦
+     */
+    handleFocus() {
+      if (this.searchQuery.trim().length > 0 && this.suggestions.length > 0) {
+        this.showSuggestions = true
+      }
+    },
+
+    /**
+     * 处理输入框失焦
+     */
+    handleBlur() {
+      // 延迟隐藏建议，给点击建议留时间
+      setTimeout(() => {
+        this.hideSuggestions()
+      }, 150)
+    },
+
+    /**
+     * 获取搜索建议
+     */
+    async fetchSuggestions() {
+      const query = this.searchQuery.trim()
+      if (!query) {
+        this.hideSuggestions()
+        return
+      }
+
+      try {
+        // 使用当前搜索引擎的建议API
+        const suggestions = await this.getSuggestionsFromEngine(query)
+        this.suggestions = suggestions.slice(0, 8) // 限制最多8条建议
+        this.showSuggestions = this.suggestions.length > 0
+      } catch (error) {
+        console.error('获取搜索建议失败:', error)
+        // 使用本地建议作为后备
+        this.suggestions = this.getLocalSuggestions(query)
+        this.showSuggestions = this.suggestions.length > 0
+      }
+    },
+
+    /**
+     * 从搜索引擎获取建议
+     */
+    async getSuggestionsFromEngine(query) {
+      const engine = this.currentEngine
+      if (!engine.suggest_url) {
+        return this.getLocalSuggestions(query)
+      }
+
+      const url = engine.suggest_url.replace('%s', encodeURIComponent(query))
+      
+      try {
+        // 由于CORS限制，这里使用本地建议
+        // 在实际应用中，需要通过后端代理或使用JSONP
+        return this.getLocalSuggestions(query)
+      } catch (error) {
+        return this.getLocalSuggestions(query)
+      }
+    },
+
+    /**
+     * 获取本地搜索建议
+     */
+    getLocalSuggestions(query) {
+      const commonSuggestions = [
+        'JavaScript', 'Python', 'Vue.js', 'React', 'Node.js',
+        'TypeScript', 'CSS', 'HTML', 'Git', 'GitHub',
+        'Docker', 'Linux', 'Windows', 'macOS', 'VSCode',
+        'Chrome', 'Firefox', 'Safari', 'MongoDB', 'MySQL',
+        'PostgreSQL', 'Redis', 'Nginx', 'Apache', 'AWS',
+        'Azure', 'Google Cloud', 'Firebase', 'Netlify', 'Vercel'
+      ]
+
+      return commonSuggestions
+        .filter(item => item.toLowerCase().includes(query.toLowerCase()))
+        .slice(0, 8)
+    },
+
+    /**
+     * 导航搜索建议
+     */
+    navigateSuggestions(direction) {
+      if (!this.showSuggestions || this.suggestions.length === 0) return
+
+      this.selectedSuggestionIndex += direction
+
+      if (this.selectedSuggestionIndex < -1) {
+        this.selectedSuggestionIndex = this.suggestions.length - 1
+      } else if (this.selectedSuggestionIndex >= this.suggestions.length) {
+        this.selectedSuggestionIndex = -1
+      }
+
+      // 如果选中了建议，更新搜索框内容
+      if (this.selectedSuggestionIndex >= 0) {
+        this.searchQuery = this.suggestions[this.selectedSuggestionIndex]
+      }
+    },
+
+    /**
+     * 选择搜索建议
+     */
+    selectSuggestion(suggestion) {
+      this.searchQuery = suggestion
+      this.hideSuggestions()
+      this.$nextTick(() => {
+        this.handleSearch()
+      })
+    },
+
+    /**
+     * 隐藏搜索建议
+     */
+    hideSuggestions() {
+      this.showSuggestions = false
+      this.selectedSuggestionIndex = -1
     },
 
     /**
@@ -163,7 +338,14 @@ export default {
     handleClickOutside(event) {
       if (!this.$el.contains(event.target)) {
         this.showEngineDropdown = false
+        this.hideSuggestions()
       }
+    }
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.handleClickOutside)
+    if (this.suggestionDebounceTimer) {
+      clearTimeout(this.suggestionDebounceTimer)
     }
   }
 }
@@ -237,20 +419,24 @@ export default {
   top: 100%;
   left: 0;
   margin-top: 0.5rem;
-  min-width: 200px;
-  z-index: 1000;
+  min-width: fit-content;
+  width: max-content;
+  z-index: 1001;
 }
 
 .dropdown-content {
-  border-radius: 1.5rem;
+  border-radius: 1.8rem;
   overflow: hidden;
   border: 1px solid rgba(var(--surface1-rgb), 0.5);
-  padding: 0.4rem;
+  padding: 0.3rem;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  width: fit-content;
+  min-width: fit-content;
+  pointer-events: auto;
 }
 
 .dropdown-content:hover {
-  padding: 0.6rem;
+  padding: 0.5rem;
   border-radius: 1.8rem;
 }
 
@@ -258,25 +444,26 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  padding: 0.7rem 1rem;
+  padding: 0.4rem 0.8rem;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  transition: all 0.1s ease-in;
   position: relative;
-  z-index: 2;
-  border-radius: 1rem;
+  border-radius: 0.8rem;
   color: var(--text);
+  font-size: 1rem;
+  white-space: nowrap; /* 防止文本换行 */
 }
 
 .engine-option:hover {
-  background: rgba(var(--surface1-rgb), 0.5);
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: inset -2px -2px 2px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(2px);
-  border-radius: 1.2rem;
-  padding: 0.8rem 1.1rem;
 }
 
 .engine-option.active {
-  background: rgba(var(--accent-rgb), 0.2);
-  color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.6);
+  color: var(--base);
+  box-shadow: inset -2px -2px 2px rgba(0, 0, 0, 0.2);
 }
 
 .option-icon {
@@ -286,6 +473,19 @@ export default {
 .option-name {
   font-size: 0.9rem;
   font-weight: 500;
+}
+
+/* liquidGlass基础效果层 - 确保不阻止事件传播 */
+.liquidGlass-effect,
+.liquidGlass-tint,
+.liquidGlass-shine {
+  pointer-events: none;
+}
+
+.liquidGlass-text {
+  z-index: 10;
+  position: relative;
+  pointer-events: auto;
 }
 
 /* 搜索输入框 */
@@ -300,6 +500,7 @@ export default {
   border-radius: 1.2rem;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   min-width: 0;
+  position: relative;
 }
 
 .search-input::placeholder {
@@ -311,6 +512,73 @@ export default {
   background: rgba(var(--surface0-rgb), 0.2);
   padding: 0.9rem 1.3rem;
   border-radius: 1.4rem;
+}
+
+/* 搜索建议下拉菜单 */
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 0.5rem;
+  z-index: 1001;
+}
+
+.suggestions-content {
+  border-radius: 1.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(var(--surface1-rgb), 0.5);
+  padding: 0.4rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  max-height: 300px;
+  overflow-y: auto;
+  pointer-events: auto;
+}
+
+.suggestions-content:hover {
+  padding: 0.6rem;
+  border-radius: 1.8rem;
+}
+
+.suggestion-option {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  transition: all 0.1s ease-in;
+  position: relative;
+  border-radius: 1rem;
+  color: var(--text);
+}
+
+.suggestion-option:hover,
+.suggestion-option.active {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: inset -2px -2px 2px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2px);
+  border-radius: 1.2rem;
+  padding: 0.8rem 1.1rem;
+}
+
+.suggestion-option.active {
+  background: rgba(var(--accent-rgb), 0.6);
+  color: var(--base);
+  box-shadow: inset -2px -2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.suggestion-icon {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.suggestion-option.active .suggestion-icon {
+  color: var(--base);
+}
+
+.suggestion-text {
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 /* 搜索按钮容器 */
@@ -384,6 +652,24 @@ export default {
   transform: translateY(0) scale(1);
 }
 
+/* 搜索建议动画 */
+.suggestions-enter-active,
+.suggestions-leave-active {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+}
+
+.suggestions-enter-from,
+.suggestions-leave-to {
+  opacity: 0;
+  transform: translateY(-15px) scale(0.9);
+}
+
+.suggestions-enter-to,
+.suggestions-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
   .search-container {
@@ -419,7 +705,8 @@ export default {
   }
   
   .engine-dropdown {
-    min-width: 180px;
+    min-width: fit-content;
+    width: max-content;
   }
 
   .engine-selector {
@@ -428,6 +715,24 @@ export default {
 
   .engine-selector:hover {
     padding: 0.7rem 0.9rem;
+  }
+
+  .suggestions-content {
+    max-height: 250px;
+  }
+
+  .suggestion-option {
+    padding: 0.6rem 0.8rem;
+  }
+
+  .suggestion-option:hover,
+  .suggestion-option.active {
+    padding: 0.7rem 0.9rem;
+  }
+
+  .engine-option {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -445,11 +750,13 @@ export default {
   }
   
   .engine-dropdown {
-    min-width: 160px;
+    min-width: fit-content;
+    width: max-content;
   }
   
   .engine-option {
-    padding: 0.6rem 0.8rem;
+    padding: 0.3rem 0.4rem;
+    font-size: 0.85rem;
   }
 
   .engine-option:hover {
@@ -471,6 +778,23 @@ export default {
 
   .search-button-wrapper:hover {
     padding: 0.35rem;
+  }
+
+  .suggestions-content {
+    max-height: 200px;
+  }
+
+  .suggestion-option {
+    padding: 0.5rem 0.7rem;
+  }
+
+  .suggestion-option:hover,
+  .suggestion-option.active {
+    padding: 0.6rem 0.8rem;
+  }
+
+  .suggestion-text {
+    font-size: 0.85rem;
   }
 }
 </style>
