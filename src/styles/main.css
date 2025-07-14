@@ -1,0 +1,490 @@
+/* 全局样式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'SF Pro Display', 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #000;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+#app {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景视频样式 */
+.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  opacity: 0.8;
+}
+
+/* 主要内容区域 */
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  padding-bottom: 120px; /* 为底部导航栏留空间 */
+  overflow-y: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* 液体玻璃效果基础样式 */
+.liquidGlass-wrapper {
+  position: relative;
+  display: flex;
+  font-weight: 600;
+  overflow: hidden;
+  color: white;
+  cursor: pointer;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4), 
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+}
+
+.liquidGlass-effect {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  backdrop-filter: blur(10px) saturate(1.2);
+  filter: url(#glass-distortion);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.liquidGlass-tint {
+  z-index: 1;
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: inherit;
+}
+
+.liquidGlass-shine {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: inherit;
+  box-shadow: 
+    inset 2px 2px 4px 0 rgba(255, 255, 255, 0.4),
+    inset -2px -2px 4px 1px rgba(255, 255, 255, 0.2);
+}
+
+.liquidGlass-text {
+  z-index: 3;
+  position: relative;
+  color: white;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.6),
+    0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* 页面切换动画 */
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+/* SVG 滤镜隐藏 */
+.glass-filter {
+  position: absolute;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem;
+    padding-bottom: 100px;
+  }
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* 卡片网格布局 */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* 卡片动画 */
+@keyframes cardFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+.card {
+  animation: cardFloat 6s ease-in-out infinite;
+}
+
+.card:nth-child(even) {
+  animation-delay: -3s;
+}
+
+/* 主容器 */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  padding-bottom: 8rem; /* 为底部导航栏留出空间 */
+  overflow-y: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* 液体玻璃效果 - 参考 reference/styles.css */
+.liquidGlass-wrapper {
+  position: relative;
+  display: flex;
+  font-weight: 600;
+  overflow: hidden;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+}
+
+.liquidGlass-effect {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  backdrop-filter: blur(8px);
+  filter: url(#glass-distortion);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.liquidGlass-tint {
+  z-index: 1;
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: inherit;
+}
+
+.liquidGlass-shine {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: inherit;
+  box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.5),
+    inset -1px -1px 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.liquidGlass-text {
+  z-index: 3;
+  color: white;
+  position: relative;
+}
+
+/* 底部导航栏 - 参考 reference 中的 menu 样式 */
+.bottom-navigation {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 0.6rem;
+  border-radius: 2.5rem;
+  min-width: 320px;
+}
+
+.bottom-navigation:hover {
+  padding: 0.8rem;
+  border-radius: 2.8rem;
+}
+
+.nav-items {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 16px;
+  color: white;
+  padding: 0.8rem 1.2rem;
+  border-radius: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  flex: 1;
+  justify-content: center;
+  min-width: 80px;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.35);
+  box-shadow: inset -2px -2px 2px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2px);
+  transform: translateY(-2px);
+}
+
+.nav-item.active {
+  background-color: rgba(255, 255, 255, 0.25);
+  box-shadow: inset -2px -2px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 页面内容网格 */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 页面头部样式 */
+.page-header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border-radius: 2.5rem;
+  overflow: hidden;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.page-subtitle {
+  font-size: 1.1rem;
+  margin: 0.5rem 0 0 0;
+  color: rgba(255, 255, 255, 0.8);
+  opacity: 0.9;
+}
+
+/* 分类卡片 - 参考 reference 中的 dock 样式 */
+.category-card {
+  padding: 1.5rem;
+  border-radius: 2.5rem;
+}
+
+.category-card:hover {
+  padding: 1.8rem;
+  border-radius: 3rem;
+}
+
+.category-card .liquidGlass-shine,
+.category-card .liquidGlass-effect,
+.category-card .liquidGlass-tint {
+  border-radius: 2.5rem;
+}
+
+.category-card:hover .liquidGlass-shine,
+.category-card:hover .liquidGlass-effect,
+.category-card:hover .liquidGlass-tint {
+  border-radius: 3rem;
+}
+
+.category-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.links-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 链接按钮 - 参考 reference 中的 button 样式 */
+.link-button {
+  padding: 1.2rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 100px;
+  flex: 0 0 auto;
+}
+
+.link-button:hover {
+  padding: 1.4rem;
+  border-radius: 2.5rem;
+  transform: translateY(-2px);
+}
+
+.link-button .liquidGlass-shine,
+.link-button .liquidGlass-effect,
+.link-button .liquidGlass-tint {
+  border-radius: 2rem;
+}
+
+.link-button:hover .liquidGlass-shine,
+.link-button:hover .liquidGlass-effect,
+.link-button:hover .liquidGlass-tint {
+  border-radius: 2.5rem;
+}
+
+.link-icon {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  flex-shrink: 0;
+}
+
+.link-button:hover .link-icon {
+  transform: scale(0.95);
+}
+
+.link-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem;
+    padding-bottom: 7rem;
+  }
+  
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .bottom-navigation {
+    bottom: 1.5rem;
+    min-width: 280px;
+    padding: 0.5rem;
+  }
+  
+  .bottom-navigation:hover {
+    padding: 0.6rem;
+  }
+  
+  .nav-item {
+    font-size: 14px;
+    padding: 0.6rem 1rem;
+    gap: 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 0.8rem;
+    padding-bottom: 6rem;
+  }
+  
+  .bottom-navigation {
+    bottom: 1rem;
+    min-width: 260px;
+    padding: 0.4rem;
+    border-radius: 2rem;
+  }
+  
+  .bottom-navigation:hover {
+    padding: 0.5rem;
+    border-radius: 2.2rem;
+  }
+  
+  .nav-item {
+    font-size: 13px;
+    padding: 0.5rem 0.8rem;
+    gap: 0.5rem;
+    border-radius: 1.2rem;
+  }
+  
+  .nav-item span {
+    display: none;
+  }
+}
+
+/* SVG 滤镜定义 */
+.glass-filter {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}

@@ -1,0 +1,31 @@
+# 搜索引擎配置文件
+
+[[engines]]
+name = "Bing"
+key = "bing"
+icon = "brand-bing"
+url = "https://www.bing.com/search?&q=%s"
+
+[[engines]]
+name = "Google"
+key = "google"
+icon = "brand-google"
+url = "https://www.google.com/search?q=%s&sourceid=chrome&ie=UTF-8"
+
+[[engines]]
+name = "Bilibili"
+key = "bilibili"
+icon = "brand-bilibili"
+url = "https://search.bilibili.com/all?vt=68930313&keyword=%s&search_source=1"
+
+[[engines]]
+name = "Github"
+key = "github"
+icon = "brand-github"
+url = "https://github.com/search?q=%s&type=repositories"
+
+[[engines]]
+name = "Yandex"
+key = "yandex"
+icon = "brand-yandex"
+url = "https://yandex.com/search/?text=%s"
