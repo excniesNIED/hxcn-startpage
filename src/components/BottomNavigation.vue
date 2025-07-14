@@ -175,7 +175,7 @@ export default {
 
 .nav-item span {
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 900;
   text-align: center;
   text-shadow: 
     0 1px 3px rgba(0, 0, 0, 0.6),
@@ -213,6 +213,7 @@ export default {
   }
     .nav-item span {
     font-size: 11px;
+    font-weight: 700;
   }
 }
 </style>

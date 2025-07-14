@@ -239,7 +239,7 @@ export default {
 
 .page-title {
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 400;
   color: white;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
