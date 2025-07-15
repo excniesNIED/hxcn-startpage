@@ -110,6 +110,10 @@ export default {
     // 监听搜索框状态变化
     window.addEventListener('search:toggle', this.handleSearchToggle)
     window.addEventListener('search:close', this.handleSearchClose)
+    
+    // 防止横向滚动
+    document.body.style.overflowX = 'hidden'
+    document.documentElement.style.overflowX = 'hidden'
   },
   beforeUnmount() {
     // 清除监听
@@ -134,6 +138,34 @@ export default {
 }
 </script>
 
+<style>
+/* 全局样式 - 防止横向滚动 */
+html, body {
+  overflow-x: hidden !important;
+  overscroll-behavior-x: none !important;
+  max-width: 100vw;
+  position: relative;
+  touch-action: pan-y;
+}
+
+:root {
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+}
+
+/* 隐藏横向滚动条 */
+::-webkit-scrollbar:horizontal {
+  height: 0 !important;
+  display: none !important;
+}
+
+/* IE, Edge 和 Firefox */
+body {
+  -ms-overflow-style: none;  /* IE 和 Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+</style>
+
 <style scoped>
 /* App组件特定样式 */
 .app-container {
@@ -141,6 +173,9 @@ export default {
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+  max-width: 100vw;
 }
 
 .background-video {
@@ -224,9 +259,15 @@ export default {
   padding-top: 64px;
   padding-bottom: 120px;
   overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
   z-index: 1;
   transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  min-height: 400px; /* 确保有足够高度进行动画 */
+  perspective: 1000px; /* 3D视角 */
+  overscroll-behavior-x: none; /* 防止横向滚动 */
+  max-width: 100vw;
+  touch-action: pan-y; /* 仅允许垂直平移 */
 }
 
 /* 当搜索框激活时，内容向下推移 */
@@ -257,20 +298,27 @@ export default {
   visibility: hidden;
 }
 
-/* 页面切换动画 */
+/* 页面切换动画 - 神灯效果 */
 .page-enter-active,
 .page-leave-active {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); /* 弹性曲线 */
+  transform-origin: center center;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  right: 0;
 }
 
 .page-enter-from {
   opacity: 0;
-  transform: translateY(30px);
+  transform: scale(0.8) translateY(30px);
+  filter: blur(8px) brightness(1.2);
 }
 
 .page-leave-to {
   opacity: 0;
-  transform: translateY(-30px);
+  transform: scale(0.9) translateY(-20px);
+  filter: blur(5px);
 }
 
 @media (max-width: 768px) {
