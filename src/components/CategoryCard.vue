@@ -74,6 +74,7 @@ export default {
   backdrop-filter: blur(5px);
   position: relative;
   overflow: hidden;
+  z-index: 1;
 }
 
 .category-card::before {
@@ -121,7 +122,7 @@ export default {
   /* 水平和垂直方向都扩展，为按钮提供更多空间 */
   width: 380px;
   min-height: 220px;
-  transform: translateY(-5px);
+  transform: translateY(-5px) scale(1.05);
   box-shadow: 
     0 15px 50px rgba(0, 0, 0, 0.5), 
     0 10px 30px rgba(0, 0, 0, 0.4),
@@ -131,6 +132,7 @@ export default {
   border: 1px solid rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(8px);
   border-radius: 3rem;
+  z-index: 10; /* 确保hover的卡片显示在其他卡片之上 */
 }
 
 .category-card:hover .liquidGlass-effect,
@@ -169,6 +171,13 @@ export default {
   height: 1px;
   background: rgba(255, 255, 255, 0.6); /* 改为简单直线 */
   border-radius: 0;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); /* 使用弹性曲线 */
+}
+
+.category-card:hover .category-title::after {
+  width: 25%; /* 悬停时缩短线条宽度，但不要太短 */
+  transform: translateX(-50%) scaleX(0.8); /* 调整缩放效果 */
+  opacity: 0.8;
 }
 
 .category-card:hover .category-title {
@@ -185,10 +194,7 @@ export default {
   justify-content: center;
   align-items: center;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-  /* 添加最小宽度确保有足够空间容纳按钮变化 */
-  min-width: 100%;
   width: 100%;
-  /* 添加最小高度确保按钮有足够垂直空间 */
   min-height: 60px;
 }
 
@@ -196,6 +202,7 @@ export default {
 .category-card:hover .links-grid {
   gap: 1rem;
   min-height: 70px;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
 }
 
 /* 链接按钮样式 - 图标和文字左右并排，参考dock栏样式 */
@@ -208,9 +215,9 @@ export default {
   justify-content: center;
   gap: 0.5rem;
   min-width: 90px;
-  /* 改进flex属性，让按钮能够更好地适应空间变化 */
-  flex: 0 1 auto;
-  max-width: 140px;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   box-shadow: 
     0 8px 20px rgba(0, 0, 0, 0.35), 
@@ -222,6 +229,7 @@ export default {
   overflow: hidden;
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(3px);
+  z-index: 1;
 }
 
 .link-button::before {
@@ -265,9 +273,7 @@ export default {
 .link-button:hover {
   padding: 1rem 1.2rem;
   border-radius: 1.8rem;
-  transform: translateY(-4px);
-  /* 减小按钮hover时的变化幅度，避免过度影响布局 */
-  max-width: 150px;
+  transform: translateY(-4px) scale(1.1);
   box-shadow: 
     0 12px 30px rgba(0, 0, 0, 0.45), 
     0 8px 24px rgba(0, 0, 0, 0.35),
@@ -276,6 +282,7 @@ export default {
     inset 0 1px 3px rgba(255, 255, 255, 0.18);
   background: rgba(0, 0, 0, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.12);
+  z-index: 5; /* 确保hover的按钮显示在其他按钮之上 */
 }
 
 .link-button:hover .liquidGlass-effect,
@@ -371,12 +378,13 @@ export default {
     padding: 1.2rem 2rem;
     border-radius: 2.5rem;
     margin-bottom: 1.5rem;
-    min-width: 250px;
+    width: 280px;
   }
   
   .category-card:hover {
     padding: 1.4rem 2.3rem;
     border-radius: 2.5rem;
+    width: 300px;
   }
   
   .category-card:hover .liquidGlass-effect,
@@ -392,8 +400,14 @@ export default {
   
   .links-grid {
     gap: 0.6rem;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   }
-    .link-button {
+  
+  .category-card:hover .links-grid {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  }
+  
+  .link-button {
     padding: 0.7rem 0.9rem;
     min-width: 80px;
     border-radius: 1.3rem;
@@ -429,12 +443,13 @@ export default {
   .category-card {
     padding: 1rem 1.5rem;
     border-radius: 2rem;
-    min-width: 200px;
+    width: 250px;
   }
   
   .category-card:hover {
     padding: 1.2rem 1.8rem;
     border-radius: 2rem;
+    width: 270px;
   }
   
   .category-card:hover .liquidGlass-effect,
@@ -445,8 +460,14 @@ export default {
   
   .links-grid {
     gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
   }
-    .link-button {
+  
+  .category-card:hover .links-grid {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  }
+  
+  .link-button {
     padding: 0.6rem 0.8rem;
     min-width: 70px;
     border-radius: 1.2rem;

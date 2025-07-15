@@ -224,7 +224,7 @@ export default {
   justify-content: space-between;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   backdrop-filter: blur(20px) saturate(1.8);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(15, 15, 15, 0.5);
   box-shadow: 
     0 4px 15px rgba(0, 0, 0, 0.3),
@@ -451,10 +451,6 @@ export default {
   display: inline-block;
   letter-spacing: 0.2px;
   transition: all 0.3s ease;
-  animation: textAppear 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  animation-delay: 0.1s;
-  opacity: 0;
-  animation-fill-mode: forwards;
 }
 
 .title-item:hover .page-title {
