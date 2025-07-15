@@ -130,12 +130,13 @@ export default {
     inset 0 2px 5px rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(8px);
+  border-radius: 3rem;
 }
 
 .category-card:hover .liquidGlass-effect,
 .category-card:hover .liquidGlass-tint,
 .category-card:hover .liquidGlass-shine {
-  border-radius: 4rem;
+  border-radius: 3rem; /* 修复曲率一致性问题 */
   opacity: 0.9;
 }
 
@@ -165,12 +166,9 @@ export default {
   left: 50%;
   transform: translateX(-50%);
   width: 40%;
-  height: 2px;
-  background: linear-gradient(90deg, 
-    rgba(255, 255, 255, 0) 0%, 
-    rgba(255, 255, 255, 0.8) 50%, 
-    rgba(255, 255, 255, 0) 100%);
-  border-radius: 2px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.6); /* 改为简单直线 */
+  border-radius: 0;
 }
 
 .category-card:hover .category-title {
@@ -283,6 +281,7 @@ export default {
 .link-button:hover .liquidGlass-effect,
 .link-button:hover .liquidGlass-tint {
   opacity: 0.95;
+  border-radius: 1.8rem; /* 修复曲率一致性问题 */
 }
 
 .link-button:hover .liquidGlass-shine {
@@ -338,6 +337,8 @@ export default {
     0 3px 6px rgba(0, 0, 0, 0.7),
     0 2px 3px rgba(0, 0, 0, 0.5);
   letter-spacing: 0.5px;
+  white-space: normal; /* 鼠标悬停时显示完整文字 */
+  max-width: 120px; /* 增加鼠标悬停时的最大宽度 */
 }
 
 /* 浮动动画 - 与hover效果协调 */
@@ -375,7 +376,13 @@ export default {
   
   .category-card:hover {
     padding: 1.4rem 2.3rem;
-    border-radius: 3rem;
+    border-radius: 2.5rem;
+  }
+  
+  .category-card:hover .liquidGlass-effect,
+  .category-card:hover .liquidGlass-tint,
+  .category-card:hover .liquidGlass-shine {
+    border-radius: 2.5rem;
   }
   
   .category-title {
@@ -394,7 +401,13 @@ export default {
   
   .link-button:hover {
     padding: 0.85rem 1.1rem;
-    border-radius: 1.5rem;
+    border-radius: 1.3rem;
+  }
+  
+  .link-button:hover .liquidGlass-effect,
+  .link-button:hover .liquidGlass-tint,
+  .link-button:hover .liquidGlass-shine {
+    border-radius: 1.3rem;
   }
   
   .link-icon {
@@ -405,6 +418,10 @@ export default {
   .link-text {
     font-size: 0.75rem;
     max-width: 80px;
+  }
+  
+  .link-button:hover .link-text {
+    max-width: 100px;
   }
 }
 
@@ -417,7 +434,13 @@ export default {
   
   .category-card:hover {
     padding: 1.2rem 1.8rem;
-    border-radius: 2.5rem;
+    border-radius: 2rem;
+  }
+  
+  .category-card:hover .liquidGlass-effect,
+  .category-card:hover .liquidGlass-tint,
+  .category-card:hover .liquidGlass-shine {
+    border-radius: 2rem;
   }
   
   .links-grid {
@@ -431,7 +454,13 @@ export default {
   
   .link-button:hover {
     padding: 0.75rem 1rem;
-    border-radius: 1.4rem;
+    border-radius: 1.2rem;
+  }
+  
+  .link-button:hover .liquidGlass-effect,
+  .link-button:hover .liquidGlass-tint,
+  .link-button:hover .liquidGlass-shine {
+    border-radius: 1.2rem;
   }
   
   .link-icon {
@@ -442,6 +471,10 @@ export default {
   .link-text {
     max-width: 70px;
     font-size: 0.7rem;
+  }
+  
+  .link-button:hover .link-text {
+    max-width: 90px;
   }
   
   .category-title {
