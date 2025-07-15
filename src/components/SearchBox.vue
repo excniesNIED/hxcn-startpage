@@ -119,10 +119,10 @@
 </template>
 
 <script>
-import searchManager from '../config/searchManager.js'
+import searchManager from '../config/search/searchManager.js'
 import iconManager from '../utils/iconManager.js'
-import suggestionDict from '../config/suggestionDict.js'
-import generatedSuggestions from '../config/suggestionGenerator.js'
+import suggestionDict from '../config/search/suggestionDict.js'
+import generatedSuggestions from '../config/search/suggestionGenerator.js'
 
 export default {
   name: 'SearchBox',

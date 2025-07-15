@@ -7,7 +7,7 @@
       muted 
       playsinline
     >
-      <source src="/background.webm" type="video/webm">
+      <source src="/assets/background.webm" type="video/webm">
     </video>
     
     <!-- 顶部菜单栏 -->

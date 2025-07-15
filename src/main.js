@@ -6,7 +6,7 @@ import './styles/main.css'
 // 导入统一页面组件
 import UnifiedPage from './pages/UnifiedPage.vue'
 // 导入配置管理器
-import configManager from './config/configManager.js'
+import configManager from './config/app/configManager.js'
 
 /**
  * 动态生成路由配置
