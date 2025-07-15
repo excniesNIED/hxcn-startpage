@@ -1,5 +1,5 @@
 import toml from 'toml'
-import { frappe, latte, macchiato, mocha } from './palette.js'
+import { frappe, latte, macchiato, mocha } from '../theme/palette.js'
 import configTomlText from './config.toml?raw'
 
 // 调色板映射
@@ -131,4 +131,4 @@ class ConfigManager {  constructor() {
 const configManager = new ConfigManager()
 
 export default configManager
-export { ConfigManager }
+export { ConfigManager } 
