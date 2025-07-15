@@ -3,7 +3,7 @@
     <div class="liquidGlass-effect"></div>
     <div class="liquidGlass-tint"></div>
     <div class="liquidGlass-shine"></div>
-    <div class="liquidGlass-text">
+    <div class="liquidGlass-text card-content">
       <h3 class="category-title">{{ category.name }}</h3>
       <div class="links-grid">
         <a
@@ -64,7 +64,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* 改为顶部对齐 */
   box-shadow: 
     0 10px 30px rgba(0, 0, 0, 0.4), 
     0 6px 20px rgba(0, 0, 0, 0.3),
@@ -75,6 +75,15 @@ export default {
   position: relative;
   overflow: hidden;
   z-index: 1;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
 }
 
 .category-card::before {
@@ -149,7 +158,8 @@ export default {
 .category-title {
   font-size: 1.3rem;
   font-weight: 700;
-  margin-bottom: 1.2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
   color: white;
   text-shadow: 
     0 3px 6px rgba(0, 0, 0, 0.7),
@@ -159,6 +169,7 @@ export default {
   position: relative;
   letter-spacing: 0.5px;
   padding-bottom: 10px;
+
 }
 
 .category-title::after {
@@ -167,17 +178,17 @@ export default {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 40%;
+  width: 85%; /* 增加默认宽度 */
   height: 1px;
-  background: rgba(255, 255, 255, 0.6); /* 改为简单直线 */
+  background: rgba(255, 255, 255, 0.75); /* 稍微增加亮度 */
   border-radius: 0;
   transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); /* 使用弹性曲线 */
 }
 
 .category-card:hover .category-title::after {
-  width: 25%; /* 悬停时缩短线条宽度，但不要太短 */
+  width: 40%; /* 悬停时缩短线条宽度，但仍保持较长 */
   transform: translateX(-50%) scaleX(0.8); /* 调整缩放效果 */
-  opacity: 0.8;
+  opacity: 1;
 }
 
 .category-card:hover .category-title {
@@ -196,6 +207,8 @@ export default {
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   width: 100%;
   min-height: 60px;
+  margin-top: 0.5rem;
+  flex-grow: 1;
 }
 
 /* 卡片hover时，为按钮提供更多空间 */
