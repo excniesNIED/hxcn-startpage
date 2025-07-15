@@ -66,8 +66,42 @@ export default {
   align-items: center;
   justify-content: center;
   box-shadow: 
-    0 6px 20px rgba(0, 0, 0, 0.3), 
-    0 3px 10px rgba(0, 0, 0, 0.2);
+    0 10px 30px rgba(0, 0, 0, 0.4), 
+    0 6px 20px rgba(0, 0, 0, 0.3),
+    0 3px 10px rgba(0, 0, 0, 0.2),
+    inset 0 2px 3px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(5px);
+  position: relative;
+  overflow: hidden;
+}
+
+.category-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    rgba(255, 255, 255, 0) 100%);
+  z-index: 5;
+}
+
+.category-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    rgba(0, 0, 0, 0) 0%, 
+    rgba(0, 0, 0, 0.2) 50%, 
+    rgba(0, 0, 0, 0) 100%);
+  z-index: 5;
 }
 
 .category-card,
@@ -87,16 +121,26 @@ export default {
   /* 水平和垂直方向都扩展，为按钮提供更多空间 */
   width: 380px;
   min-height: 220px;
+  transform: translateY(-5px);
   box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.4), 
+    0 15px 50px rgba(0, 0, 0, 0.5), 
+    0 10px 30px rgba(0, 0, 0, 0.4),
     0 6px 20px rgba(0, 0, 0, 0.3),
-    0 3px 10px rgba(0, 0, 0, 0.2);
+    0 3px 10px rgba(0, 0, 0, 0.2),
+    inset 0 2px 5px rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
 }
 
 .category-card:hover .liquidGlass-effect,
 .category-card:hover .liquidGlass-tint,
 .category-card:hover .liquidGlass-shine {
   border-radius: 4rem;
+  opacity: 0.9;
+}
+
+.category-card:hover .liquidGlass-tint {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .category-title {
@@ -109,10 +153,31 @@ export default {
     0 1px 3px rgba(0, 0, 0, 0.5);
   text-align: center;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  position: relative;
+  letter-spacing: 0.5px;
+  padding-bottom: 10px;
+}
+
+.category-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0.8) 50%, 
+    rgba(255, 255, 255, 0) 100%);
+  border-radius: 2px;
 }
 
 .category-card:hover .category-title {
   transform: scale(0.95);
+  text-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.8),
+    0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .links-grid {
@@ -150,24 +215,83 @@ export default {
   max-width: 140px;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.25), 
-    0 2px 6px rgba(0, 0, 0, 0.15);
+    0 8px 20px rgba(0, 0, 0, 0.35), 
+    0 4px 12px rgba(0, 0, 0, 0.25),
+    0 2px 6px rgba(0, 0, 0, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(3px);
+}
+
+.link-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.1) 30%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  transform: translate(-30%, -30%);
+  pointer-events: none;
+}
+
+.link-button:hover::before {
+  opacity: 1;
+  animation: shine 1.5s ease forwards;
+}
+
+@keyframes shine {
+  0% {
+    transform: translate(-30%, -30%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(30%, 30%);
+    opacity: 0;
+  }
 }
 
 .link-button:hover {
   padding: 1rem 1.2rem;
   border-radius: 1.8rem;
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   /* 减小按钮hover时的变化幅度，避免过度影响布局 */
   max-width: 150px;
   box-shadow: 
-    0 8px 24px rgba(0, 0, 0, 0.35), 
+    0 12px 30px rgba(0, 0, 0, 0.45), 
+    0 8px 24px rgba(0, 0, 0, 0.35),
     0 4px 12px rgba(0, 0, 0, 0.25),
-    0 2px 6px rgba(0, 0, 0, 0.15);
+    0 2px 6px rgba(0, 0, 0, 0.15),
+    inset 0 1px 3px rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.link-button:hover .liquidGlass-effect,
+.link-button:hover .liquidGlass-tint {
+  opacity: 0.95;
 }
 
 .link-button:hover .liquidGlass-shine {
   border-radius: 1.8rem;
+  opacity: 1;
+}
+
+.link-button:hover .liquidGlass-tint {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .link-button .liquidGlass-text {
@@ -187,7 +311,8 @@ export default {
 }
 
 .link-button:hover .link-icon {
-  transform: scale(0.95);
+  transform: scale(1.15) rotate(-5deg);
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.6));
 }
 
 .link-text {
@@ -204,10 +329,15 @@ export default {
     0 2px 4px rgba(0, 0, 0, 0.6),
     0 1px 2px rgba(0, 0, 0, 0.4);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  letter-spacing: 0.3px;
 }
 
 .link-button:hover .link-text {
-  transform: scale(0.95);
+  transform: scale(1.05);
+  text-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.7),
+    0 2px 3px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
 }
 
 /* 浮动动画 - 与hover效果协调 */

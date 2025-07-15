@@ -62,8 +62,23 @@ export default {
     0 4px 12px rgba(0, 0, 0, 0.1),
     inset 0 2px 5px rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  background: rgba(25, 25, 25, 0.5);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+}
+
+.bottom-navigation::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0.5) 50%, 
+    rgba(255, 255, 255, 0) 100%);
+  opacity: 0.5;
 }
 
 .bottom-navigation:hover {
@@ -76,6 +91,12 @@ export default {
     inset 0 3px 8px rgba(255, 255, 255, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transform: translateX(-50%) translateY(-3px);
+  backdrop-filter: blur(16px);
+  background: rgba(30, 30, 30, 0.6);
+}
+
+.bottom-navigation:hover::before {
+  opacity: 0.8;
 }
 
 /* 液体玻璃效果 - 参考 reference 中的 menu 样式 */
@@ -151,6 +172,7 @@ export default {
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   z-index: 1;
+  backdrop-filter: blur(5px);
 }
 
 /* 导航项目点击波纹动画 */
@@ -186,6 +208,7 @@ export default {
     inset 0 2px 5px rgba(255, 255, 255, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.3);
   animation: nav-item-activate 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.2) 100%);
 }
 
 @keyframes nav-item-activate {
@@ -221,6 +244,26 @@ export default {
     0 4px 12px rgba(0, 0, 0, 0.2),
     inset 0 1px 5px rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0.5) 50%, 
+    rgba(255, 255, 255, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 3;
+}
+
+.nav-item:hover::before {
+  opacity: 0.8;
 }
 
 .nav-item.active {
@@ -261,6 +304,11 @@ export default {
 .nav-item:hover .liquidGlass-tint,
 .nav-item:hover .liquidGlass-shine {
   border-radius: 20px;
+  opacity: 0.95;
+}
+
+.nav-item:hover .liquidGlass-tint {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* 选中状态的图标颜色 */
@@ -271,6 +319,12 @@ export default {
 /* 导航栏图标阴影效果 */
 .nav-item .liquidGlass-text > * {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover .liquidGlass-text > *:first-child {
+  transform: scale(1.15) translateY(-2px);
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.6));
 }
 
 /* 选中状态的图标和文字阴影 */
@@ -286,6 +340,14 @@ export default {
     0 2px 4px rgba(0, 0, 0, 0.6),
     0 1px 2px rgba(0, 0, 0, 0.4);
   letter-spacing: 0.5px;
+  position: relative;
+}
+
+.nav-item:hover span {
+  letter-spacing: 0.8px;
+  text-shadow: 
+    0 3px 5px rgba(0, 0, 0, 0.7),
+    0 2px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* 选中状态的文字阴影 */

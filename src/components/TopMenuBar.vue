@@ -222,8 +222,12 @@ export default {
   justify-content: space-between;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   backdrop-filter: blur(20px) saturate(1.8);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 15, 15, 0.5);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .left-section {
@@ -292,11 +296,23 @@ export default {
 .favicon-item {
   padding: 0.2rem;
   border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .favicon-item:hover {
   padding: 0.3rem;
   border-radius: 0.6rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 4px 10px rgba(0, 0, 0, 0.3),
+    0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .favicon-item:hover .liquidGlass-effect,
@@ -310,17 +326,34 @@ export default {
   height: 18px;
   border-radius: 3px;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
+}
+
+.favicon-item:hover .favicon {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+  transform: scale(1.1);
 }
 
 /* Title Items */
 .title-item {
   padding: 0.2rem 0.4rem;
   border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .title-item:hover {
   padding: 0.25rem 0.5rem;
   border-radius: 0.6rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 4px 10px rgba(0, 0, 0, 0.3),
+    0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .title-item:hover .liquidGlass-effect,
@@ -338,6 +371,14 @@ export default {
   font-weight: 700;
   color: white;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+}
+
+.title-item:hover .site-title {
+  letter-spacing: 0.5px;
+  transform: scale(1.05);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .page-title {
@@ -346,6 +387,14 @@ export default {
   color: white;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   display: inline-block;
+  letter-spacing: 0.2px;
+  transition: all 0.3s ease;
+}
+
+.title-item:hover .page-title {
+  letter-spacing: 0.4px;
+  transform: scale(1.05);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 /* Page Title Transition Animation */
@@ -402,17 +451,48 @@ export default {
   color: white;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   margin: 0 4px;
+  position: relative;
+}
+
+.page-separator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.page-separator:hover::before {
+  opacity: 1;
 }
 
 /* Time Item */
 .time-item {
   padding: 0.2rem 0.5rem;
   border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .time-item:hover {
   padding: 0.25rem 0.6rem;
   border-radius: 0.6rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 
+    0 4px 10px rgba(0, 0, 0, 0.3),
+    0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .time-item:hover .liquidGlass-effect,
@@ -431,6 +511,14 @@ export default {
   font-weight: 400;
   color: white;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  letter-spacing: 0.2px;
+  transition: all 0.3s ease;
+}
+
+.time-item:hover .current-time {
+  letter-spacing: 0.4px;
+  transform: scale(1.03);
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* 搜索按钮 */
@@ -439,12 +527,22 @@ export default {
   border-radius: 50%;
   margin-right: 10px;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .search-btn-item:hover {
   padding: 0.5rem;
-  transform: scale(1.1);
+  transform: scale(1.1) translateY(-1px);
   background: rgba(var(--accent-rgb), 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 4px 10px rgba(0, 0, 0, 0.3),
+    0 2px 5px rgba(0, 0, 0, 0.2),
+    0 0 8px rgba(var(--accent-rgb), 0.3);
 }
 
 .search-btn-item:hover .liquidGlass-effect,
@@ -459,6 +557,13 @@ export default {
 
 .search-icon {
   color: var(--text);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
+}
+
+.search-btn-item:hover .search-icon {
+  transform: scale(1.1) rotate(-5deg);
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
 }
 
 /* 响应式设计 */
