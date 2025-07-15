@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import configManager from '../config/configManager.js'
+import configManager from '../config/app/configManager.js'
 import iconManager from '../utils/iconManager.js'
 
 export default {
@@ -364,27 +364,38 @@ export default {
   .bottom-navigation {
     bottom: 15px;
     padding: 10px 16px;
+    width: 90%;
   }
   
   .bottom-navigation:hover {
     padding: 12px 20px;
+    transform: translateX(-50%) translateY(-2px);
   }
   
   .nav-items {
     gap: 10px;
+    width: 100%;
+    justify-content: space-around;
   }
   
   .nav-item {
     padding: 8px 12px;
-    overflow: hidden; /* 确保子元素不会超出圆角边界 */
+    overflow: hidden;
   }
   
   .nav-item:hover {
     padding: 10px 14px;
-    overflow: hidden; /* 确保子元素不会超出圆角边界 */
+    overflow: hidden;
+    transform: none;
   }
-    .nav-item span {
-    font-size: 11px;
+  
+  .nav-item .liquidGlass-text {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .nav-item span {
+    font-size: 10px;
     font-weight: 700;
   }
 }
