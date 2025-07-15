@@ -39,7 +39,7 @@
 
 <script>
 import CategoryCard from '../components/CategoryCard.vue'
-import configManager from '../config/configManager.js'
+import configManager from '../config/app/configManager.js'
 import { IconBox } from '@tabler/icons-vue'
 
 export default {

@@ -8,7 +8,7 @@
         <div class="liquidGlass-tint"></div>
         <div class="liquidGlass-shine"></div>
         <div class="liquidGlass-text">
-          <img src="/favicon.png" alt="Favicon" class="favicon" />
+          <img src="/assets/favicon.png" alt="Favicon" class="favicon" />
         </div>
       </div>
       
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import configManager from '../config/configManager.js'
+import configManager from '../config/app/configManager.js'
 import iconManager from '../utils/iconManager.js'
 import { ref } from 'vue'
 
