@@ -2,9 +2,18 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/assets/favicon.png" />
+    <link rel="icon" type="image/png" href="https://hxcn.cnies.org/assets/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    
+    <!-- 安全相关标头 -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self';" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()" />
+    
     <title>萑澈的主页 - 就是为了这点醋才包了这顿饺子</title>
     
     <!-- SEO Meta Tags -->
@@ -24,8 +33,8 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://hxcn.cnies.org/" />
     <meta property="og:title" content="萑澈的主页 - 就是为了这点醋才包了这顿饺子" />
-    <meta property="og:description" content="萑澈的寒舍 - 一个专注于Linux、Ubuntu、Windows、Python、C++、前端等技术的计算机爱好者个人主页。提供技术文章、开发资源和个人项目展示。。" />
-    <meta property="og:image" content="/assets/favicon.png" />
+    <meta property="og:description" content="萑澈的寒舍 - 一个专注于Linux、Ubuntu、Windows、Python、C++、前端等技术的计算机爱好者个人主页。提供技术文章、开发资源和个人项目展示。" />
+    <meta property="og:image" content="https://hxcn.cnies.org/assets/favicon.png" />
     <meta property="og:locale" content="zh_CN" />
     <meta property="og:locale:alternate" content="zh_TW" />
     <meta property="og:locale:alternate" content="en_US" />
@@ -35,29 +44,29 @@
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://hxcn.cnies.org/" />
     <meta property="twitter:title" content="萑澈的主页 - 就是为了这点醋才包了这顿饺子" />
-    <meta property="twitter:description" content="萑澈的寒舍 - 一个专注于Linux、Ubuntu、Windows、Python、C++、前端等技术的计算机爱好者个人主页。提供技术文章、开发资源和个人项目展示。。" />
-    <meta property="twitter:image" content="/assets/favicon.png" />
+    <meta property="twitter:description" content="萑澈的寒舍 - 一个专注于Linux、Ubuntu、Windows、Python、C++、前端等技术的计算机爱好者个人主页。提供技术文章、开发资源和个人项目展示。" />
+    <meta property="twitter:image" content="https://hxcn.cnies.org/assets/favicon.png" />
     
     <!-- 中国社交媒体分享优化 -->
     <!-- QQ移动端分享 -->
     <meta itemprop="name" content="萑澈的主页 - 就是为了这点醋才包了这顿饺子" />
-    <meta itemprop="description" content="萑澈的寒舍 - 一个专注于Linux、Ubuntu、Windows、Python、C++、前端等技术的计算机爱好者个人主页。提供技术文章、开发资源和个人项目展示。。" />
-    <meta itemprop="image" content="/assets/favicon.png" />
+    <meta itemprop="description" content="萑澈的寒舍 - 一个专注于Linux、Ubuntu、Windows、Python、C++、前端等技术的计算机爱好者个人主页。提供技术文章、开发资源和个人项目展示。" />
+    <meta itemprop="image" content="https://hxcn.cnies.org/assets/favicon.png" />
     
     <!-- QQ PC端分享 -->
     <meta name="qq:title" content="萑澈的主页 - 就是为了这点醋才包了这顿饺子" />
-    <meta name="qq:description" content="萑澈的寒舍 - 一个专注于Linux、Ubuntu、Windows、Python、C++、前端等技术的计算机爱好者个人主页。提供技术文章、开发资源和个人项目展示。。" />
-    <meta name="qq:image" content="/assets/favicon.png" />
+    <meta name="qq:description" content="萑澈的寒舍 - 一个专注于Linux、Ubuntu、Windows、Python、C++、前端等技术的计算机爱好者个人主页。提供技术文章、开发资源和个人项目展示。" />
+    <meta name="qq:image" content="https://hxcn.cnies.org/assets/favicon.png" />
     
     <!-- 微博分享 -->
     <meta property="weibo:title" content="萑澈的主页 - 就是为了这点醋才包了这顿饺子" />
-    <meta property="weibo:description" content="萑澈的寒舍 - 一个专注于Linux、Ubuntu、Windows、Python、C++、前端等技术的计算机爱好者个人主页。提供技术文章、开发资源和个人项目展示。。" />
-    <meta property="weibo:image" content="/assets/favicon.png" />
+    <meta property="weibo:description" content="萑澈的寒舍 - 一个专注于Linux、Ubuntu、Windows、Python、C++、前端等技术的计算机爱好者个人主页。提供技术文章、开发资源和个人项目展示。" />
+    <meta property="weibo:image" content="https://hxcn.cnies.org/assets/favicon.png" />
     
     <!-- 百度分享 -->
     <meta property="bdapp:title" content="萑澈的主页 - 就是为了这点醋才包了这顿饺子" /> 
-    <meta property="bdapp:description" content="萑澈的寒舍 - 一个专注于Linux、Ubuntu、Windows、Python、C++、前端等技术的计算机爱好者个人主页。提供技术文章、开发资源和个人项目展示。。" /> 
-    <meta property="bdapp:image" content="/assets/favicon.png" />
+    <meta property="bdapp:description" content="萑澈的寒舍 - 一个专注于Linux、Ubuntu、Windows、Python、C++、前端等技术的计算机爱好者个人主页。提供技术文章、开发资源和个人项目展示。" /> 
+    <meta property="bdapp:image" content="https://hxcn.cnies.org/assets/favicon.png" />
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://hxcn.cnies.org/" />
@@ -78,16 +87,6 @@
         margin: 0;
         padding: 0;
       }
-    </style>
-  </head>
-  <body>
-    <!-- 添加主标题h1，可以设置为视觉隐藏但对搜索引擎可见 -->
-    <h1 class="seo-heading">萑澈的主页 - 就是为了这点醋才包了这顿饺子</h1>
-    
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-    
-    <style>
       .seo-heading {
         position: absolute;
         width: 1px;
@@ -100,5 +99,12 @@
         border: 0;
       }
     </style>
+  </head>
+  <body>
+    <!-- 添加主标题h1，可以设置为视觉隐藏但对搜索引擎可见 -->
+    <h1 class="seo-heading">萑澈的主页 - 就是为了这点醋才包了这顿饺子</h1>
+    
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
