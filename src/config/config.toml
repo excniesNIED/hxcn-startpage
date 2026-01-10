@@ -102,27 +102,6 @@ icon = "home"
     icon = "mail"
     icon_color = "#85c1dc"  # frappe.sapphire
 
-  [[tabs.categories]]
-  name = "Mates"
-  
-    [[tabs.categories.links]]
-    name = "ChaWorld"
-    url = "https://home.qcea.top"
-    icon = "home"
-    icon_color = "#a6d189"  # frappe.green
-    
-    [[tabs.categories.links]]
-    name = "Cysnies"
-    url = "https://tcea.top"
-    icon = "home"
-    icon_color = "#ef9f76"  # frappe.peach
-    
-    [[tabs.categories.links]]
-    name = "FOSScope"
-    url = "https://fosscope.com"
-    icon = "archive"
-    icon_color = "#eebebe"  # frappe.flamingo
-
 # 服务标签页
 [[tabs]]
 name = "服务"
@@ -139,70 +118,82 @@ icon = "server"
     icon_color = "#a6d189"  # frappe.green
     
     [[tabs.categories.links]]
-    name = "neptune"
-    url = "https://ui.neptune.ai"
-    icon = "circle-triangle"
+    name = "Huggingface"
+    url = "https://huggingface.co"
+    icon = "brand-huggingface"
     icon_color = "#ef9f76"  # frappe.peach
     
     [[tabs.categories.links]]
-    name = "stackoverflow"
-    url = "https://stackoverflow.com"
-    icon = "brand-stackoverflow"
+    name = "DockerHub"
+    url = "https://hub.docker.com"
+    icon = "brand-docker"
     icon_color = "#e78284"  # frappe.red
 
   [[tabs.categories]]
-  name = "Challenges"
+  name = "Cloud"
   
     [[tabs.categories.links]]
-    name = "kaggle"
-    url = "https://www.kaggle.com"
-    icon = "brain"
+    name = "Cloudflare"
+    url = "https://www.cloudflare.com"
+    icon = "cloud"
     icon_color = "#a6d189"  # frappe.green
     
     [[tabs.categories.links]]
-    name = "leetcode"
-    url = "https://leetcode.com"
-    icon = "code-plus"
+    name = "Vercel"
+    url = "https://vercel.com"
+    icon = "brand-vercel"
     icon_color = "#ef9f76"  # frappe.peach
     
     [[tabs.categories.links]]
-    name = "exercism"
-    url = "https://exercism.org"
-    icon = "code-minus"
+    name = "NameSilo"
+    url = "https://www.namesilo.com"
+    icon = "earth"
     icon_color = "#e78284"  # frappe.red
     
     [[tabs.categories.links]]
-    name = "aoc"
-    url = "https://adventofcode.com"
-    icon = "brand-linktree"
+    name = "Porkbun"
+    url = "https://porkbun.com"
+    icon = "rabbit"
     icon_color = "#8caaee"  # frappe.blue
 
+    [[tabs.categories.links]]
+    name = "SpaceShip"
+    url = "https://www.spaceship.com"
+    icon = "cloud"
+    icon_color = "#a6d189"  # frappe.green
+
   [[tabs.categories]]
-  name = "Resources"
+  name = "HevSpecu"
   
     [[tabs.categories.links]]
-    name = "dou"
-    url = "https://dou.ua"
+    name = "CtelSepcu"
+    url = "https://ctelspecu.hxcn.top"
     icon = "brand-prisma"
     icon_color = "#a6d189"  # frappe.green
     
     [[tabs.categories.links]]
-    name = "hackernews"
-    url = "https://news.ycombinator.com"
+    name = "SDNUChronoSync"
+    url = "https://sxtj.hxcn.space"
     icon = "brand-redhat"
     icon_color = "#ef9f76"  # frappe.peach
     
     [[tabs.categories.links]]
-    name = "uber engineering"
-    url = "https://www.uber.com/en-GB/blog/london/engineering"
+    name = "Gastigado Fast Image"
+    url = "https://gastigado.cnies.org"
     icon = "brand-uber"
     icon_color = "#e78284"  # frappe.red
     
     [[tabs.categories.links]]
-    name = "netflix tech blog"
-    url = "https://netflixtechblog.com"
+    name = "TypeWords"
+    url = "https://typewords.hxcn.space"
     icon = "brand-netflix"
     icon_color = "#8caaee"  # frappe.blue
+
+    [[tabs.categories.links]]
+    name = "Resume"
+    url = "https://resume.hxcn.space"
+    icon = "brand-netflix"
+    icon_color = "#b8e1a2ff"  # frappe.blue
 
 # 猹界标签页
 [[tabs]]
