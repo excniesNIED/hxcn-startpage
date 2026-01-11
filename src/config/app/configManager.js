@@ -1,6 +1,6 @@
 import toml from 'toml'
 import { frappe, latte, macchiato, mocha } from '../theme/palette.js'
-import configTomlText from './config.toml?raw'
+import configTomlText from '../config.toml?raw'
 
 // 调色板映射
 const paletteMap = {
