@@ -57,6 +57,12 @@ icon = "home"
     icon = "link"
     icon_color = "#81c8be"  # frappe.teal
 
+    [[tabs.categories.links]]
+    name = "Wife's Blog"
+    url = "https://qd127.github.io/qdblog/"
+    icon = "archive"
+    icon_color = "#76d5efff"  # frappe.peach
+
   [[tabs.categories]]
   name = "Socials"
   
@@ -101,6 +107,13 @@ icon = "home"
     url = "mailto:hxcn@cnies.org"
     icon = "mail"
     icon_color = "#85c1dc"  # frappe.sapphire
+
+    [[tabs.categories.links]]
+    name = "Wife's Github"
+    url = "https://github.com/QD127"
+    icon = "brand-github"
+    icon_color = "#fdaebeff"  # frappe.lavender
+
 
 # 服务标签页
 [[tabs]]
